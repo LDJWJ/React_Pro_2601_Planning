@@ -1,0 +1,239 @@
+/* Search Category Screen Styles */
+.search-category-container {
+  min-height: 100%;
+  background-color: #ffffff;
+  padding-top: 47px;
+  padding-bottom: 90px;
+}
+
+/* Search Section - 기존 Home과 동일 */
+.search-category-container .search-section {
+  padding: 12px 20px;
+  position: sticky;
+  top: 0;
+  background-color: #ffffff;
+  z-index: 10;
+}
+
+.search-category-container .search-bar {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  background-color: #f5f5f5;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.search-category-container .search-bar:hover {
+  background-color: #ebebeb;
+}
+
+.search-category-container .search-icon {
+  font-size: 16px;
+  margin-right: 10px;
+  opacity: 0.6;
+}
+
+.search-category-container .search-placeholder {
+  font-size: 14px;
+  color: #999;
+}
+
+/* Category Grid */
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  padding: 20px;
+}
+
+.category-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 12px;
+  transition: all 0.2s ease;
+}
+
+.category-item:hover {
+  background-color: #f5f5f5;
+}
+
+.category-item.selected {
+  background-color: #f0f0ff;
+}
+
+.category-emoji {
+  font-size: 36px;
+  margin-bottom: 8px;
+}
+
+.category-name {
+  font-size: 12px;
+  font-weight: 500;
+  color: #333;
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* Filter Section */
+.filter-section {
+  padding: 16px 20px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.filter-button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 8px;
+  transition: background-color 0.2s;
+}
+
+.filter-button:hover {
+  background-color: #f5f5f5;
+}
+
+.filter-arrow {
+  font-size: 10px;
+  color: #666;
+}
+
+/* Template Grid */
+.template-grid-search {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  padding: 16px 20px;
+}
+
+.template-card-search {
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.template-card-search:hover {
+  transform: scale(1.02);
+}
+
+.template-thumbnail-search {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 9 / 16;
+  border-radius: 12px;
+  overflow: hidden;
+  background-color: #e8e8e8;
+}
+
+.thumbnail-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Users Badge */
+.users-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  background-color: rgba(0, 0, 0, 0.6);
+  border-radius: 12px;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.users-badge svg {
+  opacity: 0.9;
+}
+
+/* Like Button */
+.like-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background-color: rgba(0, 0, 0, 0.3);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  color: #fff;
+  transition: all 0.2s ease;
+}
+
+.like-button:hover {
+  background-color: rgba(0, 0, 0, 0.5);
+  transform: scale(1.1);
+}
+
+.like-button:active {
+  transform: scale(0.95);
+}
+
+/* Template Info */
+.template-info {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.template-duration,
+.template-cuts {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 500;
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.template-duration svg,
+.template-cuts svg {
+  opacity: 0.9;
+}
+
+/* Mobile Responsive */
+@media (max-width: 375px) {
+  .category-grid {
+    gap: 8px;
+    padding: 16px;
+  }
+
+  .category-emoji {
+    font-size: 30px;
+  }
+
+  .category-name {
+    font-size: 11px;
+  }
+
+  .template-grid-search {
+    gap: 8px;
+    padding: 12px 16px;
+  }
+}

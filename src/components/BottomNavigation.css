@@ -1,0 +1,65 @@
+/* Bottom Navigation Styles */
+.bottom-navigation {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: #1a1a1a;
+  padding: 12px 0 28px;
+  z-index: 1000;
+  border-bottom-left-radius: 40px;
+  border-bottom-right-radius: 40px;
+}
+
+.nav-tab {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px 16px;
+  min-width: 60px;
+  transition: all 0.2s ease;
+}
+
+.nav-tab:active {
+  transform: scale(0.95);
+}
+
+.nav-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 4px;
+  color: #888;
+  transition: color 0.2s ease;
+}
+
+.nav-tab.active .nav-icon,
+.nav-tab:hover .nav-icon {
+  color: #ffffff;
+}
+
+.nav-label {
+  font-size: 11px;
+  font-weight: 500;
+  color: #888;
+  transition: color 0.2s ease;
+}
+
+.nav-tab.active .nav-label,
+.nav-tab:hover .nav-label {
+  color: #ffffff;
+}
+
+/* Safe area padding for devices with home indicator */
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+  .bottom-navigation {
+    padding-bottom: calc(20px + env(safe-area-inset-bottom));
+  }
+}

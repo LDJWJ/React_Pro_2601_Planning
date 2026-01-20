@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm create:*)",
+      "Bash(npm run build:*)",
+      "Bash(npm run dev:*)",
+<<<<<<< HEAD
+      "Bash(npm install:*)",
+      "Bash(lsof:*)",
+      "Bash(xargs kill:*)",
+      "Bash(fuser:*)",
+      "Bash(curl:*)"
+=======
+      "Bash(npm install:*)"
+>>>>>>> af1caa195c7aeb6bf99f5e505818e64b2b01744c
+    ]
+  }
+}
