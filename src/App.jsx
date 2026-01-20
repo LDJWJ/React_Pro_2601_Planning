@@ -5,20 +5,13 @@ import CategoryPurpose from './components/CategoryPurpose';
 import CategoryTopic from './components/CategoryTopic';
 import CategoryPlatform from './components/CategoryPlatform';
 import Home from './components/Home';
-<<<<<<< HEAD
 import SearchCategory from './components/SearchCategory';
 import BottomNavigation from './components/BottomNavigation';
-
-function App() {
-  const [currentScreen, setCurrentScreen] = useState('login');
-  const [activeTab, setActiveTab] = useState('home');
-=======
 import Editor from './components/Editor';
 
 function App() {
   const [currentScreen, setCurrentScreen] = useState('login');
-  const [activeTab, setActiveTab] = useState('template');
->>>>>>> af1caa195c7aeb6bf99f5e505818e64b2b01744c
+  const [activeTab, setActiveTab] = useState('home');
   const [user, setUser] = useState(null);
   const [selections, setSelections] = useState({
     purpose: null,
@@ -58,7 +51,10 @@ function App() {
     setActiveTab(tab);
   };
 
-<<<<<<< HEAD
+  const handleEditorBack = () => {
+    setActiveTab('home');
+  };
+
   const renderMainContent = () => {
     switch (activeTab) {
       case 'home':
@@ -72,11 +68,7 @@ function App() {
       case 'search':
         return <SearchCategory />;
       case 'edit':
-        return (
-          <div style={{ padding: '100px 20px', textAlign: 'center', color: '#999' }}>
-            편집 화면 준비 중
-          </div>
-        );
+        return <Editor onBack={handleEditorBack} />;
       case 'my':
         return (
           <div style={{ padding: '100px 20px', textAlign: 'center', color: '#999' }}>
@@ -92,10 +84,6 @@ function App() {
           />
         );
     }
-=======
-  const handleEditorBack = () => {
-    setActiveTab('template');
->>>>>>> af1caa195c7aeb6bf99f5e505818e64b2b01744c
   };
 
   const renderScreen = () => {
@@ -109,26 +97,13 @@ function App() {
       case 'platform':
         return <CategoryPlatform onNext={handlePlatformNext} />;
       case 'home':
-        if (activeTab === 'editor') {
-          return <Editor onBack={handleEditorBack} />;
-        }
         return (
-<<<<<<< HEAD
           <>
             <div className="mobile-content">
               {renderMainContent()}
             </div>
             <BottomNavigation activeTab={activeTab} onTabChange={handleTabChange} />
           </>
-=======
-          <Home
-            user={user}
-            selections={selections}
-            onLogout={handleLogout}
-            onTabChange={handleTabChange}
-            activeTab={activeTab}
-          />
->>>>>>> af1caa195c7aeb6bf99f5e505818e64b2b01744c
         );
       default:
         return <LoginScreen onLogin={handleLogin} />;
@@ -136,15 +111,10 @@ function App() {
   };
 
   return (
-<<<<<<< HEAD
-    <div className="mobile-container">
-      {renderScreen()}
-=======
     <div className="mobile-app-container">
       <div className="mobile-app-frame">
         {renderScreen()}
       </div>
->>>>>>> af1caa195c7aeb6bf99f5e505818e64b2b01744c
     </div>
   );
 }
