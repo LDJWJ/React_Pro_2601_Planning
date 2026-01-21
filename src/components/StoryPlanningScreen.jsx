@@ -15,6 +15,7 @@ const defaultCuts = [
 function StoryPlanningScreen({ template, onBack, onSave }) {
   const [memos, setMemos] = useState({});
   const [isPlaying, setIsPlaying] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const videoRef = useRef(null);
 
   const cuts = template?.cuts ?
@@ -52,11 +53,27 @@ function StoryPlanningScreen({ template, onBack, onSave }) {
 
   const handleSave = () => {
     logButtonClick('story_planning', 'save');
+    setShowModal(true);
+  };
+
+  const handleConfirmSave = () => {
     if (onSave) {
       onSave(memos);
     }
+    setShowModal(false);
     onBack();
   };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
+  // 메모가 입력된 씬 개수 계산
+  const scenes = cuts.map(cut => ({ ...cut, memo: memos[cut.id] || '' }));
+  const activeCount = scenes.filter(s => s.memo.trim() !== '').length;
+
+  // 프로그레스 바 구간 비율 (2:2:1:2:2:1 = 총 10)
+  const progressWidths = [2, 2, 1, 2, 2, 1];
 
   const handleBack = () => {
     logButtonClick('story_planning', 'back');
@@ -122,10 +139,21 @@ function StoryPlanningScreen({ template, onBack, onSave }) {
 
         {/* 콘텐츠 영역: 흰색 배경 */}
         <div className="story-content-section">
+          {/* 프로그레스 바 */}
+          <div className="story-progress-bar">
+            {progressWidths.map((width, index) => (
+              <div
+                key={index}
+                className={`progress-segment ${index < activeCount ? 'active' : ''}`}
+                style={{ flex: width }}
+              />
+            ))}
+          </div>
+
           {/* 헤더 */}
           <div className="story-header">
             <h2 className="story-title">스토리 기획</h2>
-            <p className="story-description">각 장에 맞을 장면을 미리 생각해보고 적어보세요.</p>
+            <p className="story-description">각 컷에 넣을 장면을 미리 생각해보고 적어보세요.</p>
           </div>
 
           {/* 컷 리스트 */}
@@ -139,16 +167,14 @@ function StoryPlanningScreen({ template, onBack, onSave }) {
                     <span className="cut-time">{cut.time}</span>
                   </div>
                   <p className="cut-description">{cut.description}</p>
-                  {/* 첫 번째 씬에만 메모 입력 필드 표시 */}
-                  {index === 0 && (
-                    <input
-                      type="text"
-                      className="cut-memo-input"
-                      placeholder="메모를 입력하세요"
-                      value={memos[cut.id] || ''}
-                      onChange={(e) => handleMemoChange(cut.id, e.target.value)}
-                    />
-                  )}
+                  {/* 모든 씬에 메모 입력 필드 표시 */}
+                  <input
+                    type="text"
+                    className="cut-memo-input"
+                    placeholder="메모를 입력하세요"
+                    value={memos[cut.id] || ''}
+                    onChange={(e) => handleMemoChange(cut.id, e.target.value)}
+                  />
                 </div>
               </div>
             ))}
@@ -165,6 +191,24 @@ function StoryPlanningScreen({ template, onBack, onSave }) {
           </div>
         </div>
       </div>
+
+      {/* 저장 확인 모달 */}
+      {showModal && (
+        <div className="story-modal-overlay" onClick={handleCloseModal}>
+          <div className="story-modal" onClick={(e) => e.stopPropagation()}>
+            <h3 className="story-modal-title">스토리 기획을 저장할까요?</h3>
+            <p className="story-modal-description">입력한 메모가 저장돼요.</p>
+            <div className="story-modal-buttons">
+              <button className="modal-cancel-button" onClick={handleCloseModal}>
+                아니요
+              </button>
+              <button className="modal-confirm-button" onClick={handleConfirmSave}>
+                저장하기
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
