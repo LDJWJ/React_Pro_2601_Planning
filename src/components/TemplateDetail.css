@@ -1,7 +1,7 @@
 .template-detail-container {
   display: flex;
   flex-direction: column;
-  height: 100%;
+  min-height: 100vh;
   background-color: #1a1a1a;
   color: #ffffff;
   padding-bottom: 0;
@@ -109,39 +109,36 @@
   font-weight: 600;
 }
 
-/* 템플릿 정보 */
-.template-info-section {
-  padding: 20px;
-  border-bottom: 1px solid #333;
-}
-
-.info-row {
+/* 템플릿 정보 오버레이 - 오른쪽 */
+.template-info-overlay {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
   display: flex;
-  gap: 16px;
-  margin-bottom: 12px;
+  flex-direction: column;
+  gap: 20px;
+  z-index: 5;
 }
 
-.info-row:last-child {
-  margin-bottom: 0;
-}
-
-.info-item {
+.template-info-overlay .info-item {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 6px;
-  font-size: 14px;
-  color: #999;
+  gap: 4px;
+  font-size: 12px;
+  color: #ffffff;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
 }
 
-.info-item svg {
-  color: #666;
+.template-info-overlay .info-item svg {
+  color: #ffffff;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.8));
 }
 
 /* 설명 */
 .template-description {
   padding: 20px;
-  flex: 1;
-  overflow-y: auto;
 }
 
 .template-title {
@@ -153,30 +150,25 @@
 
 /* 편집 시작 버튼 */
 .start-edit-button {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
   width: 100%;
-  max-width: 375px;
-  margin: 0 auto;
+  margin-top: 20px;
   padding: 16px 20px;
-  background-color: #333;
+  background-color: #ff4444;
   color: #ffffff;
   border: none;
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
-  border-radius: 0;
+  border-radius: 8px;
   transition: background-color 0.3s ease;
 }
 
 .start-edit-button:hover {
-  background-color: #444;
+  background-color: #ff6666;
 }
 
 .start-edit-button:active {
-  background-color: #222;
+  background-color: #dd2222;
 }
 
 /* 반응형 */

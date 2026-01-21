@@ -118,7 +118,9 @@ function App() {
             <div className="mobile-content">
               {renderMainContent()}
             </div>
-            <BottomNavigation activeTab={activeTab} onTabChange={handleTabChange} />
+            {activeTab !== 'templateDetail' && (
+              <BottomNavigation activeTab={activeTab} onTabChange={handleTabChange} />
+            )}
           </>
         );
       default:
