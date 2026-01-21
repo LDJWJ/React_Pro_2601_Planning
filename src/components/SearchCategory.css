@@ -84,6 +84,7 @@
 
 /* Filter Section */
 .filter-section {
+  position: relative;
   padding: 16px 20px;
   border-bottom: 1px solid #f0f0f0;
 }
@@ -110,6 +111,80 @@
 .filter-arrow {
   font-size: 10px;
   color: #666;
+  transition: transform 0.2s ease;
+}
+
+.filter-arrow.open {
+  transform: rotate(180deg);
+}
+
+/* Filter Dropdown */
+.filter-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 20px;
+  right: 20px;
+  margin-top: 8px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  z-index: 100;
+  overflow: hidden;
+  animation: dropdownSlide 0.2s ease-out;
+}
+
+@keyframes dropdownSlide {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.filter-option {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 14px 16px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  transition: background-color 0.2s;
+  position: relative;
+}
+
+.filter-option:hover {
+  background-color: #f5f5f5;
+}
+
+.filter-option.selected {
+  background-color: #f0f0ff;
+}
+
+.filter-option:not(:last-child) {
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.option-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+  min-width: 50px;
+}
+
+.option-description {
+  font-size: 12px;
+  color: #888;
+  margin-left: 12px;
+}
+
+.check-icon {
+  margin-left: auto;
+  color: #6366f1;
 }
 
 /* Template Grid */

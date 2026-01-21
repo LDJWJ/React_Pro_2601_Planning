@@ -1,6 +1,14 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import './SearchCategory.css';
 import { logScreenView, logButtonClick } from '../utils/logger';
+
+// 정렬 옵션
+const sortOptions = [
+  { id: 'recommend', name: '추천', description: '맞춤 추천순' },
+  { id: 'popular', name: '인기', description: '사용자 수 순' },
+  { id: 'newest', name: '최신', description: '최근 등록순' },
+  { id: 'trending', name: '트렌딩', description: '급상승 템플릿' },
+];
 
 // 카테고리 데이터
 const categories = [
@@ -28,10 +36,46 @@ function SearchCategory({ onTabChange }) {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [filterOpen, setFilterOpen] = useState(false);
   const [sortBy, setSortBy] = useState('추천');
+  const dropdownRef = useRef(null);
 
   useEffect(() => {
     logScreenView('search_category');
   }, []);
+
+  // Click outside handler to close dropdown
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setFilterOpen(false);
+      }
+    };
+
+    if (filterOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => document.removeEventListener('mousedown', handleClickOutside);
+    }
+  }, [filterOpen]);
+
+  // Sort templates based on selected option
+  const sortedTemplates = useMemo(() => {
+    const templatesCopy = [...templates];
+
+    switch (sortBy) {
+      case '인기':
+        // Sort by users count (descending)
+        return templatesCopy.sort((a, b) => b.users - a.users);
+      case '최신':
+        // Sort by id (descending, assuming higher id = newer)
+        return templatesCopy.sort((a, b) => b.id - a.id);
+      case '트렌딩':
+        // Shuffle for demo (in production, would use trending algorithm)
+        return templatesCopy.sort(() => Math.random() - 0.5);
+      case '추천':
+      default:
+        // Keep original order for recommended
+        return templatesCopy;
+    }
+  }, [sortBy]);
 
   const handleSearch = () => {
     logButtonClick('search_category', 'search_bar');
@@ -56,6 +100,13 @@ function SearchCategory({ onTabChange }) {
 
   const handleFilterClick = () => {
     setFilterOpen(!filterOpen);
+    logButtonClick('search_category', 'filter_toggle');
+  };
+
+  const handleSortSelect = (option) => {
+    setSortBy(option.name);
+    setFilterOpen(false);
+    logButtonClick('search_category', 'sort_option', option.id);
   };
 
   return (
@@ -83,16 +134,35 @@ function SearchCategory({ onTabChange }) {
       </div>
 
       {/* 필터 영역 */}
-      <div className="filter-section">
+      <div className="filter-section" ref={dropdownRef}>
         <button className="filter-button" onClick={handleFilterClick}>
           {sortBy}
-          <span className="filter-arrow">▼</span>
+          <span className={`filter-arrow ${filterOpen ? 'open' : ''}`}>▼</span>
         </button>
+        {filterOpen && (
+          <div className="filter-dropdown">
+            {sortOptions.map((option) => (
+              <button
+                key={option.id}
+                className={`filter-option ${sortBy === option.name ? 'selected' : ''}`}
+                onClick={() => handleSortSelect(option)}
+              >
+                <span className="option-name">{option.name}</span>
+                <span className="option-description">{option.description}</span>
+                {sortBy === option.name && (
+                  <svg className="check-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                  </svg>
+                )}
+              </button>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* 템플릿 그리드 */}
       <div className="template-grid-search">
-        {templates.map((template) => (
+        {sortedTemplates.map((template) => (
           <div
             key={template.id}
             className="template-card-search"
