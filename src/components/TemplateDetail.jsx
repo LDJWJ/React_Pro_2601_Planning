@@ -77,6 +77,7 @@ function TemplateDetail({ template, onBack, onEditStart, onTabChange, onStoryPla
                   onEnded={() => setIsPlaying(false)}
                   playsInline
                   muted
+                  poster={template.thumbnail}
                 />
                 {!isPlaying && (
                   <button className="play-button-overlay">
@@ -86,7 +87,16 @@ function TemplateDetail({ template, onBack, onEditStart, onTabChange, onStoryPla
               </>
             ) : (
               <div className="no-video-placeholder">
-                <img src={template.thumbnail} alt="템플릿" />
+                <img
+                  src={template.thumbnail}
+                  alt="템플릿"
+                  onError={(e) => {
+                    e.target.src = 'https://picsum.photos/400/700?random=' + template.id;
+                  }}
+                />
+                <button className="play-button-overlay">
+                  ▶
+                </button>
               </div>
             )}
           </div>

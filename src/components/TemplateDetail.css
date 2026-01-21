@@ -1,15 +1,11 @@
 /* 전체 컨테이너 - 전체 화면 */
 .template-detail-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
   width: 100%;
   height: 100%;
   background-color: #000;
   color: #ffffff;
   overflow: hidden;
+  position: relative;
 }
 
 /* 상단 헤더 - 오버레이 */
@@ -52,11 +48,9 @@
 
 /* 비디오 영역 - 전체 화면 */
 .template-main-content {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  width: 100%;
+  height: 100%;
+  position: relative;
 }
 
 .template-preview-section {
@@ -69,9 +63,7 @@
 .video-player-container {
   width: 100%;
   height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  position: relative;
   background-color: #000;
 }
 
@@ -84,7 +76,7 @@
 .no-video-placeholder {
   width: 100%;
   height: 100%;
-  background-color: #000;
+  position: relative;
 }
 
 .no-video-placeholder img {
@@ -170,10 +162,10 @@
   bottom: 0;
   left: 0;
   right: 0;
-  padding: 0 20px;
+  padding: 20px;
   padding-bottom: calc(20px + env(safe-area-inset-bottom));
   z-index: 15;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, transparent 100%);
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.4) 50%, transparent 100%);
 }
 
 /* 해시태그 영역 */
