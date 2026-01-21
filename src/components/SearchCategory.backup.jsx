@@ -44,8 +44,8 @@ function SearchCategory({ onTabChange }) {
 
   const handleTemplateClick = (template) => {
     logButtonClick('search_category', 'template', template.id);
-    if (onTabChange) {
-      onTabChange('templateDetail', { template });
+    if (template.videoUrl && onTabChange) {
+      onTabChange('edit', { videoUrl: template.videoUrl });
     }
   };
 

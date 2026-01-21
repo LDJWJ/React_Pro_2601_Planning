@@ -6,6 +6,7 @@ import CategoryTopic from './components/CategoryTopic';
 import CategoryPlatform from './components/CategoryPlatform';
 import Home from './components/Home';
 import SearchCategory from './components/SearchCategory';
+import TemplateDetail from './components/TemplateDetail';
 import BottomNavigation from './components/BottomNavigation';
 import Editor from './components/Editor';
 
@@ -13,6 +14,8 @@ function App() {
   const [currentScreen, setCurrentScreen] = useState('login');
   const [activeTab, setActiveTab] = useState('home');
   const [user, setUser] = useState(null);
+  const [selectedVideoUrl, setSelectedVideoUrl] = useState(null);
+  const [selectedTemplate, setSelectedTemplate] = useState(null);
   const [selections, setSelections] = useState({
     purpose: null,
     topics: [],
@@ -47,12 +50,23 @@ function App() {
     setCurrentScreen('home');
   };
 
-  const handleTabChange = (tab) => {
+  const handleTabChange = (tab, data) => {
+    if (data?.videoUrl) {
+      setSelectedVideoUrl(data.videoUrl);
+    }
+    if (data?.template) {
+      setSelectedTemplate(data.template);
+    }
     setActiveTab(tab);
   };
 
   const handleEditorBack = () => {
     setActiveTab('home');
+  };
+
+  const handleTemplateDetailBack = () => {
+    setActiveTab('search');
+    setSelectedTemplate(null);
   };
 
   const renderMainContent = () => {
@@ -66,9 +80,11 @@ function App() {
           />
         );
       case 'search':
-        return <SearchCategory />;
+        return <SearchCategory onTabChange={handleTabChange} />;
+      case 'templateDetail':
+        return <TemplateDetail template={selectedTemplate} onBack={handleTemplateDetailBack} onTabChange={handleTabChange} />;
       case 'edit':
-        return <Editor onBack={handleEditorBack} />;
+        return <Editor onBack={handleEditorBack} videoUrl={selectedVideoUrl} onVideoLoaded={() => setSelectedVideoUrl(null)} />;
       case 'my':
         return (
           <div style={{ padding: '100px 20px', textAlign: 'center', color: '#999' }}>

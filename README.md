@@ -40,16 +40,26 @@
 
 ### 4. 영상 편집기 (`Editor`)
 - **미디어 추가**: 영상/이미지 업로드
-- **텍스트 오버레이**: 드래그 가능, 시간 범위 설정
+- **텍스트 오버레이**: 드래그 가능, 시간 범위 설정, 크기 조절
 - **자막 추가**: 시작/종료 시간 지정
 - **BGM 추가**: 배경 음악 선택
-- **음성 녹음**: 마이크 녹음 기능
+- **음성 녹음**: MediaRecorder API 활용
 - **타임라인**: 미디어, 자막, 음악, 음성 트랙 시각화
 - **재생 컨트롤**: 재생/일시정지, 시간 탐색
+- **내보내기**: 두 가지 방식 지원
+  - Canvas Export (WebM): 실시간 캔버스 렌더링으로 텍스트 오버레이 포함
+  - FFmpeg Export (MP4): @ffmpeg/ffmpeg WASM 활용 인코딩
 
 ## 프로젝트 구조
 
 ```
+public/
+├── videos/
+│   ├── sample-1.mp4       # 샘플 비디오 1
+│   ├── sample-1-thumb.png # 썸네일 1
+│   ├── sample-2.mp4       # 샘플 비디오 2
+│   └── sample-2-thumb.png # 썸네일 2
+└── vite.svg
 src/
 ├── App.jsx                 # 메인 앱 (화면 라우팅)
 ├── App.css
@@ -72,14 +82,31 @@ src/
     └── logger.js          # 로깅 유틸리티
 ```
 
+## 환경 변수 설정
+
+루트 디렉토리에 `.env` 파일 생성 (`.env.example` 참조):
+
+```env
+VITE_GOOGLE_CLIENT_ID=your_google_client_id
+VITE_GOOGLE_SCRIPT_URL=your_google_apps_script_url
+```
+
+| 변수 | 설명 |
+|------|------|
+| `VITE_GOOGLE_CLIENT_ID` | Google OAuth 클라이언트 ID |
+| `VITE_GOOGLE_SCRIPT_URL` | Google Apps Script 엔드포인트 (분석 로깅용) |
+
 ## 실행 방법
 
 ```bash
 # 의존성 설치
 npm install
 
-# 개발 서버 실행
+# 개발 서버 실행 (포트 5173)
 npm run dev
+
+# ESLint 실행
+npm run lint
 
 # 프로덕션 빌드
 npm run build
@@ -97,6 +124,23 @@ npm run preview
 ```
 
 ## 버전 히스토리
+
+### v1.7.0 (2026-01-21)
+**샘플 비디오 및 템플릿→편집기 연동 추가**
+- `public/videos/` 폴더에 샘플 비디오 2개 및 썸네일 추가
+- 검색 화면에서 템플릿 클릭 시 해당 비디오로 편집기 자동 진입
+- 편집기에서 외부 전달 비디오 URL 자동 로드 기능 추가
+- 홈 화면 하단 네비게이션을 App.jsx로 이동
+
+| 파일 | 변경 내용 |
+|------|----------|
+| `public/videos/` | sample-1.mp4, sample-1-thumb.png, sample-2.mp4, sample-2-thumb.png 추가 |
+| `src/App.jsx` | `selectedVideoUrl` 상태, `handleTabChange` 데이터 처리 추가 |
+| `src/components/SearchCategory.jsx` | 템플릿에 videoUrl 추가, 클릭 시 편집기 이동 기능 |
+| `src/components/Editor.jsx` | `videoUrl`, `onVideoLoaded` props, 자동 로드 useEffect 추가 |
+| `src/components/Home.jsx` | 하단 네비게이션 제거 |
+
+---
 
 ### v1.6.0 (2026-01-20)
 **텍스트 크기 조절 슬라이더 추가**
