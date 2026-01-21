@@ -7,6 +7,7 @@ import CategoryPlatform from './components/CategoryPlatform';
 import Home from './components/Home';
 import SearchCategory from './components/SearchCategory';
 import TemplateDetail from './components/TemplateDetail';
+import StoryPlanningScreen from './components/StoryPlanningScreen';
 import BottomNavigation from './components/BottomNavigation';
 import Editor from './components/Editor';
 
@@ -69,6 +70,20 @@ function App() {
     setSelectedTemplate(null);
   };
 
+  const handleStoryPlanning = (template) => {
+    setSelectedTemplate(template);
+    setActiveTab('storyPlanning');
+  };
+
+  const handleStoryPlanningBack = () => {
+    setActiveTab('templateDetail');
+  };
+
+  const handleStoryPlanningSave = (memos) => {
+    console.log('스토리 기획 저장:', memos);
+    // 저장 로직 추가 가능
+  };
+
   const renderMainContent = () => {
     switch (activeTab) {
       case 'home':
@@ -82,7 +97,22 @@ function App() {
       case 'search':
         return <SearchCategory onTabChange={handleTabChange} />;
       case 'templateDetail':
-        return <TemplateDetail template={selectedTemplate} onBack={handleTemplateDetailBack} onTabChange={handleTabChange} />;
+        return (
+          <TemplateDetail
+            template={selectedTemplate}
+            onBack={handleTemplateDetailBack}
+            onTabChange={handleTabChange}
+            onStoryPlanning={handleStoryPlanning}
+          />
+        );
+      case 'storyPlanning':
+        return (
+          <StoryPlanningScreen
+            template={selectedTemplate}
+            onBack={handleStoryPlanningBack}
+            onSave={handleStoryPlanningSave}
+          />
+        );
       case 'edit':
         return <Editor onBack={handleEditorBack} videoUrl={selectedVideoUrl} onVideoLoaded={() => setSelectedVideoUrl(null)} />;
       case 'my':
@@ -118,7 +148,7 @@ function App() {
             <div className="mobile-content">
               {renderMainContent()}
             </div>
-            {activeTab !== 'templateDetail' && (
+            {activeTab !== 'templateDetail' && activeTab !== 'storyPlanning' && (
               <BottomNavigation activeTab={activeTab} onTabChange={handleTabChange} />
             )}
           </>
