@@ -148,7 +148,7 @@ function App() {
             <div className="mobile-content">
               {renderMainContent()}
             </div>
-            {activeTab !== 'storyPlanning' && (
+            {activeTab !== 'templateDetail' && activeTab !== 'storyPlanning' && (
               <BottomNavigation activeTab={activeTab} onTabChange={handleTabChange} />
             )}
           </>
