@@ -2,8 +2,10 @@ import { useState, useEffect, useRef } from 'react';
 import './TemplateDetail.css';
 import { logScreenView, logButtonClick } from '../utils/logger';
 
-function TemplateDetail({ template, onBack, onEditStart, onTabChange }) {
+function TemplateDetail({ template, onBack, onEditStart, onTabChange, onStoryPlanning }) {
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isLiked, setIsLiked] = useState(false);
+  const [isSaved, setIsSaved] = useState(false);
   const videoRef = useRef(null);
 
   useEffect(() => {
@@ -25,6 +27,23 @@ function TemplateDetail({ template, onBack, onEditStart, onTabChange }) {
     logButtonClick('template_detail', 'start_edit_button');
     if (template?.videoUrl && onTabChange) {
       onTabChange('edit', { videoUrl: template.videoUrl });
+    }
+  };
+
+  const handleLikeToggle = () => {
+    setIsLiked(!isLiked);
+    logButtonClick('template_detail', 'like_toggle');
+  };
+
+  const handleSaveToggle = () => {
+    setIsSaved(!isSaved);
+    logButtonClick('template_detail', 'save_toggle');
+  };
+
+  const handleStoryPlanningClick = () => {
+    logButtonClick('template_detail', 'story_planning');
+    if (onStoryPlanning) {
+      onStoryPlanning(template);
     }
   };
 
@@ -97,12 +116,18 @@ function TemplateDetail({ template, onBack, onEditStart, onTabChange }) {
               </svg>
               <span>{template.users}명</span>
             </div>
-            <div className="info-item">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <button className="info-item info-button" onClick={handleLikeToggle}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill={isLiked ? "#ff4444" : "none"} stroke={isLiked ? "#ff4444" : "currentColor"} strokeWidth="2">
                 <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
               </svg>
               <span>1.2k</span>
-            </div>
+            </button>
+            <button className="info-item info-button" onClick={handleStoryPlanningClick}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+              </svg>
+              <span>기획</span>
+            </button>
           </div>
         </div>
       </div>
@@ -111,12 +136,19 @@ function TemplateDetail({ template, onBack, onEditStart, onTabChange }) {
 
       {/* 하단 설명 */}
       <div className="template-description">
-        <p className="template-title">#광원 #라이아이그</p>
+        <p className="template-title">#맛집  #브이로그</p>
 
-        {/* 편집 시작 버튼 */}
-        <button className="start-edit-button" onClick={handleStartEdit}>
-          편집 시작하기
-        </button>
+        {/* 편집 시작 버튼 영역 */}
+        <div className="cta-button-area">
+          <button className="start-edit-button" onClick={handleStartEdit}>
+            편집 시작하기
+          </button>
+          <button className={`save-button ${isSaved ? 'saved' : ''}`} onClick={handleSaveToggle}>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill={isSaved ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2">
+              <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+            </svg>
+          </button>
+        </div>
       </div>
 
       {/* 하단 여백 */}
