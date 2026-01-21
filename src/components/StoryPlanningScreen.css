@@ -119,6 +119,26 @@
   padding-bottom: calc(20px + env(safe-area-inset-bottom));
 }
 
+/* 프로그레스 바 */
+.story-progress-bar {
+  display: flex;
+  gap: 2px;
+  padding: 16px 20px 0;
+  height: 6px;
+  box-sizing: content-box;
+}
+
+.progress-segment {
+  height: 6px;
+  border-radius: 3px;
+  background-color: #d1d5db; /* bg-gray-300 */
+  transition: background-color 0.3s ease;
+}
+
+.progress-segment.active {
+  background-color: #1f2937; /* bg-gray-800 */
+}
+
 /* 헤더 */
 .story-header {
   padding: 20px 20px 16px;
@@ -201,22 +221,22 @@
 .cut-memo-input {
   width: 100%;
   margin-top: 10px;
-  padding: 10px 12px;
-  border: 1px solid #E8E8E8;
-  border-radius: 8px;
+  padding: 12px;
+  border: none;
+  border-radius: 8px; /* rounded-lg */
   font-size: 13px;
   outline: none;
-  transition: border-color 0.2s ease;
-  background-color: #FAFAFA;
+  transition: background-color 0.2s ease;
+  background-color: #f3f4f6; /* bg-gray-100 */
+  box-sizing: border-box;
 }
 
 .cut-memo-input:focus {
-  border-color: #333333;
-  background-color: #ffffff;
+  background-color: #e5e7eb; /* bg-gray-200 */
 }
 
 .cut-memo-input::placeholder {
-  color: #CCCCCC;
+  color: #9ca3af; /* text-gray-400 */
 }
 
 /* 하단 버튼 - 스크롤 내부에 포함 */
@@ -260,6 +280,82 @@
 
 .story-bottom-buttons .save-button:hover {
   background-color: #333333;
+}
+
+/* 저장 확인 모달 */
+.story-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.story-modal {
+  background-color: #ffffff;
+  border-radius: 16px;
+  padding: 24px;
+  width: 100%;
+  max-width: 320px;
+  text-align: center;
+}
+
+.story-modal-title {
+  margin: 0 0 8px;
+  font-size: 18px;
+  font-weight: 700;
+  color: #000000;
+}
+
+.story-modal-description {
+  margin: 0 0 24px;
+  font-size: 14px;
+  color: #6b7280; /* text-gray-500 */
+}
+
+.story-modal-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.modal-cancel-button {
+  flex: 1;
+  padding: 14px 0;
+  background-color: #ffffff;
+  color: #374151;
+  border: 1px solid #d1d5db; /* border-gray-300 */
+  border-radius: 9999px;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.modal-cancel-button:hover {
+  background-color: #f9fafb;
+}
+
+.modal-confirm-button {
+  flex: 1;
+  padding: 14px 0;
+  background-color: #111827; /* bg-gray-900 */
+  color: #ffffff;
+  border: none;
+  border-radius: 9999px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.modal-confirm-button:hover {
+  background-color: #1f2937;
 }
 
 /* 모바일 대응 */
