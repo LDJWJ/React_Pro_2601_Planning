@@ -6,6 +6,9 @@ import App from './App.jsx'
 
 const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID
 
+console.log('Google Client ID:', googleClientId ? 'loaded' : 'NOT LOADED!')
+console.log('Client ID value:', googleClientId)
+
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <GoogleOAuthProvider clientId={googleClientId}>

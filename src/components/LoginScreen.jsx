@@ -11,7 +11,10 @@ function LoginScreen({ onLogin }) {
 
   const googleLogin = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
+      console.log('=== OAuth onSuccess 콜백 호출됨 ===');
+      console.log('tokenResponse:', tokenResponse);
       try {
+        console.log('사용자 정보 요청 중...');
         const userInfoResponse = await fetch(
           'https://www.googleapis.com/oauth2/v3/userinfo',
           {
@@ -20,10 +23,13 @@ function LoginScreen({ onLogin }) {
             },
           }
         );
+        console.log('userInfoResponse status:', userInfoResponse.status);
         const userInfo = await userInfoResponse.json();
         console.log('Google 로그인 성공:', userInfo);
         logLogin('google', userInfo.email);
+        console.log('onLogin 호출 전');
         onLogin(userInfo);
+        console.log('onLogin 호출 후');
       } catch (error) {
         console.error('사용자 정보 가져오기 실패:', error);
       }
@@ -34,8 +40,10 @@ function LoginScreen({ onLogin }) {
   });
 
   const handleGoogleLogin = () => {
+    console.log('=== 구글 로그인 버튼 클릭 ===');
     logButtonClick('login', 'google_login_button');
     googleLogin();
+    console.log('googleLogin() 호출됨');
   };
 
   const handleNaverLogin = () => {

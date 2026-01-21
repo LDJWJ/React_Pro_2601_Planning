@@ -1,5 +1,8 @@
-// Google Apps Script 웹 앱 URL을 여기에 입력하세요
-const SCRIPT_URL = import.meta.env.VITE_GOOGLE_SCRIPT_URL || '';
+// Google Apps Script 웹 앱 URL
+// 개발 환경에서는 Vite 프록시를 사용하여 COEP 문제 회피
+const SCRIPT_URL = import.meta.env.DEV
+  ? '/api/log'
+  : (import.meta.env.VITE_GOOGLE_SCRIPT_URL || '');
 
 // 세션 ID 생성 (브라우저 세션 동안 유지)
 const getSessionId = () => {
@@ -25,14 +28,20 @@ export const sendLog = async (logData) => {
       ...logData,
     };
 
-    await fetch(SCRIPT_URL, {
+    const fetchOptions = {
       method: 'POST',
-      mode: 'no-cors',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(payload),
-    });
+    };
+
+    // 프로덕션에서는 no-cors 모드 사용 (Google Apps Script 직접 호출)
+    if (!import.meta.env.DEV) {
+      fetchOptions.mode = 'no-cors';
+    }
+
+    await fetch(SCRIPT_URL, fetchOptions);
   } catch (error) {
     console.error('[Logger] Failed to send log:', error);
   }
