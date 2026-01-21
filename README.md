@@ -38,7 +38,30 @@
 - 주말 추천 템플릿 그리드
 - 하단 네비게이션 (템플릿, 편집기, 마이페이지)
 
-### 4. 영상 편집기 (`Editor`)
+### 4. 템플릿 탐색 (`SearchCategory`)
+- 카테고리별 필터 (일상기록, 여행, 패션·뷰티 등)
+- 2열 그리드 템플릿 목록
+- 좋아요 버튼, 사용자 수/재생시간/컷 수 표시
+- 템플릿 클릭 시 상세 화면으로 이동
+
+### 5. 템플릿 상세 (`TemplateDetail`)
+- 영상 미리보기 (자동재생, 탭으로 재생/일시정지)
+- 우측 플로팅 정보 (재생시간, 컷 수, 사용자 수, 좋아요)
+- **스토리 기획 버튼**: 탭 시 스토리 기획 화면으로 이동
+- 해시태그 표시
+- "편집 시작하기" CTA 버튼
+- 저장/북마크 버튼
+
+### 6. 스토리 기획 (`StoryPlanningScreen`)
+- **상단 고정 영상 프리뷰**: 선택된 컷의 타임스탬프 재생
+- **세그먼트 프로그레스 바**: 컷 위치 시각화, 선택된 컷까지 활성화
+- **컷 리스트**:
+  - 컷별 제목, 설명, 시간 표시
+  - 선택 시 메모 입력 필드 표시
+  - 테두리 강조로 선택 상태 표시
+- **하단 버튼**: 취소/저장하기
+
+### 7. 영상 편집기 (`Editor`)
 - **미디어 추가**: 영상/이미지 업로드
 - **텍스트 오버레이**: 드래그 가능, 시간 범위 설정, 크기 조절
 - **자막 추가**: 시작/종료 시간 지정
@@ -68,15 +91,23 @@ src/
 ├── assets/
 │   └── logo.png           # 앱 로고
 ├── components/
-│   ├── LoginScreen.jsx    # 로그인 화면
+│   ├── LoginScreen.jsx        # 로그인 화면
 │   ├── LoginScreen.css
-│   ├── CategoryPurpose.jsx # 목적 선택
-│   ├── CategoryTopic.jsx   # 주제 선택
-│   ├── CategoryPlatform.jsx # 플랫폼 선택
+│   ├── CategoryPurpose.jsx    # 목적 선택
+│   ├── CategoryTopic.jsx      # 주제 선택
+│   ├── CategoryPlatform.jsx   # 플랫폼 선택
 │   ├── Category.css
-│   ├── Home.jsx           # 홈 화면
+│   ├── Home.jsx               # 홈 화면
 │   ├── Home.css
-│   ├── Editor.jsx         # 영상 편집기
+│   ├── SearchCategory.jsx     # 템플릿 탐색
+│   ├── SearchCategory.css
+│   ├── TemplateDetail.jsx     # 템플릿 상세
+│   ├── TemplateDetail.css
+│   ├── StoryPlanningScreen.jsx # 스토리 기획
+│   ├── StoryPlanningScreen.css
+│   ├── BottomNavigation.jsx   # 하단 네비게이션
+│   ├── BottomNavigation.css
+│   ├── Editor.jsx             # 영상 편집기
 │   └── Editor.css
 └── utils/
     └── logger.js          # 로깅 유틸리티
@@ -120,10 +151,39 @@ npm run preview
 ```
 로그인 → 목적 선택 → 주제 선택 → 플랫폼 선택 → 홈
                                               ↓
-                                          편집기
+                                    ┌─────────┴─────────┐
+                                    ↓                   ↓
+                              템플릿 탐색            편집기
+                                    ↓
+                              템플릿 상세 ─────────→ 편집기
+                                    ↓
+                              스토리 기획
 ```
 
 ## 버전 히스토리
+
+### v1.8.0 (2026-01-21)
+**스토리 기획 화면 추가**
+- `StoryPlanningScreen` 컴포넌트 신규 생성
+- 상단 고정 영상 프리뷰 (선택된 컷 타임스탬프 재생)
+- 세그먼트 프로그레스 바 (컷별 진행 표시, 탭으로 컷 이동)
+- 컷별 메모 입력 기능
+- 하단 취소/저장 버튼
+
+**TemplateDetail 개선**
+- 스토리 기획 버튼 추가 (우측 플로팅 메뉴)
+- 좋아요/저장 토글 버튼 추가
+- 하단 CTA 영역 레이아웃 개선 (편집 시작하기 + 북마크)
+
+| 파일 | 변경 내용 |
+|------|----------|
+| `src/components/StoryPlanningScreen.jsx` | 스토리 기획 화면 신규 생성 |
+| `src/components/StoryPlanningScreen.css` | 스토리 기획 스타일 |
+| `src/components/TemplateDetail.jsx` | 스토리 기획/좋아요/저장 버튼 추가 |
+| `src/components/TemplateDetail.css` | CTA 버튼 영역 스타일 개선 |
+| `src/App.jsx` | storyPlanning 화면 전환 로직 추가 |
+
+---
 
 ### v1.7.0 (2026-01-21)
 **샘플 비디오 및 템플릿→편집기 연동 추가**
