@@ -1,3 +1,12 @@
+TemplateDetail 화면으로 가는 경로:
+
+로그인 → Google 로그인
+온보딩 → 목적, 주제, 플랫폼 선택 완료
+홈 화면 → 하단 네비게이션에서 "탐색" 탭 클릭
+SearchCategory 화면 → 카테고리 선택 후 템플릿 카드 클릭
+→ TemplateDetail 화면 (수정 대상)
+
+
 # 템플릿 탐색 및 상세보기 화면 구현
 
 ## 개요
@@ -210,3 +219,72 @@ const storyPlanningData = {
 - 중앙 정렬
 - "취소" 버튼: 고정 너비 80px
 - "저장하기" 버튼: flex: 1 (남은 공간 차지)
+
+
+
+
+#### 
+화면 수정
+
+# 비디오 상세 화면 UI 구현 (React Native / React)
+
+## 화면 개요
+비디오 콘텐츠 상세 페이지로, 전체 화면 비디오 뷰어와 오버레이 UI 요소들로 구성
+
+## 레이아웃 구조
+
+### 1. 전체 화면 비디오 영역
+- 비디오가 화면 전체(100vh, 100vw)를 채우도록 구현
+- object-fit: cover 적용
+- 중앙에 재생 버튼 (원형, 반투명 배경 + 플레이 아이콘)
+
+### 2. 상단 영역 (오버레이)
+- 좌측 상단: 뒤로가기 버튼 (← 화살표, 흰색)
+- position: absolute, top: safe-area-inset
+
+### 3. 우측 하단 액션 버튼들 (오버레이)
+- position: absolute, right: 16px, bottom: 약 200px
+- 세로로 나열된 아이콘 버튼들: (아래는 18초, 6컷, 300명 등은 예제)
+  - 시계 아이콘 + "18초"
+  - 프레임 아이콘 + "6컷"  
+  - 사람들 아이콘 + "300명"
+  - 하트 아이콘 + "1.2k"
+  - 문서 아이콘 + "기획"
+- 각 아이콘: 흰색, 아래에 텍스트 라벨
+- 간격: gap 20px
+
+### 4. 하단 영역 (오버레이)
+- position: absolute, bottom: safe-area-inset + 20px
+- 좌측 정렬, padding: 0 20px
+
+#### 해시태그 영역
+- 가로 배치: "#맛집", "#브이로그"
+- 스타일: 흰색 텍스트, 폰트 14-16px
+- gap: 12px
+
+#### CTA 버튼 영역 (해시태그 아래 16px 간격)
+- 가로 배치: flex-direction: row
+- "편집 시작하기" 버튼:
+  - 배경: 흰색
+  - 텍스트: 검정, bold
+  - border-radius: 30px (pill shape)
+  - padding: 16px 80px
+  - flex: 1
+- 북마크 버튼:
+  - 정사각형, 배경: #333 또는 반투명 어두운 색
+  - border-radius: 12px
+  - 북마크 아이콘 (흰색)
+  - margin-left: 12px
+
+## 제거 항목
+- 하단 네비게이션 바 (홈, 탐색, 편집, MY) 완전 제거
+
+## 스타일 가이드
+- 전체 배경: 비디오로 채움
+- 오버레이 텍스트: 흰색, 필요시 text-shadow 적용하여 가독성 확보
+- safe-area 대응 필수
+
+## 기술 스택
+- React 또는 React Native
+- TypeScript 권장
+- 스타일: Tailwind CSS 또는 styled-components
