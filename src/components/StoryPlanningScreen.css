@@ -136,7 +136,7 @@
 }
 
 .progress-segment.active {
-  background-color: #1f2937; /* bg-gray-800 */
+  background-color: #FFFF00;
 }
 
 /* 헤더 */
@@ -173,13 +173,13 @@
   border-radius: 12px;
 }
 
-/* 번호 - 빨간 원 */
+/* 번호 - 노란 원 */
 .cut-number {
   width: 24px;
   height: 24px;
   min-width: 24px;
-  background-color: #EF4444;
-  color: #ffffff;
+  background-color: #FFFF00;
+  color: #000000;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -268,8 +268,8 @@
 .story-bottom-buttons .save-button {
   flex: 1;
   padding: 14px 24px;
-  background-color: #000000;
-  color: #ffffff;
+  background-color: #FFFF00;
+  color: #000000;
   border: none;
   border-radius: 8px;
   font-size: 15px;
@@ -279,7 +279,7 @@
 }
 
 .story-bottom-buttons .save-button:hover {
-  background-color: #333333;
+  background-color: #E6E600;
 }
 
 /* 저장 확인 모달 */
