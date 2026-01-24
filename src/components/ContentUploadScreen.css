@@ -1,0 +1,336 @@
+.content-upload-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: #fff;
+}
+
+/* 헤더 */
+.content-upload-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 12px 16px;
+  z-index: 10;
+}
+
+.content-upload-header .back-button {
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: transparent;
+  color: #fff;
+  font-size: 24px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 미리보기 영역 */
+.preview-section {
+  background: #1a1a1a;
+  padding: 50px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.preview-thumbnail {
+  width: 160px;
+  height: 120px;
+  background: #333;
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.preview-thumbnail .preview-video,
+.preview-thumbnail .preview-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.preview-placeholder {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #444 0%, #333 100%);
+}
+
+.preview-info {
+  display: flex;
+  gap: 16px;
+  margin-top: 12px;
+  color: #fff;
+}
+
+.preview-duration,
+.preview-cuts {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.preview-duration svg,
+.preview-cuts svg {
+  opacity: 0.8;
+}
+
+/* 메인 콘텐츠 */
+.content-upload-main {
+  flex: 1;
+  padding: 24px 20px;
+  padding-bottom: 140px;
+  overflow-y: auto;
+}
+
+.content-upload-title h2 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 8px 0;
+}
+
+.content-upload-title p {
+  font-size: 14px;
+  color: #888;
+  margin: 0 0 24px 0;
+}
+
+/* 컷 정보 카드 */
+.cut-info-card {
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 24px;
+}
+
+.cut-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.cut-number {
+  width: 28px;
+  height: 28px;
+  background: linear-gradient(135deg, #ff6b6b 0%, #ff8e8e 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.cut-details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.cut-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.cut-description {
+  font-size: 13px;
+  color: #888;
+}
+
+.cut-duration {
+  font-size: 14px;
+  color: #888;
+  flex-shrink: 0;
+}
+
+.cut-memo {
+  margin-top: 12px;
+  padding: 12px;
+  background: #f8f8f8;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #666;
+}
+
+/* 영상 추가 섹션 */
+.upload-section {
+  margin-bottom: 24px;
+}
+
+.upload-section h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin: 0 0 12px 0;
+}
+
+.upload-button {
+  display: block;
+  width: 100%;
+  padding: 14px;
+  background: #fff8e1;
+  border: none;
+  border-radius: 8px;
+  color: #f5a623;
+  font-size: 15px;
+  font-weight: 600;
+  text-align: center;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.upload-button:hover {
+  background: #ffecb3;
+}
+
+/* 자막 섹션 */
+.subtitle-section {
+  margin-bottom: 24px;
+}
+
+.subtitle-section h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin: 0 0 12px 0;
+}
+
+.subtitle-input {
+  width: 100%;
+  padding: 14px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 15px;
+  color: #1a1a1a;
+  margin-bottom: 12px;
+  box-sizing: border-box;
+}
+
+.subtitle-input:focus {
+  outline: none;
+  border-color: #ff6b6b;
+}
+
+.subtitle-input::placeholder {
+  color: #bbb;
+}
+
+.ai-subtitle-button {
+  width: 100%;
+  padding: 14px;
+  background: #f5f5f5;
+  border: none;
+  border-radius: 8px;
+  color: #666;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.ai-subtitle-button:hover {
+  background: #eee;
+}
+
+/* 하단 버튼 */
+.content-upload-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  gap: 12px;
+  padding: 16px 20px;
+  background: #fff;
+  border-top: 1px solid #f0f0f0;
+  max-width: 430px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.prev-button {
+  flex: 0 0 auto;
+  padding: 14px 20px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  color: #666;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.prev-button:hover {
+  background: #f5f5f5;
+}
+
+.next-button {
+  flex: 1;
+  padding: 14px 20px;
+  background: #1a1a1a;
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.next-button:hover {
+  background: #333;
+}
+
+/* 진행 상태 표시 */
+.progress-indicator {
+  position: fixed;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  padding: 8px 16px;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
+}
+
+.progress-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ddd;
+  transition: all 0.2s;
+}
+
+.progress-dot.active {
+  background: #ff6b6b;
+  transform: scale(1.2);
+}
+
+.progress-dot.completed {
+  background: #4caf50;
+}
+
+/* 로딩 */
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  color: #888;
+  font-size: 16px;
+}
