@@ -1,11 +1,37 @@
 /* Category Common Styles */
+/* 기준 화면: 393px x 852px (iPhone 14/15 Pro) */
+
 .category-container {
-  min-height: 100%;
+  width: 100%;
+  max-width: 393px;
   height: 100%;
+  max-height: 852px;
+  min-height: 852px;
   display: flex;
   flex-direction: column;
   background-color: #000000;
   overflow: hidden;
+  margin: 0 auto;
+  position: relative;
+}
+
+.category-progress-bar {
+  width: 100%;
+  height: 4px;
+  background-color: #333333;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.category-progress-bar::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: var(--progress, 100%);
+  background-color: #FAFF5E;
+  transition: width 0.3s ease;
 }
 
 .category-content {
@@ -13,18 +39,16 @@
   flex-direction: column;
   flex: 1;
   width: 100%;
-  max-width: 375px;
-  margin: 0 auto;
-  padding: 60px 20px 40px;
-  overflow-y: auto;
+  padding: 40px 24px 0;
+  box-sizing: border-box;
 }
 
 .category-header {
-  margin-bottom: 30px;
+  margin-bottom: 32px;
 }
 
 .category-title {
-  font-size: 24px;
+  font-size: 26px;
   font-weight: 700;
   color: #FFFFFF;
   line-height: 1.4;
@@ -32,18 +56,23 @@
 }
 
 .category-subtitle {
-  font-size: 14px;
+  font-size: 15px;
   color: #888888;
   margin: 0;
+}
+
+.category-footer {
+  padding: 0 24px 48px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 /* Purpose Grid (첫 번째 화면) */
 .purpose-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 160px));
+  grid-template-columns: repeat(2, 1fr);
   gap: 12px;
-  margin-bottom: 30px;
-  justify-content: center;
+  width: 100%;
 }
 
 .purpose-card {
@@ -51,29 +80,28 @@
   flex-direction: column;
   align-items: flex-start;
   padding: 20px 16px;
-  border: 2px solid transparent;
+  border: none;
   border-radius: 16px;
   background-color: #1C1C1E;
   cursor: pointer;
   transition: all 0.2s ease;
   text-align: left;
-  max-width: 160px;
-  min-height: 100px;
+  min-height: 110px;
   box-sizing: border-box;
 }
 
 .purpose-card:hover {
-  border-color: #333333;
+  background-color: #2C2C2E;
 }
 
 .purpose-card.selected {
-  border-color: #FAEF5D;
-  background-color: #3D3D00;
+  border: 2px solid #FAFF5E;
+  background-color: rgba(250, 255, 94, 0.15);
 }
 
 .purpose-card.selected .purpose-title,
 .purpose-card.selected .purpose-subtitle {
-  color: #00FFFF;
+  color: #FAFF5E;
 }
 
 .purpose-card:last-child {
@@ -81,12 +109,12 @@
 }
 
 .purpose-icon {
-  font-size: 32px;
+  font-size: 28px;
   margin-bottom: 12px;
 }
 
 .purpose-title {
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 600;
   color: #FFFFFF;
   margin-bottom: 2px;
@@ -94,7 +122,7 @@
 }
 
 .purpose-subtitle {
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 600;
   color: #FFFFFF;
   transition: color 0.2s ease;
@@ -103,44 +131,42 @@
 /* Topic Grid (두 번째 화면) */
 .topic-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 160px));
+  grid-template-columns: repeat(2, 1fr);
   gap: 12px;
-  margin-bottom: 30px;
-  justify-content: center;
+  width: 100%;
 }
 
 .topic-card {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  padding: 20px 16px;
-  border: 2px solid transparent;
+  padding: 18px 16px;
+  border: none;
   border-radius: 16px;
   background-color: #1C1C1E;
   cursor: pointer;
   transition: all 0.2s ease;
   text-align: left;
-  max-width: 160px;
   box-sizing: border-box;
 }
 
 .topic-card:hover {
-  border-color: #333333;
+  background-color: #2C2C2E;
 }
 
 .topic-card.selected {
-  border-color: #FAEF5D;
-  background-color: #3D3D00;
+  border: 2px solid #FAFF5E;
+  background-color: rgba(250, 255, 94, 0.15);
 }
 
 .topic-card.selected .topic-title,
 .topic-card.selected .topic-description {
-  color: #00FFFF;
+  color: #FAFF5E;
 }
 
 .topic-icon {
-  font-size: 32px;
-  margin-bottom: 12px;
+  font-size: 26px;
+  margin-bottom: 10px;
 }
 
 .topic-title {
@@ -152,90 +178,168 @@
 }
 
 .topic-description {
-  font-size: 12px;
+  font-size: 11px;
   color: #888888;
   line-height: 1.4;
   transition: color 0.2s ease;
 }
 
-/* Platform List (세 번째 화면) */
+/* Platform Grid (세 번째 화면) */
 .platform-list {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin-bottom: 30px;
-  max-width: 332px;
-  margin-left: auto;
-  margin-right: auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  width: 100%;
 }
 
 .platform-item {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  padding: 16px 20px;
-  border: 2px solid transparent;
-  border-radius: 12px;
+  justify-content: center;
+  padding: 20px 8px 16px;
+  border: none;
+  border-radius: 16px;
   background-color: #1C1C1E;
   cursor: pointer;
   transition: all 0.2s ease;
   box-sizing: border-box;
+  aspect-ratio: 1 / 1;
+  position: relative;
 }
 
 .platform-item:hover {
-  border-color: #333333;
+  background-color: #2C2C2E;
 }
 
 .platform-item.selected {
-  border-color: #FAEF5D;
-  background-color: #3D3D00;
+  border: 2px solid #FAFF5E;
+  background-color: rgba(250, 255, 94, 0.15);
 }
 
 .platform-item.selected .platform-name {
-  color: #00FFFF;
+  color: #FAFF5E;
 }
 
-.platform-icon {
-  font-size: 24px;
-  margin-right: 12px;
+.platform-icon-img {
+  width: 44px;
+  height: 44px;
+  margin-bottom: 10px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+}
+
+/* 플랫폼별 아이콘 스타일 - 이미지 03 기준 */
+.platform-icon-img.youtube {
+  background-color: #FFFFFF;
+  position: relative;
+}
+.platform-icon-img.youtube::before {
+  content: '';
+  width: 0;
+  height: 0;
+  border-left: 12px solid #FF0000;
+  border-top: 7px solid transparent;
+  border-bottom: 7px solid transparent;
+  margin-left: 3px;
+}
+
+.platform-icon-img.instagram {
+  background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+}
+.platform-icon-img.instagram::before {
+  content: '';
+  width: 20px;
+  height: 20px;
+  border: 2px solid #FFFFFF;
+  border-radius: 6px;
+  position: relative;
+}
+.platform-icon-img.instagram::after {
+  content: '';
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border: 2px solid #FFFFFF;
+  border-radius: 50%;
+}
+
+.platform-icon-img.tiktok {
+  background-color: #000000;
+  border: 2px solid #333333;
+}
+.platform-icon-img.tiktok::before {
+  content: '♪';
+  color: #FFFFFF;
+  font-size: 22px;
+}
+
+.platform-icon-img.naver {
+  background-color: transparent;
+}
+.platform-icon-img.naver::before {
+  content: '';
+  width: 36px;
+  height: 36px;
+  background: linear-gradient(180deg, #00C73C 0%, #00A832 100%);
+  border-radius: 50%;
+  box-shadow: 0 4px 12px rgba(0, 199, 60, 0.4);
+}
+
+.platform-icon-img.kakao {
+  background-color: #FEE500;
+}
+.platform-icon-img.kakao::before {
+  content: 'talk';
+  font-size: 10px;
+  font-weight: 800;
+  color: #3C1E1E;
+  letter-spacing: -0.5px;
+}
+
+.platform-icon-img.other {
+  background-color: #3C3C3E;
+}
+.platform-icon-img.other::before {
+  content: '';
+  width: 10px;
+  height: 10px;
+  background-color: #888888;
+  border-radius: 50%;
 }
 
 .platform-name {
-  font-size: 15px;
+  font-size: 12px;
   font-weight: 500;
   color: #FFFFFF;
-  flex: 1;
-  text-align: left;
+  text-align: center;
   transition: color 0.2s ease;
+  line-height: 1.2;
+  word-break: keep-all;
 }
 
-.platform-check {
-  font-size: 18px;
-  color: #00FFFF;
-  font-weight: 600;
-}
 
 /* Next Button */
 .next-button {
   width: 100%;
-  max-width: 332px;
-  padding: 16px 24px;
+  padding: 18px 24px;
   border: none;
-  border-radius: 12px;
+  border-radius: 14px;
   background-color: #333333;
   color: #666666;
-  font-size: 16px;
+  font-size: 17px;
   font-weight: 600;
   cursor: not-allowed;
   transition: all 0.2s ease;
-  margin-top: auto;
-  margin-left: auto;
-  margin-right: auto;
-  height: 52px;
+  height: 56px;
   flex-shrink: 0;
 }
 
 .next-button.active {
-  background-color: #FAEF5D;
+  background-color: #FAFF5E;
   color: #000000;
   cursor: pointer;
 }

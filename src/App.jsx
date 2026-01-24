@@ -67,7 +67,7 @@ function App() {
   };
 
   const handleTemplateDetailBack = () => {
-    setActiveTab('search');
+    setActiveTab('template');
     setSelectedTemplate(null);
   };
 
@@ -97,7 +97,7 @@ function App() {
   const handleContentUploadNext = (cutData) => {
     console.log('콘텐츠 업로드 완료:', cutData);
     // 에디터로 이동
-    setActiveTab('edit');
+    setActiveTab('editor');
   };
 
   const renderMainContent = () => {
@@ -110,7 +110,7 @@ function App() {
             onLogout={handleLogout}
           />
         );
-      case 'search':
+      case 'template':
         return <SearchCategory onTabChange={handleTabChange} />;
       case 'templateDetail':
         return (
@@ -138,12 +138,12 @@ function App() {
             onNext={handleContentUploadNext}
           />
         );
-      case 'edit':
+      case 'editor':
         return <Editor onBack={handleEditorBack} videoUrl={selectedVideoUrl} onVideoLoaded={() => setSelectedVideoUrl(null)} />;
-      case 'my':
+      case 'mypage':
         return (
           <div style={{ padding: '100px 20px', textAlign: 'center', color: '#999' }}>
-            MY 화면 준비 중
+            마이페이지 화면 준비 중
           </div>
         );
       default:

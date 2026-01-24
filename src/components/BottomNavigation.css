@@ -40,7 +40,10 @@
   transition: color 0.2s ease;
 }
 
-.nav-tab.active .nav-icon,
+.nav-tab.active .nav-icon {
+  color: #FAFF5E;
+}
+
 .nav-tab:hover .nav-icon {
   color: #ffffff;
 }
@@ -52,7 +55,10 @@
   transition: color 0.2s ease;
 }
 
-.nav-tab.active .nav-label,
+.nav-tab.active .nav-label {
+  color: #FAFF5E;
+}
+
 .nav-tab:hover .nav-label {
   color: #ffffff;
 }

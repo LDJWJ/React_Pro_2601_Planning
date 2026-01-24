@@ -56,6 +56,8 @@ function CategoryPurpose({ onNext, onBack }) {
 
   return (
     <div className="category-container">
+      <div className="category-progress-bar" style={{ '--progress': '33%' }}></div>
+
       <div className="category-content">
         <div className="category-header">
           <h1 className="category-title">
@@ -79,7 +81,9 @@ function CategoryPurpose({ onNext, onBack }) {
             </button>
           ))}
         </div>
+      </div>
 
+      <div className="category-footer">
         <button
           className={`next-button ${selected ? 'active' : ''}`}
           onClick={handleNext}

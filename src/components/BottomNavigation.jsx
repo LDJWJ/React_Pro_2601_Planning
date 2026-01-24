@@ -13,28 +13,32 @@ function BottomNavigation({ activeTab, onTabChange }) {
       ),
     },
     {
-      id: 'search',
-      label: '탐색',
+      id: 'template',
+      label: '템플릿',
       icon: (
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <circle cx="11" cy="11" r="8"></circle>
-          <path d="M21 21l-4.35-4.35"></path>
+          <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+          <path d="M10 4v16"></path>
+          <path d="M2 10h8"></path>
+          <path d="M2 14h8"></path>
+          <polygon points="15 9 20 12 15 15 15 9" fill="currentColor" stroke="none"></polygon>
         </svg>
       ),
     },
     {
-      id: 'edit',
-      label: '편집',
+      id: 'editor',
+      label: '편집기',
       icon: (
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M12 20h9"></path>
-          <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+          <rect x="3" y="3" width="18" height="18" rx="2"></rect>
+          <line x1="3" y1="9" x2="21" y2="9"></line>
+          <line x1="9" y1="21" x2="9" y2="9"></line>
         </svg>
       ),
     },
     {
-      id: 'my',
-      label: 'MY',
+      id: 'mypage',
+      label: '마이페이지',
       icon: (
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>

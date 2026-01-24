@@ -67,6 +67,8 @@ function CategoryTopic({ onNext, onBack }) {
 
   return (
     <div className="category-container">
+      <div className="category-progress-bar" style={{ '--progress': '66%' }}></div>
+
       <div className="category-content">
         <div className="category-header">
           <h1 className="category-title">
@@ -90,7 +92,9 @@ function CategoryTopic({ onNext, onBack }) {
             </button>
           ))}
         </div>
+      </div>
 
+      <div className="category-footer">
         <button
           className={`next-button ${selected.length > 0 ? 'active' : ''}`}
           onClick={handleNext}

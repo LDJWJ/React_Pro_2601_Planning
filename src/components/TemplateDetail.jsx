@@ -28,7 +28,7 @@ function TemplateDetail({ template, onBack, onEditStart, onTabChange, onStoryPla
     if (onContentUpload) {
       onContentUpload(template);
     } else if (template?.videoUrl && onTabChange) {
-      onTabChange('edit', { videoUrl: template.videoUrl });
+      onTabChange('editor', { videoUrl: template.videoUrl });
     }
   };
 

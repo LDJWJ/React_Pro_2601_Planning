@@ -5,37 +5,31 @@ import { logScreenView, logButtonClick, logSelect } from '../utils/logger';
 const platforms = [
   {
     id: 'instagram',
-    icon: '📷',
     name: '인스타그램 릴스',
     logo: 'instagram',
   },
   {
     id: 'youtube',
-    icon: '▶️',
     name: '유튜브 쇼츠',
     logo: 'youtube',
   },
   {
     id: 'tiktok',
-    icon: '🎵',
     name: '틱톡',
     logo: 'tiktok',
   },
   {
     id: 'naver',
-    icon: '🟢',
     name: '네이버 클립',
     logo: 'naver',
   },
   {
     id: 'kakao',
-    icon: '💬',
     name: '카카오톡 지금',
     logo: 'kakao',
   },
   {
     id: 'other',
-    icon: '❓',
     name: '다른 플랫폼',
     logo: 'other',
   },
@@ -67,6 +61,8 @@ function CategoryPlatform({ onNext, onBack }) {
 
   return (
     <div className="category-container">
+      <div className="category-progress-bar"></div>
+
       <div className="category-content">
         <div className="category-header">
           <h1 className="category-title">
@@ -84,15 +80,14 @@ function CategoryPlatform({ onNext, onBack }) {
               className={`platform-item ${selected.includes(platform.id) ? 'selected' : ''}`}
               onClick={() => handleSelect(platform.id)}
             >
-              <span className="platform-icon">{platform.icon}</span>
+              <span className={`platform-icon-img ${platform.logo}`}></span>
               <span className="platform-name">{platform.name}</span>
-              {selected.includes(platform.id) && (
-                <span className="platform-check">✓</span>
-              )}
             </button>
           ))}
         </div>
+      </div>
 
+      <div className="category-footer">
         <button
           className={`next-button ${selected.length > 0 ? 'active' : ''}`}
           onClick={handleNext}
