@@ -16,7 +16,8 @@
   width: 100%;
   max-width: 375px;
   margin: 0 auto;
-  padding: 60px 20px 20px;
+  padding: 60px 20px 40px;
+  overflow-y: auto;
 }
 
 .category-header {
@@ -203,7 +204,7 @@
 .next-button {
   width: 100%;
   max-width: 332px;
-  padding: 16px;
+  padding: 16px 24px;
   border: none;
   border-radius: 12px;
   background-color: #e0e0e0;
@@ -215,6 +216,8 @@
   margin-top: auto;
   margin-left: auto;
   margin-right: auto;
+  height: 52px;
+  flex-shrink: 0;
 }
 
 .next-button.active {
