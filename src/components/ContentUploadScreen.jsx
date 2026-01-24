@@ -5,6 +5,9 @@ import { logScreenView, logButtonClick } from '../utils/logger';
 function ContentUploadScreen({ template, onBack, onNext }) {
   const [currentCutIndex, setCurrentCutIndex] = useState(0);
   const [cutData, setCutData] = useState([]);
+  const [aiSuggestions, setAiSuggestions] = useState([]);
+  const [isLoadingAI, setIsLoadingAI] = useState(false);
+  const [selectedSuggestionIndex, setSelectedSuggestionIndex] = useState(null);
 
   // 템플릿의 컷 데이터 초기화
   useEffect(() => {
@@ -61,19 +64,57 @@ function ContentUploadScreen({ template, onBack, onNext }) {
     ));
   };
 
-  const handleAISubtitle = () => {
+  const handleAISubtitle = async () => {
     logButtonClick('content_upload', 'ai_subtitle');
-    // AI 추천 자막 기능 (추후 구현)
-    const aiSuggestion = `AI 추천: ${currentCut?.title || '컷'} 자막`;
-    setCutData(prev => prev.map((cut, index) =>
-      index === currentCutIndex
-        ? { ...cut, subtitle: aiSuggestion }
+    setIsLoadingAI(true);
+    setAiSuggestions([]);
+    setSelectedSuggestionIndex(null);
+
+    try {
+      const response = await fetch('/.netlify/functions/generate-subtitle', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          cutTitle: currentCut?.title || '',
+          cutDescription: currentCut?.description || '',
+          memo: currentCut?.memo || '',
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to generate subtitles');
+      }
+
+      const data = await response.json();
+      setAiSuggestions(data.subtitles || []);
+    } catch (error) {
+      console.error('AI 자막 생성 오류:', error);
+      // 오류 시 기본 자막 제공
+      setAiSuggestions([
+        '지금 바로 확인해보세요!',
+        '이 순간을 놓치지 마세요!',
+        '함께 즐겨보세요!',
+      ]);
+    } finally {
+      setIsLoadingAI(false);
+    }
+  };
+
+  const handleSelectSuggestion = (suggestion, index) => {
+    setSelectedSuggestionIndex(index);
+    setCutData(prev => prev.map((cut, i) =>
+      i === currentCutIndex
+        ? { ...cut, subtitle: suggestion }
         : cut
     ));
   };
 
   const handlePrevStep = () => {
     logButtonClick('content_upload', 'prev_step');
+    // 컷 이동 시 AI 추천 초기화
+    setAiSuggestions([]);
+    setSelectedSuggestionIndex(null);
+
     if (currentCutIndex > 0) {
       setCurrentCutIndex(currentCutIndex - 1);
     } else {
@@ -83,6 +124,10 @@ function ContentUploadScreen({ template, onBack, onNext }) {
 
   const handleNextStep = () => {
     logButtonClick('content_upload', 'next_step');
+    // 컷 이동 시 AI 추천 초기화
+    setAiSuggestions([]);
+    setSelectedSuggestionIndex(null);
+
     if (currentCutIndex < totalCuts - 1) {
       setCurrentCutIndex(currentCutIndex + 1);
     } else {
@@ -194,9 +239,35 @@ function ContentUploadScreen({ template, onBack, onNext }) {
             value={currentCut.subtitle || ''}
             onChange={handleSubtitleChange}
           />
-          <button className="ai-subtitle-button" onClick={handleAISubtitle}>
-            AI 추천자막
+          <button
+            className={`ai-subtitle-button ${isLoadingAI ? 'loading' : ''}`}
+            onClick={handleAISubtitle}
+            disabled={isLoadingAI}
+          >
+            {isLoadingAI ? (
+              <>
+                <span className="spinner"></span>
+                생성 중...
+              </>
+            ) : (
+              'AI 추천자막'
+            )}
           </button>
+
+          {/* AI 추천 자막 Chips */}
+          {aiSuggestions.length > 0 && (
+            <div className="ai-suggestions">
+              {aiSuggestions.map((suggestion, index) => (
+                <button
+                  key={index}
+                  className={`suggestion-chip ${selectedSuggestionIndex === index ? 'selected' : ''}`}
+                  onClick={() => handleSelectSuggestion(suggestion, index)}
+                >
+                  {suggestion}
+                </button>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* 하단 버튼 */}
