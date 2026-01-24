@@ -135,6 +135,16 @@ function ContentUploadScreen({ template, onBack, onNext }) {
         </div>
       </div>
 
+      {/* 프로그레스 바 */}
+      <div className="progress-bar-container">
+        {Array.from({ length: totalCuts }, (_, index) => (
+          <div
+            key={index}
+            className={`progress-segment ${index <= currentCutIndex ? 'active' : ''}`}
+          />
+        ))}
+      </div>
+
       {/* 메인 콘텐츠 영역 */}
       <div className="content-upload-main">
         <div className="content-upload-title">
@@ -188,26 +198,16 @@ function ContentUploadScreen({ template, onBack, onNext }) {
             AI 추천자막
           </button>
         </div>
-      </div>
 
-      {/* 하단 버튼 */}
-      <div className="content-upload-footer">
-        <button className="prev-button" onClick={handlePrevStep}>
-          이전 단계
-        </button>
-        <button className="next-button" onClick={handleNextStep}>
-          {currentCutIndex < totalCuts - 1 ? '다음' : '완료'}
-        </button>
-      </div>
-
-      {/* 진행 상태 표시 */}
-      <div className="progress-indicator">
-        {cutData.map((_, index) => (
-          <div
-            key={index}
-            className={`progress-dot ${index === currentCutIndex ? 'active' : ''} ${index < currentCutIndex ? 'completed' : ''}`}
-          />
-        ))}
+        {/* 하단 버튼 */}
+        <div className="content-upload-footer">
+          <button className="prev-button" onClick={handlePrevStep}>
+            이전 단계
+          </button>
+          <button className="next-button" onClick={handleNextStep}>
+            {currentCutIndex < totalCuts - 1 ? '다음' : '완료'}
+          </button>
+        </div>
       </div>
     </div>
   );
