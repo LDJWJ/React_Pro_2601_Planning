@@ -8,6 +8,7 @@ import Home from './components/Home';
 import SearchCategory from './components/SearchCategory';
 import TemplateDetail from './components/TemplateDetail';
 import StoryPlanningScreen from './components/StoryPlanningScreen';
+import ContentUploadScreen from './components/ContentUploadScreen';
 import BottomNavigation from './components/BottomNavigation';
 import Editor from './components/Editor';
 
@@ -84,6 +85,21 @@ function App() {
     // 저장 로직 추가 가능
   };
 
+  const handleContentUpload = (template) => {
+    setSelectedTemplate(template);
+    setActiveTab('contentUpload');
+  };
+
+  const handleContentUploadBack = () => {
+    setActiveTab('templateDetail');
+  };
+
+  const handleContentUploadNext = (cutData) => {
+    console.log('콘텐츠 업로드 완료:', cutData);
+    // 에디터로 이동
+    setActiveTab('edit');
+  };
+
   const renderMainContent = () => {
     switch (activeTab) {
       case 'home':
@@ -103,6 +119,7 @@ function App() {
             onBack={handleTemplateDetailBack}
             onTabChange={handleTabChange}
             onStoryPlanning={handleStoryPlanning}
+            onContentUpload={handleContentUpload}
           />
         );
       case 'storyPlanning':
@@ -111,6 +128,14 @@ function App() {
             template={selectedTemplate}
             onBack={handleStoryPlanningBack}
             onSave={handleStoryPlanningSave}
+          />
+        );
+      case 'contentUpload':
+        return (
+          <ContentUploadScreen
+            template={selectedTemplate}
+            onBack={handleContentUploadBack}
+            onNext={handleContentUploadNext}
           />
         );
       case 'edit':
@@ -148,7 +173,7 @@ function App() {
             <div className="mobile-content">
               {renderMainContent()}
             </div>
-            {activeTab !== 'templateDetail' && activeTab !== 'storyPlanning' && (
+            {activeTab !== 'templateDetail' && activeTab !== 'storyPlanning' && activeTab !== 'contentUpload' && (
               <BottomNavigation activeTab={activeTab} onTabChange={handleTabChange} />
             )}
           </>
