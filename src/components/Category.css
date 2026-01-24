@@ -40,9 +40,10 @@
 /* Purpose Grid (첫 번째 화면) */
 .purpose-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2, minmax(0, 160px));
   gap: 12px;
   margin-bottom: 30px;
+  justify-content: center;
 }
 
 .purpose-card {
@@ -56,6 +57,9 @@
   cursor: pointer;
   transition: all 0.2s ease;
   text-align: left;
+  max-width: 160px;
+  min-height: 100px;
+  box-sizing: border-box;
 }
 
 .purpose-card:hover {
@@ -92,9 +96,10 @@
 /* Topic Grid (두 번째 화면) */
 .topic-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2, minmax(0, 160px));
   gap: 12px;
   margin-bottom: 30px;
+  justify-content: center;
 }
 
 .topic-card {
@@ -108,6 +113,8 @@
   cursor: pointer;
   transition: all 0.2s ease;
   text-align: left;
+  max-width: 160px;
+  box-sizing: border-box;
 }
 
 .topic-card:hover {
@@ -143,6 +150,9 @@
   flex-direction: column;
   gap: 8px;
   margin-bottom: 30px;
+  max-width: 332px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .platform-item {
@@ -154,6 +164,7 @@
   background-color: #fff;
   cursor: pointer;
   transition: all 0.2s ease;
+  box-sizing: border-box;
 }
 
 .platform-item:hover {
@@ -191,6 +202,7 @@
 /* Next Button */
 .next-button {
   width: 100%;
+  max-width: 332px;
   padding: 16px;
   border: none;
   border-radius: 12px;
@@ -201,6 +213,8 @@
   cursor: not-allowed;
   transition: all 0.2s ease;
   margin-top: auto;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .next-button.active {
