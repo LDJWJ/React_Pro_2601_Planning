@@ -220,11 +220,11 @@
 }
 
 .next-button.active {
-  background-color: #1a1a1a;
-  color: #fff;
+  background-color: #FFFF00;
+  color: #000000;
   cursor: pointer;
 }
 
 .next-button.active:hover {
-  background-color: #333;
+  background-color: #E6E600;
 }

@@ -193,7 +193,7 @@
 .start-edit-button {
   flex: 1;
   padding: 16px 20px;
-  background-color: #ffffff;
+  background-color: #FFFF00;
   color: #000000;
   border: none;
   font-size: 16px;
@@ -204,11 +204,11 @@
 }
 
 .start-edit-button:hover {
-  background-color: #f0f0f0;
+  background-color: #E6E600;
 }
 
 .start-edit-button:active {
-  background-color: #e0e0e0;
+  background-color: #CCCC00;
 }
 
 /* 북마크 버튼 */
