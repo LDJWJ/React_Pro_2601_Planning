@@ -82,11 +82,31 @@
   opacity: 0.8;
 }
 
+/* 프로그레스 바 */
+.progress-bar-container {
+  display: flex;
+  gap: 4px;
+  padding: 16px 20px;
+  background: #fff;
+}
+
+.progress-segment {
+  flex: 1;
+  height: 4px;
+  background: #E5E5E5;
+  border-radius: 2px;
+  transition: background 0.2s;
+}
+
+.progress-segment.active {
+  background: #000000;
+}
+
 /* 메인 콘텐츠 */
 .content-upload-main {
   flex: 1;
   padding: 24px 20px;
-  padding-bottom: 140px;
+  padding-bottom: 40px;
   overflow-y: auto;
 }
 
@@ -247,27 +267,18 @@
 
 /* 하단 버튼 */
 .content-upload-footer {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
   display: flex;
   gap: 12px;
-  padding: 16px 20px;
-  background: #fff;
-  border-top: 1px solid #f0f0f0;
-  max-width: 430px;
-  margin: 0 auto;
-  box-sizing: border-box;
+  margin-top: 24px;
 }
 
 .prev-button {
   flex: 0 0 auto;
-  padding: 14px 20px;
+  padding: 14px 24px;
   background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  color: #666;
+  border: 1px solid #1a1a1a;
+  border-radius: 9999px;
+  color: #1a1a1a;
   font-size: 15px;
   font-weight: 500;
   cursor: pointer;
@@ -280,10 +291,10 @@
 
 .next-button {
   flex: 1;
-  padding: 14px 20px;
+  padding: 14px 24px;
   background: #1a1a1a;
   border: none;
-  border-radius: 8px;
+  border-radius: 9999px;
   color: #fff;
   font-size: 15px;
   font-weight: 600;
@@ -293,36 +304,6 @@
 
 .next-button:hover {
   background: #333;
-}
-
-/* 진행 상태 표시 */
-.progress-indicator {
-  position: fixed;
-  bottom: 80px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 8px;
-  padding: 8px 16px;
-  background: rgba(255, 255, 255, 0.95);
-  border-radius: 20px;
-}
-
-.progress-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: #ddd;
-  transition: all 0.2s;
-}
-
-.progress-dot.active {
-  background: #ff6b6b;
-  transform: scale(1.2);
-}
-
-.progress-dot.completed {
-  background: #4caf50;
 }
 
 /* 로딩 */
