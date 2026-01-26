@@ -199,7 +199,7 @@
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
-  border-radius: 30px;
+  border-radius: 8px;
   transition: background-color 0.3s ease;
 }
 
@@ -211,8 +211,8 @@
   background-color: #CCCC00;
 }
 
-/* 북마크 버튼 */
-.save-button {
+/* 기획 버튼 */
+.planning-button {
   width: 52px;
   height: 52px;
   min-width: 52px;
@@ -220,7 +220,7 @@
   background-color: #333;
   color: #ffffff;
   border: none;
-  border-radius: 12px;
+  border-radius: 8px;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -228,13 +228,16 @@
   transition: all 0.2s ease;
 }
 
-.save-button:hover {
+.planning-button:hover {
   background-color: #444;
 }
 
-.save-button.saved {
-  background-color: #ffffff;
-  color: #000000;
+/* 우측 시간 표시 텍스트 */
+.duration-text {
+  font-size: 14px;
+  font-weight: 600;
+  color: #ffffff;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
 }
 
 /* 반응형 */

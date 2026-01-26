@@ -4,7 +4,6 @@ import { logScreenView, logButtonClick } from '../utils/logger';
 
 function TemplateDetail({ template, onBack, onEditStart, onTabChange, onStoryPlanning, onContentUpload }) {
   const [isPlaying, setIsPlaying] = useState(false);
-  const [isLiked, setIsLiked] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
   const videoRef = useRef(null);
 
@@ -32,11 +31,6 @@ function TemplateDetail({ template, onBack, onEditStart, onTabChange, onStoryPla
     }
   };
 
-  const handleLikeToggle = () => {
-    setIsLiked(!isLiked);
-    logButtonClick('template_detail', 'like_toggle');
-  };
-
   const handleSaveToggle = () => {
     setIsSaved(!isSaved);
     logButtonClick('template_detail', 'save_toggle');
@@ -47,6 +41,18 @@ function TemplateDetail({ template, onBack, onEditStart, onTabChange, onStoryPla
     if (onStoryPlanning) {
       onStoryPlanning(template);
     }
+  };
+
+  const formatDuration = (duration) => {
+    let seconds = 0;
+    if (typeof duration === 'number') {
+      seconds = duration;
+    } else if (typeof duration === 'string') {
+      seconds = parseInt(duration.replace(/[^0-9]/g, ''), 10) || 0;
+    }
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
   };
 
   if (!template) {
@@ -106,10 +112,7 @@ function TemplateDetail({ template, onBack, onEditStart, onTabChange, onStoryPla
           {/* 우측 액션 버튼 - 오버레이 */}
           <div className="template-info-overlay">
             <div className="info-item">
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z" />
-              </svg>
-              <span>{template.duration}</span>
+              <span className="duration-text">{formatDuration(template.duration)}</span>
             </div>
             <div className="info-item">
               <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
@@ -123,17 +126,11 @@ function TemplateDetail({ template, onBack, onEditStart, onTabChange, onStoryPla
               </svg>
               <span>{template.users}명</span>
             </div>
-            <button className="info-item info-button" onClick={(e) => { e.stopPropagation(); handleLikeToggle(); }}>
-              <svg width="28" height="28" viewBox="0 0 24 24" fill={isLiked ? "#ff4444" : "none"} stroke={isLiked ? "#ff4444" : "currentColor"} strokeWidth="2">
-                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+            <button className="info-item info-button" onClick={(e) => { e.stopPropagation(); handleSaveToggle(); }}>
+              <svg width="28" height="28" viewBox="0 0 24 24" fill={isSaved ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2">
+                <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
               </svg>
               <span>1.2k</span>
-            </button>
-            <button className="info-item info-button" onClick={(e) => { e.stopPropagation(); handleStoryPlanningClick(); }}>
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
-              </svg>
-              <span>기획</span>
             </button>
           </div>
 
@@ -147,9 +144,9 @@ function TemplateDetail({ template, onBack, onEditStart, onTabChange, onStoryPla
               <button className="start-edit-button" onClick={handleStartEdit}>
                 편집 시작하기
               </button>
-              <button className={`save-button ${isSaved ? 'saved' : ''}`} onClick={handleSaveToggle}>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill={isSaved ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2">
-                  <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+              <button className="planning-button" onClick={handleStoryPlanningClick}>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
                 </svg>
               </button>
             </div>
