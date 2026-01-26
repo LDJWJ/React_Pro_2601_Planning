@@ -111,49 +111,16 @@
   transform: translate(-50%, -50%) scale(1.1);
 }
 
-/* 우측 액션 버튼 - 오버레이 (하단 배치) */
-.template-info-overlay {
-  position: absolute;
-  right: 16px;
-  bottom: 200px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  z-index: 15;
+/* 4번 - 북마크 */
+.info-button-bookmark {
+  background: none !important;
+  border-radius: 0 !important;
 }
 
-.template-info-overlay .info-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-  font-size: 12px;
-  color: #ffffff;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
-}
-
-.template-info-overlay .info-item svg {
-  width: 28px;
-  height: 28px;
-  color: #ffffff;
-  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.8));
-}
-
-.template-info-overlay .info-button {
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 8px;
-  border-radius: 50%;
-  transition: background-color 0.2s ease;
-}
-
-.template-info-overlay .info-button:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-}
-
-.template-info-overlay .info-button:active {
-  background-color: rgba(255, 255, 255, 0.2);
+/* 5번 - 메뉴 */
+.info-button-menu {
+  background: none !important;
+  border-radius: 0 !important;
 }
 
 /* 하단 오버레이 영역 */
@@ -172,7 +139,7 @@
 .template-hashtags-overlay {
   display: flex;
   gap: 12px;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
 }
 
 .template-hashtags-overlay .hashtag {
@@ -182,78 +149,108 @@
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
 }
 
-/* CTA 버튼 영역 */
-.cta-button-area {
+/* 하단 행: 좌측 컬럼(80%) + 아이콘 컬럼(20%) */
+.template-bottom-row {
   display: flex;
-  gap: 12px;
-  align-items: center;
+  align-items: flex-end;
+  gap: 0;
 }
 
-/* 편집 시작 버튼 */
+/* 좌측 컬럼: 해시태그 + 편집 버튼 */
+.template-left-column {
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+}
+
 .start-edit-button {
-  flex: 1;
-  padding: 16px 20px;
-  background-color: #FFFF00;
+  width: 100%;
+  padding: 14px 0;
+  background-color: #FAFF5E;
   color: #000000;
   border: none;
-  font-size: 16px;
+  border-radius: 8px;
+  font-size: 15px;
   font-weight: 600;
   cursor: pointer;
-  border-radius: 8px;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.2s ease;
 }
 
 .start-edit-button:hover {
-  background-color: #E6E600;
+  background-color: #E6EB4E;
 }
 
 .start-edit-button:active {
-  background-color: #CCCC00;
+  background-color: #D4D946;
 }
 
-/* 기획 버튼 */
-.planning-button {
-  width: 52px;
-  height: 52px;
-  min-width: 52px;
-  padding: 0;
-  background-color: #333;
-  color: #ffffff;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
+/* 우측 아이콘 컬럼 (20%) */
+.info-items-column {
+  width: 20%;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  transition: all 0.2s ease;
+  gap: 12px;
 }
 
-.planning-button:hover {
-  background-color: #444;
-}
-
-/* 우측 시간 표시 텍스트 */
-.duration-text {
-  font-size: 14px;
-  font-weight: 600;
+.info-items-column .info-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  font-size: 11px;
   color: #ffffff;
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
 }
 
+.info-items-column .info-item svg {
+  width: 22px;
+  height: 22px;
+  color: #ffffff;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.8));
+}
+
+.info-items-column .info-icon-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.2s ease;
+}
+
+.info-items-column .info-icon-btn:hover {
+  opacity: 0.85;
+}
+
+/* 아이콘 선택 시 노란색 */
+.info-items-column .info-item-active {
+  color: #FAFF5E !important;
+  text-shadow: none;
+}
+
+.info-items-column .info-item-active svg {
+  color: #FAFF5E !important;
+  fill: #FAFF5E;
+  filter: none;
+}
+
+.info-items-column .info-item-active span {
+  color: #FAFF5E;
+  text-shadow: none;
+}
+
 /* 반응형 */
 @media (max-width: 480px) {
-  .template-info-overlay {
-    right: 12px;
-    bottom: 180px;
-    gap: 16px;
+  .info-items-column {
+    gap: 10px;
   }
 
-  .template-info-overlay .info-item svg {
-    width: 24px;
-    height: 24px;
+  .info-items-column .info-item svg {
+    width: 20px;
+    height: 20px;
   }
 
-  .template-info-overlay .info-item {
-    font-size: 11px;
+  .info-items-column .info-item {
+    font-size: 10px;
   }
 }

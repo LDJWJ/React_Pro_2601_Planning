@@ -18,6 +18,14 @@ function App() {
   const [user, setUser] = useState(null);
   const [selectedVideoUrl, setSelectedVideoUrl] = useState(null);
   const [selectedTemplate, setSelectedTemplate] = useState(null);
+  const [savedMemos, setSavedMemos] = useState(() => {
+    try {
+      const stored = localStorage.getItem('storyPlanningMemos');
+      return stored ? JSON.parse(stored) : {};
+    } catch {
+      return {};
+    }
+  });
   const [selections, setSelections] = useState({
     purpose: null,
     topics: [],
@@ -81,8 +89,15 @@ function App() {
   };
 
   const handleStoryPlanningSave = (memos) => {
-    console.log('스토리 기획 저장:', memos);
-    // 저장 로직 추가 가능
+    if (!selectedTemplate?.id) return;
+    const templateId = String(selectedTemplate.id);
+    const updated = { ...savedMemos, [templateId]: memos };
+    setSavedMemos(updated);
+    try {
+      localStorage.setItem('storyPlanningMemos', JSON.stringify(updated));
+    } catch (e) {
+      console.warn('localStorage 저장 실패:', e);
+    }
   };
 
   const handleContentUpload = (template) => {
@@ -128,6 +143,7 @@ function App() {
             template={selectedTemplate}
             onBack={handleStoryPlanningBack}
             onSave={handleStoryPlanningSave}
+            initialMemos={savedMemos[String(selectedTemplate?.id)] || {}}
           />
         );
       case 'contentUpload':

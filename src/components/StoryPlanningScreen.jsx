@@ -12,10 +12,11 @@ const defaultCuts = [
   { id: 6, title: "테이블 무드", description: "소지품 + 커피 (줌 인)", time: "1초", startTime: 9 },
 ];
 
-function StoryPlanningScreen({ template, onBack, onSave }) {
-  const [memos, setMemos] = useState({});
+function StoryPlanningScreen({ template, onBack, onSave, initialMemos }) {
+  const [memos, setMemos] = useState(initialMemos || {});
   const [isPlaying, setIsPlaying] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [activeCutId, setActiveCutId] = useState(null);
   const videoRef = useRef(null);
 
   const cuts = template?.cuts ?
@@ -39,6 +40,15 @@ function StoryPlanningScreen({ template, onBack, onSave }) {
         videoRef.current.play();
       }
       setIsPlaying(!isPlaying);
+    }
+  };
+
+  const handleCutSelect = (cut) => {
+    setActiveCutId(cut.id);
+    if (videoRef.current && template?.videoUrl) {
+      videoRef.current.currentTime = cut.startTime;
+      videoRef.current.pause();
+      setIsPlaying(false);
     }
   };
 
@@ -86,9 +96,12 @@ function StoryPlanningScreen({ template, onBack, onSave }) {
       <div className="story-scroll-content">
         {/* 상단 영역: 검정 배경 */}
         <div className="story-preview-section">
-          <button className="story-back-button" onClick={handleBack}>
-            ←
-          </button>
+          <div className="story-header-bar">
+            <button className="story-back-button" onClick={handleBack}>
+              ‹
+            </button>
+            <span className="story-header-title">기획노트</span>
+          </div>
           <div className="story-video-wrapper">
             <div className="story-video-container" onClick={handlePlayPause}>
               {template?.videoUrl ? (
@@ -119,21 +132,21 @@ function StoryPlanningScreen({ template, onBack, onSave }) {
               {!isPlaying && (
                 <div className="story-play-overlay">▶</div>
               )}
-              <div className="story-video-info">
-                <span className="info-badge">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
-                  </svg>
-                  00:10
-                </span>
-                <span className="info-badge">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14z"/>
-                  </svg>
-                  {cuts.length}컷
-                </span>
-              </div>
             </div>
+          </div>
+          <div className="story-video-info-vertical">
+            <span className="info-line">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
+              </svg>
+              00:10
+            </span>
+            <span className="info-line">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M18 4l2 4h-3l-2-4h-2l2 4h-3l-2-4H8l2 4H7L5 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4h-4z"/>
+              </svg>
+              {cuts.length}컷
+            </span>
           </div>
         </div>
 
@@ -144,7 +157,7 @@ function StoryPlanningScreen({ template, onBack, onSave }) {
             {progressWidths.map((width, index) => (
               <div
                 key={index}
-                className={`progress-segment ${index < activeCount ? 'active' : ''}`}
+                className={`sp-progress-segment ${index < activeCount ? 'active' : ''}`}
                 style={{ flex: width }}
               />
             ))}
@@ -157,23 +170,27 @@ function StoryPlanningScreen({ template, onBack, onSave }) {
           </div>
 
           {/* 컷 리스트 */}
-          <div className="cut-list-container">
+          <div className="sp-cut-list-container">
             {cuts.map((cut, index) => (
-              <div key={cut.id} className="cut-item">
-                <div className="cut-number">{index + 1}</div>
-                <div className="cut-content">
-                  <div className="cut-header">
-                    <span className="cut-title">{cut.title}</span>
-                    <span className="cut-time">{cut.time}</span>
+              <div
+                key={cut.id}
+                className={`sp-cut-item ${activeCutId === cut.id ? 'sp-cut-item-active' : ''}`}
+                onClick={() => handleCutSelect(cut)}
+              >
+                <div className="sp-cut-number">{index + 1}</div>
+                <div className="sp-cut-content">
+                  <div className="sp-cut-header">
+                    <span className="sp-cut-title">{cut.title}</span>
+                    <span className="sp-cut-time-badge">{cut.time}</span>
                   </div>
-                  <p className="cut-description">{cut.description}</p>
-                  {/* 모든 씬에 메모 입력 필드 표시 */}
+                  <p className="sp-cut-description">{cut.description}</p>
                   <input
                     type="text"
-                    className="cut-memo-input"
+                    className="sp-cut-memo-input"
                     placeholder="메모를 입력하세요"
                     value={memos[cut.id] || ''}
                     onChange={(e) => handleMemoChange(cut.id, e.target.value)}
+                    onFocus={() => handleCutSelect(cut)}
                   />
                 </div>
               </div>
