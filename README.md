@@ -181,6 +181,74 @@ npm run preview
 
 ## 버전 히스토리
 
+### v1.14.1 (2026-01-26)
+**온보딩 화면 모바일 뷰포트 대응 수정**
+- `.category-container`의 고정 높이(`min-height: 852px`, `max-height: 852px`) 제거
+- 모바일 실제 뷰포트에 맞춰 유동적으로 높이 조절되도록 변경
+- 모바일에서 "다음" 버튼이 화면 밖으로 밀려나는 문제 해결
+
+**알려진 이슈 (분석 완료)**
+- 스토리 기획 프로그레스 바: `progressWidths`가 6개로 하드코딩되어 있어 `template.cuts`가 5일 때 마지막 세그먼트가 활성화되지 않는 문제 확인
+
+| 파일 | 변경 내용 |
+|------|----------|
+| `src/components/Category.css` | `min-height: 852px`, `max-height: 852px` 제거 |
+
+---
+
+### v1.14.0 (2026-01-26)
+**스토리 기획 화면 리디자인 및 템플릿 상세 개선**
+- 스토리 기획 화면 전면 리디자인 (레이아웃, 스타일 개편)
+- 템플릿 상세 화면 UI 개선 (레이아웃, 스타일 개편)
+- App.jsx 화면 전환 로직 보강
+- 디자인 참고 이미지 추가 (스토리기획 1~6, 템플릿화면 1~4)
+
+| 파일 | 변경 내용 |
+|------|----------|
+| `src/components/StoryPlanningScreen.jsx` | 화면 구조 및 UI 리디자인 |
+| `src/components/StoryPlanningScreen.css` | 전체 스타일 개편 |
+| `src/components/TemplateDetail.jsx` | 화면 구조 및 UI 개선 |
+| `src/components/TemplateDetail.css` | 전체 스타일 개편 |
+| `src/App.jsx` | 화면 전환 로직 보강 |
+
+---
+
+### v1.13.0 (2026-01-26)
+**템플릿 상세 화면 개선**
+- TemplateDetail 화면 CSS 및 레이아웃 조정
+- 스토리보드 이미지 추가
+
+| 파일 | 변경 내용 |
+|------|----------|
+| `src/components/TemplateDetail.jsx` | 레이아웃 조정 |
+| `src/components/TemplateDetail.css` | 스타일 개선 |
+
+---
+
+### v1.12.0 (2026-01-25)
+**홈 화면 리디자인 및 전체 디자인 시스템 적용**
+- 홈 화면 전면 리디자인 (Home.jsx, Home.css 대규모 변경)
+- 하단 네비게이션 리디자인
+- 카테고리 온보딩 CSS 전면 개편 (다크 테마 강화, 카드/버튼 스타일 개선)
+- 검색 카테고리 UI 개선
+- 환경변수 파일(`.env`, `.env.example`) 추가
+
+| 파일 | 변경 내용 |
+|------|----------|
+| `src/components/Home.jsx` | 홈 화면 전면 리디자인 |
+| `src/components/Home.css` | 홈 스타일 전면 개편 |
+| `src/components/BottomNavigation.jsx` | 네비게이션 리디자인 |
+| `src/components/BottomNavigation.css` | 네비게이션 스타일 개선 |
+| `src/components/Category.css` | 온보딩 카드/버튼 스타일 전면 개편 |
+| `src/components/CategoryPurpose.jsx` | 로깅 추가 |
+| `src/components/CategoryTopic.jsx` | 로깅 추가 |
+| `src/components/CategoryPlatform.jsx` | 체크 표시 제거, 로깅 추가 |
+| `src/components/SearchCategory.css` | 검색 UI 개선 |
+| `src/App.jsx` | 화면 전환 로직 개선 |
+| `src/App.css` | 모바일 프레임 스타일 조정 |
+
+---
+
 ### v1.11.0 (2026-01-25)
 **온보딩 카드 선택 효과 개선**
 - 선택된 카드에 노란색(#FAFF5E) 투명 배경 오버레이 추가 (15% 투명도)
@@ -387,4 +455,4 @@ npm run preview
 
 ---
 
-*Last updated: 2026-01-25*
+*Last updated: 2026-01-26*

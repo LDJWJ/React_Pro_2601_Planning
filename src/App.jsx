@@ -152,6 +152,7 @@ function App() {
             template={selectedTemplate}
             onBack={handleContentUploadBack}
             onNext={handleContentUploadNext}
+            savedMemos={savedMemos[String(selectedTemplate?.id)] || {}}
           />
         );
       case 'editor':
