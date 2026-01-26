@@ -9,7 +9,11 @@
       "Bash(xargs kill:*)",
       "Bash(fuser:*)",
       "Bash(curl:*)",
-      "Bash(git checkout:*)"
+      "Bash(git checkout:*)",
+      "Bash(ls:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git config:*)"
     ]
   }
 }

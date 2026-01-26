@@ -1,13 +1,15 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import './ContentUploadScreen.css';
 import { logScreenView, logButtonClick } from '../utils/logger';
 
-function ContentUploadScreen({ template, onBack, onNext }) {
+function ContentUploadScreen({ template, onBack, onNext, savedMemos }) {
   const [currentCutIndex, setCurrentCutIndex] = useState(0);
   const [cutData, setCutData] = useState([]);
   const [aiSuggestions, setAiSuggestions] = useState([]);
   const [isLoadingAI, setIsLoadingAI] = useState(false);
   const [selectedSuggestionIndex, setSelectedSuggestionIndex] = useState(null);
+  const [thumbnails, setThumbnails] = useState({});
+  const fileInputRef = useRef(null);
 
   // 템플릿의 컷 데이터 초기화
   useEffect(() => {
@@ -19,9 +21,9 @@ function ContentUploadScreen({ template, onBack, onNext }) {
         videoFile: null,
         videoPreview: null,
         subtitle: '',
+        memo: savedMemos?.[cut.id] || cut.memo || '',
       })));
     } else {
-      // 기본 컷 데이터 (템플릿에 cutDetails가 없는 경우)
       const defaultCuts = [
         { id: 1, title: '착석 후 첫 컷', duration: '2초', description: '인물 + 커피 마시기 (상반신)', memo: '' },
         { id: 2, title: '테이블 무드', duration: '2초', description: '소지품 + 커피 (줌 인)', memo: '' },
@@ -35,6 +37,7 @@ function ContentUploadScreen({ template, onBack, onNext }) {
         videoFile: null,
         videoPreview: null,
         subtitle: '',
+        memo: savedMemos?.[cut.id] || cut.memo || '',
       })));
     }
   }, [template]);
@@ -42,16 +45,56 @@ function ContentUploadScreen({ template, onBack, onNext }) {
   const currentCut = cutData[currentCutIndex];
   const totalCuts = cutData.length;
 
-  const handleVideoUpload = (e) => {
+  // 영상에서 썸네일 프레임 추출
+  const generateThumbnail = (videoUrl, cutIndex) => {
+    const video = document.createElement('video');
+    video.src = videoUrl;
+    video.crossOrigin = 'anonymous';
+    video.muted = true;
+
+    video.addEventListener('loadeddata', () => {
+      video.currentTime = 0.5;
+    });
+
+    video.addEventListener('seeked', () => {
+      const canvas = document.createElement('canvas');
+      canvas.width = 120;
+      canvas.height = 80;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      const thumbnailUrl = canvas.toDataURL('image/jpeg', 0.7);
+      setThumbnails(prev => ({ ...prev, [cutIndex]: thumbnailUrl }));
+    });
+  };
+
+  // "2초" → "2s" 변환
+  const parseDuration = (durationStr) => {
+    if (!durationStr) return '';
+    const match = durationStr.match(/(\d+)/);
+    return match ? `${match[1]}s` : durationStr;
+  };
+
+  // 타임라인 클릭 시 컷 전환
+  const handleTimelineCutSelect = (index) => {
+    logButtonClick('content_upload', 'timeline_cut_select');
+    setAiSuggestions([]);
+    setSelectedSuggestionIndex(null);
+    setCurrentCutIndex(index);
+  };
+
+  // 영상 업로드 (선택적 targetIndex)
+  const handleVideoUpload = (e, targetIndex) => {
     const file = e.target.files[0];
     if (file) {
       logButtonClick('content_upload', 'video_upload');
       const videoUrl = URL.createObjectURL(file);
+      const idx = targetIndex !== undefined ? targetIndex : currentCutIndex;
       setCutData(prev => prev.map((cut, index) =>
-        index === currentCutIndex
+        index === idx
           ? { ...cut, videoFile: file, videoPreview: videoUrl }
           : cut
       ));
+      generateThumbnail(videoUrl, idx);
     }
   };
 
@@ -89,7 +132,6 @@ function ContentUploadScreen({ template, onBack, onNext }) {
       setAiSuggestions(data.subtitles || []);
     } catch (error) {
       console.error('AI 자막 생성 오류:', error);
-      // 오류 시 기본 자막 제공
       setAiSuggestions([
         '지금 바로 확인해보세요!',
         '이 순간을 놓치지 마세요!',
@@ -109,31 +151,30 @@ function ContentUploadScreen({ template, onBack, onNext }) {
     ));
   };
 
-  const handlePrevStep = () => {
-    logButtonClick('content_upload', 'prev_step');
-    // 컷 이동 시 AI 추천 초기화
-    setAiSuggestions([]);
-    setSelectedSuggestionIndex(null);
-
-    if (currentCutIndex > 0) {
-      setCurrentCutIndex(currentCutIndex - 1);
-    } else {
-      onBack();
-    }
+  // "완성하기" → 에디터로 이동
+  const handleComplete = () => {
+    logButtonClick('content_upload', 'complete');
+    onNext(cutData);
   };
 
-  const handleNextStep = () => {
-    logButtonClick('content_upload', 'next_step');
-    // 컷 이동 시 AI 추천 초기화
-    setAiSuggestions([]);
-    setSelectedSuggestionIndex(null);
-
-    if (currentCutIndex < totalCuts - 1) {
-      setCurrentCutIndex(currentCutIndex + 1);
-    } else {
-      // 모든 컷 완료, 에디터로 이동
-      onNext(cutData);
-    }
+  // "저장하기" → localStorage 저장
+  const handleSaveProgress = () => {
+    logButtonClick('content_upload', 'save_progress');
+    const saveData = {
+      templateId: template?.id || 'default',
+      cutData: cutData.map(cut => ({
+        id: cut.id,
+        title: cut.title,
+        description: cut.description,
+        duration: cut.duration,
+        memo: cut.memo,
+        subtitle: cut.subtitle,
+      })),
+      currentCutIndex,
+      savedAt: new Date().toISOString(),
+    };
+    localStorage.setItem('hookhook_progress', JSON.stringify(saveData));
+    alert('진행 상황이 저장되었습니다.');
   };
 
   if (!currentCut) {
@@ -158,10 +199,8 @@ function ContentUploadScreen({ template, onBack, onNext }) {
         <div className="preview-thumbnail">
           {currentCut.videoPreview ? (
             <video src={currentCut.videoPreview} className="preview-video" />
-          ) : template?.thumbnail ? (
-            <img src={template.thumbnail} alt="템플릿" className="preview-image" />
           ) : (
-            <div className="preview-placeholder"></div>
+            <div className="preview-placeholder">영상을 추가해주세요</div>
           )}
         </div>
         <div className="preview-info">
@@ -180,79 +219,98 @@ function ContentUploadScreen({ template, onBack, onNext }) {
         </div>
       </div>
 
-      {/* 프로그레스 바 */}
-      <div className="progress-bar-container">
-        {Array.from({ length: totalCuts }, (_, index) => (
-          <div
-            key={index}
-            className={`progress-segment ${index <= currentCutIndex ? 'active' : ''}`}
+      {/* 썸네일 타임라인 */}
+      <div className="thumbnail-timeline-container">
+        <div className="thumbnail-timeline-scroll">
+          {cutData.map((cut, index) => (
+            <button
+              key={cut.id}
+              className={`timeline-thumbnail ${index === currentCutIndex ? 'active' : ''}`}
+              onClick={() => handleTimelineCutSelect(index)}
+            >
+              {thumbnails[index] ? (
+                <img src={thumbnails[index]} alt={`컷 ${index + 1}`} />
+              ) : (
+                <span className="timeline-thumbnail-number">{index + 1}</span>
+              )}
+            </button>
+          ))}
+
+          {/* + 버튼 */}
+          <button
+            className="timeline-add-button"
+            onClick={() => fileInputRef.current?.click()}
+          >
+            +
+          </button>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="video/*"
+            onChange={(e) => handleVideoUpload(e, currentCutIndex)}
+            style={{ display: 'none' }}
           />
-        ))}
+
+          {/* 구분선 */}
+          <div className="timeline-divider" />
+
+          {/* duration 칩들 */}
+          {cutData.map((cut, index) => (
+            <button
+              key={`dur-${cut.id}`}
+              className={`timeline-duration-chip ${index === currentCutIndex ? 'active' : ''}`}
+              onClick={() => handleTimelineCutSelect(index)}
+            >
+              {parseDuration(cut.duration)}
+            </button>
+          ))}
+        </div>
+        <div className="timeline-accent-line" />
       </div>
 
       {/* 메인 콘텐츠 영역 */}
       <div className="content-upload-main">
-        <div className="content-upload-title">
-          <h2>콘텐츠를 업로드하세요</h2>
-          <p>요소를 채우면 템플릿에 반영됩니다</p>
-        </div>
-
-        {/* 컷 정보 */}
-        <div className="cut-info-card">
-          <div className="cut-header">
-            <div className="cut-number">{currentCutIndex + 1}</div>
-            <div className="cut-details">
-              <span className="cut-title">{currentCut.title}</span>
-              <span className="cut-description">{currentCut.description}</span>
-            </div>
-            <span className="cut-duration">{currentCut.duration}</span>
+        {/* 콘텐츠 기획 섹션 */}
+        <div className="content-planning-section">
+          <div className="content-planning-header">
+            <span className="content-planning-label">콘텐츠 기획 📋 {currentCutIndex + 1}</span>
+            <span className="content-planning-duration">{currentCut.duration}</span>
           </div>
-
-          {currentCut.memo && (
-            <div className="cut-memo">
-              {currentCut.memo}
-            </div>
-          )}
+          <div className="content-planning-card">
+            <div className="planning-card-title">{currentCutIndex + 1}번째 영상 포인트</div>
+            <div className="planning-card-description">{currentCut.description}</div>
+            {currentCut.memo && (
+              <div className="planning-card-memo">{currentCut.memo}</div>
+            )}
+          </div>
         </div>
 
-        {/* 영상 추가하기 */}
-        <div className="upload-section">
-          <h3>영상 추가하기</h3>
-          <label className="upload-button">
-            <input
-              type="file"
-              accept="video/*"
-              onChange={handleVideoUpload}
-              style={{ display: 'none' }}
-            />
-            {currentCut.videoPreview ? '영상 변경하기' : '영상 추가하기'}
-          </label>
-        </div>
-
-        {/* 자막 */}
-        <div className="subtitle-section">
-          <h3>자막</h3>
+        {/* 자막 섹션 (리디자인) */}
+        <div className="subtitle-section-redesign">
+          <div className="subtitle-header-row">
+            <span className="subtitle-label">자막</span>
+            <button
+              className={`ai-subtitle-chip ${isLoadingAI ? 'loading' : ''}`}
+              onClick={handleAISubtitle}
+              disabled={isLoadingAI}
+            >
+              {isLoadingAI ? (
+                <>
+                  <span className="spinner"></span>
+                  생성 중...
+                </>
+              ) : (
+                'AI 자막 추천'
+              )}
+            </button>
+          </div>
           <input
             type="text"
-            className="subtitle-input"
+            className="subtitle-input-redesign"
             placeholder="자막을 입력하세요"
             value={currentCut.subtitle || ''}
             onChange={handleSubtitleChange}
           />
-          <button
-            className={`ai-subtitle-button ${isLoadingAI ? 'loading' : ''}`}
-            onClick={handleAISubtitle}
-            disabled={isLoadingAI}
-          >
-            {isLoadingAI ? (
-              <>
-                <span className="spinner"></span>
-                생성 중...
-              </>
-            ) : (
-              'AI 추천자막'
-            )}
-          </button>
 
           {/* AI 추천 자막 Chips */}
           {aiSuggestions.length > 0 && (
@@ -271,12 +329,12 @@ function ContentUploadScreen({ template, onBack, onNext }) {
         </div>
 
         {/* 하단 버튼 */}
-        <div className="content-upload-footer">
-          <button className="prev-button" onClick={handlePrevStep}>
-            이전 단계
+        <div className="content-upload-footer-redesign">
+          <button className="complete-button" onClick={handleComplete}>
+            완성하기
           </button>
-          <button className="next-button" onClick={handleNextStep}>
-            {currentCutIndex < totalCuts - 1 ? '다음' : '완료'}
+          <button className="save-progress-button" onClick={handleSaveProgress}>
+            저장하기
           </button>
         </div>
       </div>
