@@ -13,7 +13,10 @@
       "Bash(ls:*)",
       "Bash(git add:*)",
       "Bash(git commit:*)",
-      "Bash(git config:*)"
+      "Bash(git config:*)",
+      "Bash(npm run lint:*)",
+      "Bash(git status:*)",
+      "Bash(git push:*)"
     ]
   }
 }
