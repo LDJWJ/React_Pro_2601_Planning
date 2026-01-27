@@ -208,6 +208,8 @@ function StoryEdit({ template, onBack, onComplete, savedMemos, user }) {
         body: JSON.stringify({
           cutTitle: currentCut?.point || '',
           cutDescription: currentCut?.description || '',
+          templateTitle: template?.title || '',
+          templateCategory: template?.category || '',
         }),
       });
 
