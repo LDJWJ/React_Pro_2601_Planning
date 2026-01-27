@@ -261,6 +261,30 @@ VideoEditor → convertToTimeline(cuts)
 
 ## 버전 히스토리
 
+### v1.20.0 (2026-01-27)
+**로그 한글 라벨 자동 생성 + 편집/내보내기 화면 로그 추가**
+
+logger.js에 화면·이벤트·대상 매핑 테이블 및 `generateLabel()` 함수를 추가하여 모든 로그에 한글 라벨(`label`)이 자동 생성되도록 개선. 편집기·내보내기 미리보기 화면에 사용자 행동 로그를 추가.
+
+주요 변경:
+- **logger.js** — `SCREEN_LABELS`(12화면), `EVENT_LABELS`(5종), `TARGET_LABELS`(40+대상) 매핑 테이블 추가
+- **logger.js** — `generateLabel(screen, event, target)` 함수: 화면+이벤트+대상 조합으로 한글 라벨 자동 생성 (예: `'내보내기 버튼 클릭'`)
+- **logger.js** — `sendLog()` payload에 `label` 필드 자동 포함, `userAgent` → `browser` 필드명 수정
+- **VideoEditor.jsx** — 11개 로그 추가 (screen_view, back, undo, redo, export, video_play/pause, timeline_seek, timeline_scroll, nav_tab_change)
+- **Timeline.jsx** — `onScroll` prop 추가 (타임라인 스크롤 로그 전달)
+- **ExportPreview.jsx** — 10개 로그 추가 (screen_view, back, video_play/pause, open/close_settings, setting_change, export_start, export_complete, go_home)
+- **Google Apps Script** — `data.label` 컬럼("행동") 추가, `data.browser` 필드 대응
+
+| 작업 | 파일 | 변경 내용 |
+|------|------|----------|
+| 수정 | `src/utils/logger.js` | 매핑 테이블 + generateLabel + label 필드 + browser 필드명 |
+| 수정 | `src/components/VideoEditor/VideoEditor.jsx` | 11개 로그 핸들러 추가, 타임라인 스크롤 디바운스 |
+| 수정 | `src/components/VideoEditor/Timeline.jsx` | onScroll prop 추가 |
+| 수정 | `src/components/ExportPreview/ExportPreview.jsx` | 10개 로그 핸들러 추가 |
+| 수정 | `src/components/StoryEdit/SubtitleSection.css` | AI 버튼 레이아웃 안정화 (flex-shrink, white-space) |
+
+---
+
 ### v1.19.0 (2026-01-27)
 **콘텐츠 기획 화면 로그 추가 — 사용자 행동 분석 강화**
 
@@ -667,4 +691,4 @@ StoryEdit에서 업로드한 영상 파일(Blob)과 편집 상태를 IndexedDB�
 
 ---
 
-*Last updated: 2026-01-27 (v1.19.0)*
+*Last updated: 2026-01-27 (v1.20.0)*
