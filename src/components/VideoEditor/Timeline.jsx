@@ -18,7 +18,7 @@ function formatRulerTime(seconds) {
   return `${secs}s`;
 }
 
-function Timeline({ currentTime, totalDuration, tracks, onSeek }) {
+function Timeline({ currentTime, totalDuration, tracks, onSeek, onScroll }) {
   const scrollRef = useRef(null);
   const pps = PIXELS_PER_SECOND;
   const timelineWidth = totalDuration * pps;
@@ -55,7 +55,7 @@ function Timeline({ currentTime, totalDuration, tracks, onSeek }) {
 
   return (
     <div className="ve-timeline">
-      <div className="ve-timeline-scroll" ref={scrollRef}>
+      <div className="ve-timeline-scroll" ref={scrollRef} onScroll={onScroll}>
         <div
           className="ve-timeline-inner"
           style={{ width: `${timelineWidth + 50}px` }}

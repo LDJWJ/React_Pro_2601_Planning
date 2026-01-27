@@ -4,6 +4,7 @@ import VideoPreview from './VideoPreview';
 import Timeline from './Timeline';
 import EditorNavBar from './EditorNavBar';
 import ExportPreview from '../ExportPreview/ExportPreview';
+import { logScreenView, logButtonClick } from '../../utils/logger';
 import './VideoEditor.css';
 
 function parseDuration(durationStr) {
@@ -59,6 +60,12 @@ function VideoEditor({ cuts, onBack }) {
 
   const videoRef = useRef(null);
   const playIntervalRef = useRef(null);
+  const timelineScrollTimerRef = useRef(null);
+
+  // 화면 진입 로그
+  useEffect(() => {
+    logScreenView('video_editor');
+  }, []);
 
   // Convert cuts to timeline data (derived state)
   const timelineData = useMemo(() => {
@@ -144,10 +151,12 @@ function VideoEditor({ cuts, onBack }) {
     if (currentTime >= totalDuration) {
       setCurrentTime(0);
     }
+    logButtonClick('video_editor', isPlaying ? 'video_pause' : 'video_play');
     setIsPlaying((prev) => !prev);
   };
 
   const handleSeek = (time) => {
+    logButtonClick('video_editor', 'timeline_seek', `${time.toFixed(1)}s`);
     setCurrentTime(time);
     if (videoRef.current && !isPlaying) {
       const clip = tracks.video.find(
@@ -163,7 +172,21 @@ function VideoEditor({ cuts, onBack }) {
     }
   };
 
+  const handleBack = () => {
+    logButtonClick('video_editor', 'back');
+    onBack();
+  };
+
+  const handleUndo = () => {
+    logButtonClick('video_editor', 'undo');
+  };
+
+  const handleRedo = () => {
+    logButtonClick('video_editor', 'redo');
+  };
+
   const handleExport = () => {
+    logButtonClick('video_editor', 'export');
     setShowExportPreview(true);
   };
 
@@ -174,6 +197,24 @@ function VideoEditor({ cuts, onBack }) {
   const handleExportGoHome = () => {
     onBack();
   };
+
+  const handleNavTabChange = (tabId) => {
+    logButtonClick('video_editor', 'nav_tab_change', tabId);
+    setActiveNavTab(tabId);
+  };
+
+  // 타임라인 가로 스크롤 로그 (디바운스 500ms)
+  const handleTimelineScroll = useCallback((e) => {
+    const el = e.target;
+    if (timelineScrollTimerRef.current) clearTimeout(timelineScrollTimerRef.current);
+    timelineScrollTimerRef.current = setTimeout(() => {
+      const maxScroll = el.scrollWidth - el.clientWidth;
+      if (maxScroll > 0) {
+        const percent = Math.round((el.scrollLeft / maxScroll) * 100);
+        logButtonClick('video_editor', 'timeline_scroll', `${percent}%`);
+      }
+    }, 500);
+  }, []);
 
   return (
     <div className="ve-container">
@@ -186,9 +227,9 @@ function VideoEditor({ cuts, onBack }) {
       )}
 
       <EditorHeader
-        onBack={onBack}
-        onUndo={() => {}}
-        onRedo={() => {}}
+        onBack={handleBack}
+        onUndo={handleUndo}
+        onRedo={handleRedo}
         canUndo={false}
         canRedo={false}
         onExport={handleExport}
@@ -213,13 +254,14 @@ function VideoEditor({ cuts, onBack }) {
           totalDuration={totalDuration}
           tracks={tracks}
           onSeek={handleSeek}
+          onScroll={handleTimelineScroll}
         />
       </div>
 
       <div className="ve-nav-area">
         <EditorNavBar
           activeTab={activeNavTab}
-          onTabChange={setActiveNavTab}
+          onTabChange={handleNavTabChange}
         />
       </div>
     </div>

@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect, useCallback, useMemo } from 'react';
 import logoImg from '../../assets/logo.png';
+import { logScreenView, logButtonClick } from '../../utils/logger';
 import './ExportPreview.css';
 
 function parseDuration(durationStr) {
@@ -22,6 +23,10 @@ function ExportPreview({ cuts, onBack, onGoHome }) {
 
   const videoRef = useRef(null);
   const playIntervalRef = useRef(null);
+
+  useEffect(() => {
+    logScreenView('export_preview');
+  }, []);
 
   const videoClips = useMemo(() => {
     if (!cuts || cuts.length === 0) return [];
@@ -126,17 +131,19 @@ function ExportPreview({ cuts, onBack, onGoHome }) {
     if (currentTime >= totalDuration) {
       setCurrentTime(0);
     }
+    logButtonClick('export_preview', isPlaying ? 'video_pause' : 'video_play');
     setIsPlaying((prev) => !prev);
-  }, [currentTime, totalDuration]);
+  }, [currentTime, totalDuration, isPlaying]);
 
   const handleSettingChange = (key, value) => {
+    logButtonClick('export_preview', 'setting_change', `${key}: ${value}`);
     setSettings((prev) => ({ ...prev, [key]: value }));
   };
 
   // Open bottom sheet with animation
   const openSheet = () => {
+    logButtonClick('export_preview', 'open_settings');
     setStep('settings');
-    // Trigger animation after mount
     requestAnimationFrame(() => {
       requestAnimationFrame(() => setShowSheet(true));
     });
@@ -144,17 +151,31 @@ function ExportPreview({ cuts, onBack, onGoHome }) {
 
   // Close bottom sheet with animation
   const closeSheet = () => {
+    logButtonClick('export_preview', 'close_settings');
     setShowSheet(false);
     setTimeout(() => setStep('review'), 300);
   };
 
   // Export → loading spinner (2s) → complete
   const handleExportStart = () => {
+    const settingsValue = `${settings.platform}, ${settings.resolution}, ${settings.format}, ${settings.quality}`;
+    logButtonClick('export_preview', 'export_start', settingsValue);
     setShowSheet(false);
     setStep('loading');
     setTimeout(() => {
+      logButtonClick('export_preview', 'export_complete');
       setStep('complete');
     }, 2000);
+  };
+
+  const handleBack = () => {
+    logButtonClick('export_preview', 'back');
+    onBack();
+  };
+
+  const handleGoHome = () => {
+    logButtonClick('export_preview', 'go_home');
+    onGoHome();
   };
 
   const firstThumbnail = cuts?.[0]?.thumbnail || cuts?.[0]?.videoUrl || null;
@@ -186,7 +207,7 @@ function ExportPreview({ cuts, onBack, onGoHome }) {
               <p className="ep-complete-subtitle">갤러리 화면을 확인해주세요!</p>
             </div>
             <div className="ep-bottom-bar">
-              <button className="ep-outline-btn" onClick={onGoHome}>
+              <button className="ep-outline-btn" onClick={handleGoHome}>
                 홈으로 이동하기
               </button>
             </div>
@@ -202,7 +223,7 @@ function ExportPreview({ cuts, onBack, onGoHome }) {
       <div className="ep-mobile-frame">
         {/* Header */}
         <div className="ep-header">
-          <button className="ep-header-back" onClick={onBack}>
+          <button className="ep-header-back" onClick={handleBack}>
             &#8592;
           </button>
           <span className="ep-header-title">최종 검토 및 내보내기</span>

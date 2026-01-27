@@ -28,6 +28,8 @@
   display: flex;
   align-items: center;
   gap: 6px;
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 
 .se-ai-btn:hover {
@@ -72,6 +74,8 @@
   border-top-color: #fff;
   border-radius: 50%;
   animation: se-spin 0.8s linear infinite;
+  flex-shrink: 0;
+  box-sizing: border-box;
 }
 
 @keyframes se-spin {
