@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import './TemplateDetail.css';
 import { logScreenView, logButtonClick } from '../utils/logger';
 
-function TemplateDetail({ template, onBack, onEditStart, onTabChange, onStoryPlanning, onContentUpload }) {
+function TemplateDetail({ template, onBack, onTabChange, onStoryPlanning, onStoryEdit, onContentUpload }) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
   const [activeIcon, setActiveIcon] = useState(null);
@@ -25,8 +25,8 @@ function TemplateDetail({ template, onBack, onEditStart, onTabChange, onStoryPla
 
   const handleStartEdit = () => {
     logButtonClick('template_detail', 'start_edit_button');
-    if (onContentUpload) {
-      onContentUpload(template);
+    if (onStoryEdit) {
+      onStoryEdit(template);
     } else if (template?.videoUrl && onTabChange) {
       onTabChange('editor', { videoUrl: template.videoUrl });
     }

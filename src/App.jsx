@@ -9,6 +9,7 @@ import SearchCategory from './components/SearchCategory';
 import TemplateDetail from './components/TemplateDetail';
 import StoryPlanningScreen from './components/StoryPlanningScreen';
 import ContentUploadScreen from './components/ContentUploadScreen';
+import StoryEdit from './components/StoryEdit/StoryEdit';
 import BottomNavigation from './components/BottomNavigation';
 import Editor from './components/Editor';
 
@@ -115,6 +116,20 @@ function App() {
     setActiveTab('editor');
   };
 
+  const handleStoryEdit = (template) => {
+    setSelectedTemplate(template);
+    setActiveTab('storyEdit');
+  };
+
+  const handleStoryEditBack = () => {
+    setActiveTab('templateDetail');
+  };
+
+  const handleStoryEditComplete = (cuts) => {
+    console.log('스토리 편집 완료:', cuts);
+    setActiveTab('editor');
+  };
+
   const renderMainContent = () => {
     switch (activeTab) {
       case 'home':
@@ -134,6 +149,7 @@ function App() {
             onBack={handleTemplateDetailBack}
             onTabChange={handleTabChange}
             onStoryPlanning={handleStoryPlanning}
+            onStoryEdit={handleStoryEdit}
             onContentUpload={handleContentUpload}
           />
         );
@@ -144,6 +160,16 @@ function App() {
             onBack={handleStoryPlanningBack}
             onSave={handleStoryPlanningSave}
             initialMemos={savedMemos[String(selectedTemplate?.id)] || {}}
+          />
+        );
+      case 'storyEdit':
+        return (
+          <StoryEdit
+            template={selectedTemplate}
+            onBack={handleStoryEditBack}
+            onComplete={handleStoryEditComplete}
+            savedMemos={savedMemos[String(selectedTemplate?.id)] || {}}
+            user={user}
           />
         );
       case 'contentUpload':
@@ -190,7 +216,7 @@ function App() {
             <div className="mobile-content">
               {renderMainContent()}
             </div>
-            {activeTab !== 'templateDetail' && activeTab !== 'storyPlanning' && activeTab !== 'contentUpload' && (
+            {activeTab !== 'templateDetail' && activeTab !== 'storyPlanning' && activeTab !== 'storyEdit' && activeTab !== 'contentUpload' && (
               <BottomNavigation activeTab={activeTab} onTabChange={handleTabChange} />
             )}
           </>

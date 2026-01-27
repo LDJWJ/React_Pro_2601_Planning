@@ -1,0 +1,157 @@
+.se-container {
+  --color-primary: #3B82F6;
+  --color-card: #F5F5F5;
+  --color-current-tab: #FFE4E6;
+  --color-pending-tab: #E5E5E5;
+  --color-save-btn: #E5E5E5;
+  --color-complete-btn: #000000;
+
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  height: 100%;
+  background: #fff;
+  overflow-y: auto;
+}
+
+/* Header */
+.se-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 12px 16px;
+  z-index: 10;
+}
+
+.se-back-btn {
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: transparent;
+  color: #fff;
+  font-size: 24px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Preview section */
+.se-preview-section {
+  background: #1a1a1a;
+  padding: 56px 20px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.se-phone-frame {
+  width: 180px;
+  height: 240px;
+  background: #000;
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #333;
+}
+
+.se-preview-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.se-preview-placeholder {
+  color: #666;
+  font-size: 13px;
+  text-align: center;
+  padding: 20px;
+}
+
+/* Main content */
+.se-main-content {
+  flex: 1;
+  padding: 20px 20px 40px;
+  overflow-y: auto;
+}
+
+/* Footer buttons */
+.se-footer-buttons {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.se-save-btn {
+  flex: 0 0 auto;
+  padding: 16px 24px;
+  background: var(--color-save-btn);
+  border: none;
+  border-radius: 25px;
+  color: #000;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.se-save-btn:hover {
+  opacity: 0.85;
+}
+
+.se-complete-btn {
+  flex: 1;
+  padding: 16px 24px;
+  background: var(--color-complete-btn);
+  border: none;
+  border-radius: 25px;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.se-complete-btn:hover {
+  opacity: 0.85;
+}
+
+/* Toast */
+.se-toast {
+  position: fixed;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  padding: 12px 24px;
+  border-radius: 25px;
+  font-size: 14px;
+  font-weight: 500;
+  z-index: 100;
+  animation: se-toast-in 0.3s ease;
+}
+
+@keyframes se-toast-in {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+/* Loading */
+.se-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  color: #888;
+  font-size: 16px;
+}

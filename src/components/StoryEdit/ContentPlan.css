@@ -1,0 +1,51 @@
+.se-content-plan {
+  margin-bottom: 20px;
+}
+
+.se-content-plan-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.se-content-plan-label {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.se-content-plan-duration {
+  font-size: 13px;
+  font-weight: 600;
+  color: #fff;
+  background: #1a1a1a;
+  padding: 4px 10px;
+  border-radius: 12px;
+}
+
+.se-content-plan-card {
+  background: var(--color-card, #F5F5F5);
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.se-plan-card-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 6px;
+}
+
+.se-plan-card-point {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 4px;
+}
+
+.se-plan-card-description {
+  font-size: 14px;
+  color: #888;
+  line-height: 1.5;
+}

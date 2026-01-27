@@ -8,6 +8,7 @@
 - **Vite** 7.2.4
 - **Google OAuth** (@react-oauth/google)
 - **FFmpeg.wasm** (@ffmpeg/ffmpeg)
+- **IndexedDB** (브라우저 내장 — 영상 Blob 영속 저장)
 
 ## 주요 기능
 
@@ -48,29 +49,43 @@
 ### 5. 템플릿 상세 (`TemplateDetail`)
 - 영상 미리보기 (자동재생, 탭으로 재생/일시정지)
 - 우측 플로팅 정보 (재생시간, 컷 수, 사용자 수, 좋아요)
-- **스토리 기획 버튼**: 탭 시 스토리 기획 화면으로 이동
-- **콘텐츠 업로드 버튼**: 탭 시 콘텐츠 업로드 화면으로 이동
 - 해시태그 표시
-- "편집 시작하기" CTA 버튼
+- "편집 시작하기" CTA 버튼 → StoryEdit 화면으로 이동
+- 메뉴 아이콘 → StoryPlanning 화면으로 이동
 - 저장/북마크 버튼
 
-### 6. 스토리 기획 (`StoryPlanningScreen`)
-- **상단 고정 영상 프리뷰**: 선택된 컷의 타임스탬프 재생
-- **세그먼트 프로그레스 바**: 컷 위치 시각화, 선택된 컷까지 활성화
-- **컷 리스트**:
-  - 컷별 제목, 설명, 시간 표시
-  - 선택 시 메모 입력 필드 표시
-  - 테두리 강조로 선택 상태 표시
-- **하단 버튼**: 취소/저장하기
+### 6. 스토리 편집 (`StoryEdit`)
+기존 스토리 기획 + 콘텐츠 업로드를 하나로 통합한 화면:
+- **영상 미리보기**: 검정 배경, 중앙 폰 프레임 내 영상/플레이스홀더
+- **컷 탭 바** (`CutTabBar`):
+  - 가로 스크롤 탭 (60x60px, border-radius 8px)
+  - 완료 컷: 썸네일 이미지 표시
+  - 현재 편집 컷: "+" 아이콘, 연핑크 배경 (#FFE4E6)
+  - 대기 컷: 회색 배경, 길이 표시
+  - 하단 진행 바 (#3B82F6)
+- **콘텐츠 기획** (`ContentPlan`): 컷별 읽기 전용 정보 카드 (영상 포인트, 콘티 설명)
+- **자막 섹션** (`SubtitleSection`):
+  - 자막 입력 필드
+  - AI 자막 추천 버튼 (검정 배경, 흰색 텍스트)
+  - Netlify Functions 엔드포인트 호출 (`/.netlify/functions/generate-subtitle`)
+  - 키워드 기반 폴백 자막 지원 (food/mood/person/default)
+  - AI 추천 결과 칩 리스트
+- **컷별 영상 업로드**: 파일 선택 → ObjectURL + Canvas 썸네일 생성
+- **IndexedDB 영속 저장** (`storyEditDB.js`):
+  - 영상 업로드 즉시 IndexedDB에 Blob 저장 (이탈 시 데이터 보호)
+  - 화면 재진입 시 저장된 컷 데이터 자동 복원 (영상, 썸네일, 자막, 진행 상태)
+  - 유저별 + 템플릿별 격리 키 (`userId_templateId_cutId`)
+  - 세션 메타 정보 저장 (현재 편집 중인 컷 인덱스, 저장 시각)
+  - 전체 삭제 API (`deleteAllCuts`)
+- **저장하기**: IndexedDB 전체 저장 + 토스트 메시지
+- **완성하기**: 전체 저장 후 Editor로 이동
 
-### 7. 콘텐츠 업로드 (`ContentUploadScreen`)
-- **미리보기 영역**: 템플릿 썸네일 또는 업로드된 영상 표시
-- **프로그레스 바**: 현재 컷 진행 상태 시각화
-- **컷 정보 카드**: 컷 번호, 제목, 설명, 시간, 메모 표시
-- **영상 추가**: 컷별 영상 파일 업로드
-- **자막 입력**: 컷별 자막 텍스트 입력
-- **AI 추천자막**: AI 기반 자막 추천 버튼
-- **이전/다음 단계 버튼**: 컷 간 네비게이션
+### 7. 스토리 기획 (`StoryPlanningScreen`) — 레거시
+- 상단 고정 영상 프리뷰 (선택된 컷 타임스탬프 재생)
+- 세그먼트 프로그레스 바 (컷별 진행 표시, 탭으로 컷 이동)
+- 컷별 메모 입력 기능
+- 하단 취소/저장 버튼
+- TemplateDetail 메뉴 아이콘에서 진입 가능
 
 ### 8. 영상 편집기 (`Editor`)
 - **미디어 추가**: 영상/이미지 업로드
@@ -114,16 +129,26 @@ src/
 │   ├── SearchCategory.css
 │   ├── TemplateDetail.jsx     # 템플릿 상세
 │   ├── TemplateDetail.css
-│   ├── StoryPlanningScreen.jsx # 스토리 기획
+│   ├── StoryPlanningScreen.jsx # 스토리 기획 (레거시)
 │   ├── StoryPlanningScreen.css
-│   ├── ContentUploadScreen.jsx # 콘텐츠 업로드
+│   ├── ContentUploadScreen.jsx # 콘텐츠 업로드 (레거시)
 │   ├── ContentUploadScreen.css
+│   ├── StoryEdit/             # 스토리 편집 (통합)
+│   │   ├── StoryEdit.jsx      # 메인 컨테이너 (상태관리, IndexedDB 연동)
+│   │   ├── StoryEdit.css
+│   │   ├── CutTabBar.jsx      # 컷 탭 바
+│   │   ├── CutTabBar.css
+│   │   ├── ContentPlan.jsx    # 콘텐츠 기획 카드
+│   │   ├── ContentPlan.css
+│   │   ├── SubtitleSection.jsx # 자막 섹션
+│   │   └── SubtitleSection.css
 │   ├── BottomNavigation.jsx   # 하단 네비게이션
 │   ├── BottomNavigation.css
 │   ├── Editor.jsx             # 영상 편집기
 │   └── Editor.css
 └── utils/
-    └── logger.js          # 로깅 유틸리티
+    ├── logger.js          # 로깅 유틸리티
+    └── storyEditDB.js     # IndexedDB CRUD (컷 저장/로드/삭제)
 ```
 
 ## 환경 변수 설정
@@ -169,17 +194,92 @@ npm run preview
                               템플릿 탐색            편집기
                                     ↓
                               템플릿 상세
-                                    ↓
-                        ┌───────────┴───────────┐
-                        ↓                       ↓
-                  스토리 기획            콘텐츠 업로드
-                                              ↓
-                                           편집기
+                               ↓         ↓
+                     스토리 편집      스토리 기획
+                     (StoryEdit)   (레거시)
+                          ↓
+                        편집기
+```
+
+### 데이터 흐름 (StoryEdit)
+```
+영상 업로드 → ObjectURL 생성 + Canvas 썸네일
+           → IndexedDB 즉시 저장 (saveCut)
+           → 컷 탭 바 썸네일 반영
+
+저장하기   → IndexedDB 전체 저장 (saveAllCuts)
+           → 토스트 메시지 표시
+
+재진입     → IndexedDB 로드 (loadAllCuts)
+           → Blob → ObjectURL 복원
+           → 컷 상태 + 자막 + 진행 위치 복원
+
+완성하기   → IndexedDB 저장 → Editor 이동
 ```
 
 ---
 
 ## 버전 히스토리
+
+### v1.16.0 (2026-01-27)
+**StoryEdit IndexedDB 영속 저장 — 영상 Blob 데이터 보호**
+
+StoryEdit에서 업로드한 영상 파일(Blob)과 편집 상태를 IndexedDB에 저장하여, 페이지 이탈/새로고침 후에도 작업 내용을 복원할 수 있도록 개선.
+
+주요 변경:
+- `storyEditDB.js` 유틸리티 신규 생성 — IndexedDB CRUD 4개 함수
+  - `saveCut()`: 개별 컷 저장 (영상 Blob, 썸네일, 자막, 완료 상태)
+  - `saveAllCuts()`: 전체 컷 + 세션 메타(현재 컷 인덱스, 저장 시각) 일괄 저장
+  - `loadAllCuts()`: 유저+템플릿 기준으로 저장된 컷 전체 로드 + Blob → ObjectURL 복원
+  - `deleteAllCuts()`: 특정 유저+템플릿의 모든 데이터 삭제
+- DB 스키마: `hookhook_storyedit` DB, `cuts` Object Store, 복합 인덱스 `[userId, templateId]`
+- 키 구조: `{userId}_{templateId}_{cutId}` (유저별·템플릿별 격리)
+- StoryEdit.jsx 연동:
+  - 초기화 시 `loadAllCuts()`로 기존 데이터 복원
+  - 영상 업로드 즉시 `saveCut()`으로 개별 저장 (이탈 시 데이터 보호)
+  - "저장하기" 클릭 시 `saveAllCuts()`로 전체 저장
+- 기존 localStorage 임시 저장 → IndexedDB 영속 저장으로 교체
+
+| 작업 | 파일 | 변경 내용 |
+|------|------|----------|
+| 생성 | `src/utils/storyEditDB.js` | IndexedDB CRUD (saveCut, saveAllCuts, loadAllCuts, deleteAllCuts) |
+| 수정 | `src/components/StoryEdit/StoryEdit.jsx` | IndexedDB import 및 저장/복원 로직 추가 |
+
+---
+
+### v1.15.0 (2026-01-27)
+**StoryEdit 화면 통합 — 스토리 기획 + 콘텐츠 업로드 → 단일 화면으로 교체**
+
+기존 2개 화면(`StoryPlanningScreen` + `ContentUploadScreen`)을 1개의 `StoryEdit` 화면으로 통합하여 화면 전환 흐름을 단순화.
+
+- **변경 전**: TemplateDetail → StoryPlanningScreen → ContentUploadScreen → Editor
+- **변경 후**: TemplateDetail → **StoryEdit** → Editor
+
+주요 변경:
+- `StoryEdit/` 폴더에 4개 컴포넌트 신규 생성 (StoryEdit, CutTabBar, ContentPlan, SubtitleSection)
+- 컷 탭 바: 완료(썸네일)/현재(연핑크 `+`)/대기(회색 duration) 3가지 상태, 하단 파란색 진행 바
+- 콘텐츠 기획 카드: 읽기 전용 컷 정보 표시
+- 자막 섹션: AI 자막 추천 (키워드 기반 폴백), 추천 칩 선택
+- 영상 업로드: Canvas 썸네일 자동 생성
+- 저장하기: localStorage 임시 저장 + 토스트 메시지
+- 완성하기: 전체 저장 후 Editor로 이동
+- App.jsx: `storyEdit` 라우팅 추가 (기존 `storyPlanning`/`contentUpload`는 레거시로 유지)
+- TemplateDetail: `onStoryEdit` prop 추가
+
+| 작업 | 파일 | 변경 내용 |
+|------|------|----------|
+| 생성 | `src/components/StoryEdit/StoryEdit.jsx` | 메인 컨테이너 (상태 관리, 영상 업로드, AI 자막, 저장/완성) |
+| 생성 | `src/components/StoryEdit/StoryEdit.css` | CSS 변수 체계, 레이아웃, 토스트 애니메이션 |
+| 생성 | `src/components/StoryEdit/CutTabBar.jsx` | 가로 스크롤 컷 탭 바 + 진행 바 |
+| 생성 | `src/components/StoryEdit/CutTabBar.css` | 탭 3상태 스타일, 진행 바 |
+| 생성 | `src/components/StoryEdit/ContentPlan.jsx` | 읽기 전용 콘텐츠 기획 카드 |
+| 생성 | `src/components/StoryEdit/ContentPlan.css` | 카드 스타일 |
+| 생성 | `src/components/StoryEdit/SubtitleSection.jsx` | 자막 입력 + AI 추천 칩 |
+| 생성 | `src/components/StoryEdit/SubtitleSection.css` | 자막 섹션 스타일 |
+| 수정 | `src/App.jsx` | StoryEdit import, 핸들러 추가, storyEdit 라우팅 추가 |
+| 수정 | `src/components/TemplateDetail.jsx` | `onStoryEdit` prop 추가 |
+
+---
 
 ### v1.14.1 (2026-01-26)
 **온보딩 화면 모바일 뷰포트 대응 수정**
@@ -455,4 +555,4 @@ npm run preview
 
 ---
 
-*Last updated: 2026-01-26*
+*Last updated: 2026-01-27 (v1.16.0)*
