@@ -1,6 +1,6 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import './ContentUploadScreen.css';
-import { logScreenView, logButtonClick } from '../utils/logger';
+import { logScreenView, logButtonClick, logScroll } from '../utils/logger';
 
 function ContentUploadScreen({ template, onBack, onNext, savedMemos }) {
   const [currentCutIndex, setCurrentCutIndex] = useState(0);
@@ -10,6 +10,8 @@ function ContentUploadScreen({ template, onBack, onNext, savedMemos }) {
   const [selectedSuggestionIndex, setSelectedSuggestionIndex] = useState(null);
   const [thumbnails, setThumbnails] = useState({});
   const fileInputRef = useRef(null);
+  const mainScrollRef = useRef(null);
+  const scrollTimerRef = useRef(null);
 
   // 템플릿의 컷 데이터 초기화
   useEffect(() => {
@@ -41,6 +43,27 @@ function ContentUploadScreen({ template, onBack, onNext, savedMemos }) {
       })));
     }
   }, [template]);
+
+  // 스크롤 로그 (디바운스 500ms)
+  const handleScroll = useCallback(() => {
+    const el = mainScrollRef.current;
+    if (!el) return;
+    if (scrollTimerRef.current) clearTimeout(scrollTimerRef.current);
+    scrollTimerRef.current = setTimeout(() => {
+      const scrollPercent = (el.scrollTop / (el.scrollHeight - el.clientHeight)) * 100;
+      logScroll('content_upload', scrollPercent);
+    }, 500);
+  }, []);
+
+  useEffect(() => {
+    const el = mainScrollRef.current;
+    if (!el) return;
+    el.addEventListener('scroll', handleScroll, { passive: true });
+    return () => {
+      el.removeEventListener('scroll', handleScroll);
+      if (scrollTimerRef.current) clearTimeout(scrollTimerRef.current);
+    };
+  }, [handleScroll]);
 
   const currentCut = cutData[currentCutIndex];
   const totalCuts = cutData.length;
@@ -76,10 +99,24 @@ function ContentUploadScreen({ template, onBack, onNext, savedMemos }) {
 
   // 타임라인 클릭 시 컷 전환
   const handleTimelineCutSelect = (index) => {
-    logButtonClick('content_upload', 'timeline_cut_select');
+    logButtonClick('content_upload', 'timeline_cut_select', String(index + 1));
     setAiSuggestions([]);
     setSelectedSuggestionIndex(null);
     setCurrentCutIndex(index);
+  };
+
+  // duration 칩 클릭 시 컷 전환
+  const handleDurationChipSelect = (index) => {
+    logButtonClick('content_upload', 'duration_chip_select', String(index + 1));
+    setAiSuggestions([]);
+    setSelectedSuggestionIndex(null);
+    setCurrentCutIndex(index);
+  };
+
+  // 뒤로가기
+  const handleBack = () => {
+    logButtonClick('content_upload', 'back');
+    onBack();
   };
 
   // 영상 업로드 (선택적 targetIndex)
@@ -143,12 +180,32 @@ function ContentUploadScreen({ template, onBack, onNext, savedMemos }) {
   };
 
   const handleSelectSuggestion = (suggestion, index) => {
+    logButtonClick('content_upload', 'ai_suggestion_select', suggestion);
     setSelectedSuggestionIndex(index);
     setCutData(prev => prev.map((cut, i) =>
       i === currentCutIndex
         ? { ...cut, subtitle: suggestion }
         : cut
     ));
+  };
+
+  // + 버튼 (영상 추가 파일 선택 트리거)
+  const handleAddVideoButton = () => {
+    logButtonClick('content_upload', 'add_video_button', String(currentCutIndex + 1));
+    fileInputRef.current?.click();
+  };
+
+  // 자막 입력 focus
+  const handleSubtitleFocus = () => {
+    logButtonClick('content_upload', 'subtitle_input_focus', String(currentCutIndex + 1));
+  };
+
+  // 자막 입력 blur
+  const handleSubtitleBlur = () => {
+    const subtitle = cutData[currentCutIndex]?.subtitle || '';
+    if (subtitle.trim()) {
+      logButtonClick('content_upload', 'subtitle_input_blur', subtitle);
+    }
   };
 
   // "완성하기" → 에디터로 이동
@@ -189,7 +246,7 @@ function ContentUploadScreen({ template, onBack, onNext, savedMemos }) {
     <div className="content-upload-container">
       {/* 상단 헤더 */}
       <div className="content-upload-header">
-        <button className="back-button" onClick={onBack}>
+        <button className="back-button" onClick={handleBack}>
           ←
         </button>
       </div>
@@ -239,7 +296,7 @@ function ContentUploadScreen({ template, onBack, onNext, savedMemos }) {
           {/* + 버튼 */}
           <button
             className="timeline-add-button"
-            onClick={() => fileInputRef.current?.click()}
+            onClick={handleAddVideoButton}
           >
             +
           </button>
@@ -259,7 +316,7 @@ function ContentUploadScreen({ template, onBack, onNext, savedMemos }) {
             <button
               key={`dur-${cut.id}`}
               className={`timeline-duration-chip ${index === currentCutIndex ? 'active' : ''}`}
-              onClick={() => handleTimelineCutSelect(index)}
+              onClick={() => handleDurationChipSelect(index)}
             >
               {parseDuration(cut.duration)}
             </button>
@@ -269,7 +326,7 @@ function ContentUploadScreen({ template, onBack, onNext, savedMemos }) {
       </div>
 
       {/* 메인 콘텐츠 영역 */}
-      <div className="content-upload-main">
+      <div className="content-upload-main" ref={mainScrollRef}>
         {/* 콘텐츠 기획 섹션 */}
         <div className="content-planning-section">
           <div className="content-planning-header">
@@ -310,6 +367,8 @@ function ContentUploadScreen({ template, onBack, onNext, savedMemos }) {
             placeholder="자막을 입력하세요"
             value={currentCut.subtitle || ''}
             onChange={handleSubtitleChange}
+            onFocus={handleSubtitleFocus}
+            onBlur={handleSubtitleBlur}
           />
 
           {/* AI 추천 자막 Chips */}

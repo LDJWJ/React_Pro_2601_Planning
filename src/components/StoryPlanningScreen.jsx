@@ -1,6 +1,6 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import './StoryPlanningScreen.css';
-import { logScreenView, logButtonClick } from '../utils/logger';
+import { logScreenView, logButtonClick, logScroll } from '../utils/logger';
 
 // 샘플 데이터
 const defaultCuts = [
@@ -18,6 +18,8 @@ function StoryPlanningScreen({ template, onBack, onSave, initialMemos }) {
   const [showModal, setShowModal] = useState(false);
   const [activeCutId, setActiveCutId] = useState(null);
   const videoRef = useRef(null);
+  const scrollRef = useRef(null);
+  const scrollTimerRef = useRef(null);
 
   const cuts = template?.cuts ?
     Array.from({ length: template.cuts }, (_, i) => defaultCuts[i] || {
@@ -32,12 +34,39 @@ function StoryPlanningScreen({ template, onBack, onSave, initialMemos }) {
     logScreenView('story_planning');
   }, []);
 
+  // 스크롤 로그 (디바운스 500ms)
+  const handleScroll = useCallback(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+
+    if (scrollTimerRef.current) {
+      clearTimeout(scrollTimerRef.current);
+    }
+
+    scrollTimerRef.current = setTimeout(() => {
+      const scrollPercent = (el.scrollTop / (el.scrollHeight - el.clientHeight)) * 100;
+      logScroll('story_planning', scrollPercent);
+    }, 500);
+  }, []);
+
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    el.addEventListener('scroll', handleScroll, { passive: true });
+    return () => {
+      el.removeEventListener('scroll', handleScroll);
+      if (scrollTimerRef.current) clearTimeout(scrollTimerRef.current);
+    };
+  }, [handleScroll]);
+
   const handlePlayPause = () => {
     if (videoRef.current) {
       if (isPlaying) {
         videoRef.current.pause();
+        logButtonClick('story_planning', 'video_pause');
       } else {
         videoRef.current.play();
+        logButtonClick('story_planning', 'video_play');
       }
       setIsPlaying(!isPlaying);
     }
@@ -45,6 +74,7 @@ function StoryPlanningScreen({ template, onBack, onSave, initialMemos }) {
 
   const handleCutSelect = (cut) => {
     setActiveCutId(cut.id);
+    logButtonClick('story_planning', 'cut_select', String(cut.id));
     if (videoRef.current && template?.videoUrl) {
       videoRef.current.currentTime = cut.startTime;
       videoRef.current.pause();
@@ -93,7 +123,7 @@ function StoryPlanningScreen({ template, onBack, onSave, initialMemos }) {
   return (
     <div className="story-planning-container">
       {/* 전체 스크롤 영역 */}
-      <div className="story-scroll-content">
+      <div className="story-scroll-content" ref={scrollRef}>
         {/* 상단 영역: 검정 배경 */}
         <div className="story-preview-section">
           <div className="story-header-bar">

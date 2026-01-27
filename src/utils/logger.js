@@ -87,10 +87,21 @@ export const logLogin = (method, userEmail = '') => {
   });
 };
 
+// 스크롤 이벤트 로그 (디바운스 포함)
+export const logScroll = (screenName, scrollPercent) => {
+  sendLog({
+    screen: screenName,
+    event: 'scroll',
+    target: 'scroll',
+    value: `${Math.round(scrollPercent)}%`,
+  });
+};
+
 export default {
   sendLog,
   logScreenView,
   logButtonClick,
   logSelect,
   logLogin,
+  logScroll,
 };

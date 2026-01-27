@@ -261,6 +261,44 @@ VideoEditor → convertToTimeline(cuts)
 
 ## 버전 히스토리
 
+### v1.19.0 (2026-01-27)
+**콘텐츠 기획 화면 로그 추가 — 사용자 행동 분석 강화**
+
+ContentUploadScreen에 7개 신규 로그 추가, 기존 `timeline_cut_select`에 컷 번호 value 보강.
+
+주요 변경:
+- **뒤로가기** 버튼 로그 추가 (이탈률 측정)
+- **+ 버튼** (영상 추가 트리거) 로그 추가 (버튼 클릭 vs 실제 업로드 비교)
+- **AI 추천 자막 선택** 로그 추가 (선택한 자막 텍스트 기록)
+- **자막 입력 focus/blur** 로그 추가 (직접 입력 vs AI 추천 비율 분석)
+- **duration 칩 클릭** 별도 로그 분리 (썸네일 탭 vs duration 칩 사용 비율)
+- **스크롤** 로그 추가 (디바운스 500ms, 콘텐츠 소비 깊이 측정)
+- 기존 `timeline_cut_select`에 컷 번호 value 추가
+
+| 작업 | 파일 | 변경 내용 |
+|------|------|----------|
+| 수정 | `src/components/ContentUploadScreen.jsx` | 7개 신규 로그 핸들러 추가, 스크롤 디바운스 로직 |
+
+---
+
+### v1.18.0 (2026-01-27)
+**스토리 기획 화면 로그 추가 — 사용자 행동 분석 강화**
+
+StoryPlanningScreen에 5개 신규 로그 추가 및 logger.js에 `logScroll` 함수 추가.
+
+주요 변경:
+- **영상 재생/일시정지** 로그 추가 (`video_play` / `video_pause`)
+- **컷 1~6번 클릭** 로그 추가 (`cut_select`, value: 컷 번호)
+- **스크롤** 로그 추가 (디바운스 500ms, 위치 % 기록)
+- `logger.js`에 `logScroll` 함수 신규 추가
+
+| 작업 | 파일 | 변경 내용 |
+|------|------|----------|
+| 수정 | `src/utils/logger.js` | `logScroll` 함수 추가, default export에 포함 |
+| 수정 | `src/components/StoryPlanningScreen.jsx` | 영상 재생/일시정지, 컷 선택, 스크롤 로그 추가 |
+
+---
+
 ### v1.17.0 (2026-01-27)
 **VideoEditor 영상 편집 화면 — 타임라인 기반 편집 UI 구현**
 
@@ -629,4 +667,4 @@ StoryEdit에서 업로드한 영상 파일(Blob)과 편집 상태를 IndexedDB�
 
 ---
 
-*Last updated: 2026-01-27 (v1.17.0)*
+*Last updated: 2026-01-27 (v1.19.0)*
