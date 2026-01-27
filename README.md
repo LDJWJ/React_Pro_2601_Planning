@@ -87,7 +87,7 @@
 - 하단 취소/저장 버튼
 - TemplateDetail 메뉴 아이콘에서 진입 가능
 
-### 8. 영상 편집기 (`Editor`)
+### 8. 영상 편집기 (`Editor`) — 레거시
 - **미디어 추가**: 영상/이미지 업로드
 - **텍스트 오버레이**: 드래그 가능, 시간 범위 설정, 크기 조절
 - **자막 추가**: 시작/종료 시간 지정
@@ -98,6 +98,21 @@
 - **내보내기**: 두 가지 방식 지원
   - Canvas Export (WebM): 실시간 캔버스 렌더링으로 텍스트 오버레이 포함
   - FFmpeg Export (MP4): @ffmpeg/ffmpeg WASM 활용 인코딩
+
+### 9. 영상 편집 화면 (`VideoEditor`)
+StoryEdit에서 완성한 컷 데이터(영상, 자막, 썸네일)를 받아 타임라인 기반 영상 편집 UI를 제공:
+- **EditorHeader**: 뒤로가기 + "새 프로젝트", Undo/Redo, 주황색 "내보내기" 버튼
+- **VideoPreview**: 9:16 비율 검정 프레임, 영상 재생, 자막 오버레이 (노란색 bold, text-shadow), 재생 컨트롤바 (▶재생, 시간 표시, 컷 수)
+- **Timeline**: 시간 눈금 (적응형 간격), 노란색 플레이헤드 (세로선 + 삼각형), 클릭→시간 이동, 가로 스크롤
+- **Track**: 4개 트랙 행 — voice(🎤), text(Aa), bgm(🎵), video(🎬)
+  - 텍스트 클립: 노란 배경 + 자막 텍스트
+  - BGM 클립: 연노란 배경
+  - 영상 클립: 썸네일 이미지
+  - 음성 클립: 녹색 배경
+- **EditorNavBar**: 하단 5탭 네비게이션 — 미디어(📁), 필터(✨), BGM(🎵), TTS/음성(🎤), 자막(Aa)
+- **재생 로직**: 100ms 인터벌로 currentTime 증가, 해당 클립의 videoRef.src 자동 설정
+- **convertToTimeline**: cuts 배열 → video/text 트랙 + totalDuration 자동 계산
+- **ExportPreview 연동**: 내보내기 버튼 → ExportPreview 컴포넌트 표시
 
 ## 프로젝트 구조
 
@@ -142,9 +157,22 @@ src/
 │   │   ├── ContentPlan.css
 │   │   ├── SubtitleSection.jsx # 자막 섹션
 │   │   └── SubtitleSection.css
+│   ├── VideoEditor/              # 영상 편집 화면 (타임라인 기반)
+│   │   ├── VideoEditor.jsx       # 메인 컨테이너 (상태관리, convertToTimeline, 재생 로직)
+│   │   ├── VideoEditor.css
+│   │   ├── EditorHeader.jsx      # 헤더 (뒤로가기, Undo/Redo, 내보내기)
+│   │   ├── EditorHeader.css
+│   │   ├── VideoPreview.jsx      # 영상 프레임 + 자막 오버레이 + 재생 컨트롤
+│   │   ├── VideoPreview.css
+│   │   ├── Timeline.jsx          # 시간 눈금 + 플레이헤드 + 트랙 컨테이너
+│   │   ├── Timeline.css
+│   │   ├── Track.jsx             # 개별 트랙 행 (voice/text/bgm/video)
+│   │   ├── Track.css
+│   │   ├── EditorNavBar.jsx      # 하단 5탭 네비게이션
+│   │   └── EditorNavBar.css
 │   ├── BottomNavigation.jsx   # 하단 네비게이션
 │   ├── BottomNavigation.css
-│   ├── Editor.jsx             # 영상 편집기
+│   ├── Editor.jsx             # 영상 편집기 (레거시)
 │   └── Editor.css
 └── utils/
     ├── logger.js          # 로깅 유틸리티
@@ -191,14 +219,20 @@ npm run preview
                                               ↓
                                     ┌─────────┴─────────┐
                                     ↓                   ↓
-                              템플릿 탐색            편집기
+                              템플릿 탐색          편집기(레거시)
                                     ↓
                               템플릿 상세
                                ↓         ↓
                      스토리 편집      스토리 기획
                      (StoryEdit)   (레거시)
                           ↓
-                        편집기
+                    영상 편집 화면
+                    (VideoEditor)
+                          ↓
+                     내보내기 미리보기
+                    (ExportPreview)
+                          ↓
+                          홈
 ```
 
 ### 데이터 흐름 (StoryEdit)
@@ -214,12 +248,52 @@ npm run preview
            → Blob → ObjectURL 복원
            → 컷 상태 + 자막 + 진행 위치 복원
 
-완성하기   → IndexedDB 저장 → Editor 이동
+완성하기   → IndexedDB 저장 → VideoEditor 이동
+
+VideoEditor → convertToTimeline(cuts)
+           → tracks.video: [{id, startTime, endTime, videoUrl, thumbnail}]
+           → tracks.text: [{id, startTime, endTime, content}]
+           → 재생: currentTime → getCurrentClip → videoRef.src 설정
+           → 내보내기 → ExportPreview → 홈 복귀
 ```
 
 ---
 
 ## 버전 히스토리
+
+### v1.17.0 (2026-01-27)
+**VideoEditor 영상 편집 화면 — 타임라인 기반 편집 UI 구현**
+
+StoryEdit에서 완성한 컷 데이터(영상, 자막, 썸네일)를 받아 타임라인 기반 영상 편집 화면을 신규 구현. 프리뷰 + 타임라인 + 하단 네비게이션 3영역 레이아웃.
+
+주요 변경:
+- `VideoEditor/` 폴더에 6개 컴포넌트(12파일) 신규 생성
+- **VideoEditor.jsx**: 메인 컨테이너, `convertToTimeline()` — cuts 배열 → video/text 트랙 변환, 100ms 인터벌 재생 로직, `useMemo` 기반 파생 상태
+- **EditorHeader.jsx**: 뒤로가기 + "새 프로젝트", Undo/Redo 버튼, 주황색 "내보내기" 버튼
+- **VideoPreview.jsx**: 9:16 비율 검정 프레임, 자막 오버레이 (노란색 bold + text-shadow), 재생 컨트롤바
+- **Timeline.jsx**: 적응형 시간 눈금 (1초/5초/10초 간격), 노란색 플레이헤드 (세로선 + 삼각형), 클릭→시간 이동, 가로 스크롤
+- **Track.jsx**: 재사용 가능한 트랙 행 — voice(🎤녹색)/text(Aa노랑)/bgm(🎵연노랑)/video(🎬썸네일)
+- **EditorNavBar.jsx**: 하단 5탭 — 미디어/필터/BGM/TTS음성/자막, active 시 #FAFF5E
+- **App.jsx 수정**: `editorCuts` state 추가, `handleStoryEditComplete` → cuts 저장 후 VideoEditor 렌더, BottomNavigation 조건부 숨김
+- **ExportPreview 연동**: 내보내기 버튼 → ExportPreview 컴포넌트 표시
+
+| 작업 | 파일 | 변경 내용 |
+|------|------|----------|
+| 생성 | `src/components/VideoEditor/VideoEditor.jsx` | 메인 컨테이너 (convertToTimeline, 재생 로직, 상태 관리) |
+| 생성 | `src/components/VideoEditor/VideoEditor.css` | CSS 변수 정의, 3영역 레이아웃 (65% preview + 35% timeline + 60px nav) |
+| 생성 | `src/components/VideoEditor/EditorHeader.jsx` | 헤더 (뒤로가기, Undo/Redo, 내보내기) |
+| 생성 | `src/components/VideoEditor/EditorHeader.css` | 헤더 스타일 |
+| 생성 | `src/components/VideoEditor/VideoPreview.jsx` | 영상 프레임 + 자막 오버레이 + 재생 컨트롤 |
+| 생성 | `src/components/VideoEditor/VideoPreview.css` | 9:16 프레임, 자막 스타일 |
+| 생성 | `src/components/VideoEditor/Timeline.jsx` | 시간 눈금 + 플레이헤드 + 트랙 컨테이너 |
+| 생성 | `src/components/VideoEditor/Timeline.css` | 가로 스크롤, 플레이헤드 스타일 |
+| 생성 | `src/components/VideoEditor/Track.jsx` | 개별 트랙 행 (voice/text/bgm/video 4종) |
+| 생성 | `src/components/VideoEditor/Track.css` | 트랙별 클립 색상 |
+| 생성 | `src/components/VideoEditor/EditorNavBar.jsx` | 하단 5탭 네비게이션 |
+| 생성 | `src/components/VideoEditor/EditorNavBar.css` | 60px 고정, BottomNavigation 패턴 |
+| 수정 | `src/App.jsx` | editorCuts state, VideoEditor import/라우팅, BottomNav 조건부 숨김 |
+
+---
 
 ### v1.16.0 (2026-01-27)
 **StoryEdit IndexedDB 영속 저장 — 영상 Blob 데이터 보호**
@@ -555,4 +629,4 @@ StoryEdit에서 업로드한 영상 파일(Blob)과 편집 상태를 IndexedDB�
 
 ---
 
-*Last updated: 2026-01-27 (v1.16.0)*
+*Last updated: 2026-01-27 (v1.17.0)*

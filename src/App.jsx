@@ -12,6 +12,7 @@ import ContentUploadScreen from './components/ContentUploadScreen';
 import StoryEdit from './components/StoryEdit/StoryEdit';
 import BottomNavigation from './components/BottomNavigation';
 import Editor from './components/Editor';
+import VideoEditor from './components/VideoEditor/VideoEditor';
 
 function App() {
   const [currentScreen, setCurrentScreen] = useState('login');
@@ -27,6 +28,7 @@ function App() {
       return {};
     }
   });
+  const [editorCuts, setEditorCuts] = useState(null);
   const [selections, setSelections] = useState({
     purpose: null,
     topics: [],
@@ -72,6 +74,7 @@ function App() {
   };
 
   const handleEditorBack = () => {
+    setEditorCuts(null);
     setActiveTab('home');
   };
 
@@ -127,6 +130,7 @@ function App() {
 
   const handleStoryEditComplete = (cuts) => {
     console.log('스토리 편집 완료:', cuts);
+    setEditorCuts(cuts);
     setActiveTab('editor');
   };
 
@@ -182,6 +186,9 @@ function App() {
           />
         );
       case 'editor':
+        if (editorCuts) {
+          return <VideoEditor cuts={editorCuts} onBack={handleEditorBack} />;
+        }
         return <Editor onBack={handleEditorBack} videoUrl={selectedVideoUrl} onVideoLoaded={() => setSelectedVideoUrl(null)} />;
       case 'mypage':
         return (
@@ -216,7 +223,7 @@ function App() {
             <div className="mobile-content">
               {renderMainContent()}
             </div>
-            {activeTab !== 'templateDetail' && activeTab !== 'storyPlanning' && activeTab !== 'storyEdit' && activeTab !== 'contentUpload' && (
+            {activeTab !== 'templateDetail' && activeTab !== 'storyPlanning' && activeTab !== 'storyEdit' && activeTab !== 'contentUpload' && !(activeTab === 'editor' && editorCuts) && (
               <BottomNavigation activeTab={activeTab} onTabChange={handleTabChange} />
             )}
           </>

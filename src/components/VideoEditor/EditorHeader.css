@@ -1,0 +1,85 @@
+/* EditorHeader.css */
+
+.ve-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: #1a1a1a;
+  border-bottom: 1px solid #333;
+  z-index: 10;
+  flex-shrink: 0;
+}
+
+.ve-header-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ve-header-back-btn {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 4px 8px;
+  display: flex;
+  align-items: center;
+}
+
+.ve-header-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.ve-header-center {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.ve-header-action-btn {
+  background: none;
+  border: none;
+  color: #888;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 4px 8px;
+  transition: color 0.2s;
+}
+
+.ve-header-action-btn:not(:disabled):hover {
+  color: #fff;
+}
+
+.ve-header-action-btn:disabled {
+  color: #444;
+  cursor: not-allowed;
+}
+
+.ve-header-action-btn.active {
+  color: #fff;
+}
+
+.ve-header-right {
+  display: flex;
+  align-items: center;
+}
+
+.ve-header-export-btn {
+  background: #FF6B35;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.ve-header-export-btn:hover {
+  opacity: 0.85;
+}

@@ -1,0 +1,400 @@
+/* ExportPreview.css */
+
+/* === Container & Mobile Frame === */
+.ep-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #000000;
+  display: flex;
+  justify-content: center;
+  z-index: 100;
+}
+
+.ep-mobile-frame {
+  width: 100%;
+  max-width: 430px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  background: #000000;
+  color: #fff;
+}
+
+/* === Header === */
+.ep-header {
+  display: flex;
+  align-items: center;
+  height: 52px;
+  padding: 0 16px;
+  background: #000000;
+  flex-shrink: 0;
+}
+
+.ep-header-back {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 22px;
+  cursor: pointer;
+  padding: 4px 8px 4px 0;
+  display: flex;
+  align-items: center;
+}
+
+.ep-header-title {
+  flex: 1;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.ep-header-spacer {
+  width: 30px;
+}
+
+/* === Preview Area === */
+.ep-preview-area {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #000000;
+  position: relative;
+  overflow: hidden;
+  min-height: 0;
+  padding: 8px 12px;
+  transition: opacity 0.3s ease;
+}
+
+.ep-preview-dimmed {
+  opacity: 0.3;
+}
+
+.ep-preview-frame {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 9 / 16;
+  max-height: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #111;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ep-preview-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.ep-preview-placeholder {
+  color: #666;
+  font-size: 14px;
+}
+
+/* Subtitle overlay */
+.ep-subtitle-overlay {
+  position: absolute;
+  bottom: 48px;
+  left: 16px;
+  right: 16px;
+  text-align: center;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.ep-subtitle-text {
+  display: inline-block;
+  padding: 6px 14px;
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 6px;
+  color: #FFD700;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.4;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+/* Play button overlay */
+.ep-play-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.45);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 2;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+.ep-play-overlay:active {
+  transform: translate(-50%, -50%) scale(0.92);
+}
+
+.ep-play-icon {
+  color: #fff;
+  font-size: 20px;
+  margin-left: 2px;
+}
+
+/* === Bottom Bar === */
+.ep-bottom-bar {
+  padding: 16px 20px;
+  padding-bottom: max(20px, env(safe-area-inset-bottom));
+  flex-shrink: 0;
+}
+
+/* Solid yellow button (review CTA & export CTA) */
+.ep-yellow-btn {
+  width: 100%;
+  padding: 16px;
+  background: #FAEC23;
+  color: #000;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.ep-yellow-btn:active {
+  opacity: 0.85;
+}
+
+/* Outline yellow button (complete screen) */
+.ep-outline-btn {
+  width: 100%;
+  padding: 16px;
+  background: transparent;
+  color: #FAEC23;
+  border: 2px solid #FAEC23;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ep-outline-btn:active {
+  background: rgba(250, 236, 35, 0.1);
+}
+
+.ep-export-icon {
+  font-size: 18px;
+}
+
+/* === Modal Overlay (settings bottom sheet) === */
+.ep-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  z-index: 110;
+  transition: background 0.3s ease-out;
+}
+
+.ep-modal-overlay--visible {
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.ep-modal-sheet {
+  width: 100%;
+  max-width: 430px;
+  background: #1C1C1E;
+  border-radius: 16px 16px 0 0;
+  padding-bottom: max(16px, env(safe-area-inset-bottom));
+  transform: translateY(100%);
+  transition: transform 0.3s ease-out;
+}
+
+.ep-modal-sheet--visible {
+  transform: translateY(0);
+}
+
+.ep-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 20px 12px;
+}
+
+.ep-modal-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.ep-modal-close {
+  background: none;
+  border: none;
+  color: #999;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 4px 0;
+  line-height: 1;
+}
+
+/* === Settings Rows === */
+.ep-modal-body {
+  padding: 0 20px;
+}
+
+.ep-setting-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 0;
+  border-bottom: 1px solid #333;
+}
+
+.ep-setting-row:last-child {
+  border-bottom: none;
+}
+
+.ep-setting-label {
+  width: 56px;
+  font-size: 14px;
+  color: #999;
+  flex-shrink: 0;
+}
+
+.ep-setting-select {
+  flex: 1;
+  background: #2C2C2E;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 36px 10px 14px;
+  font-size: 14px;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  cursor: pointer;
+}
+
+.ep-setting-select:focus {
+  outline: none;
+}
+
+.ep-modal-footer {
+  padding: 16px 20px 0;
+}
+
+/* === Loading Screen === */
+.ep-loading-screen {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  background: #000000;
+  color: #fff;
+}
+
+.ep-spinner {
+  width: 48px;
+  height: 48px;
+  border: 3px solid rgba(255, 255, 255, 0.15);
+  border-top-color: #FAEC23;
+  border-radius: 50%;
+  animation: ep-spin 0.8s linear infinite;
+}
+
+.ep-loading-text {
+  font-size: 16px;
+  color: #888888;
+  margin: 0;
+}
+
+/* === Complete Screen === */
+.ep-complete-screen {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: #000000;
+  color: #fff;
+  animation: ep-fade-in 0.4s ease;
+}
+
+.ep-complete-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.ep-complete-logo {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+  margin-bottom: 20px;
+}
+
+.ep-complete-bell {
+  font-size: 64px;
+  line-height: 1;
+  margin-bottom: 12px;
+  filter: drop-shadow(0 4px 12px rgba(250, 236, 35, 0.3));
+}
+
+.ep-complete-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #fff;
+  margin: 0;
+}
+
+.ep-complete-subtitle {
+  font-size: 14px;
+  color: #888888;
+  margin: 0;
+}
+
+/* === Animations === */
+@keyframes ep-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes ep-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

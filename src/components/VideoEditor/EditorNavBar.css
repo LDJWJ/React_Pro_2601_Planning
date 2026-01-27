@@ -1,0 +1,44 @@
+/* EditorNavBar.css */
+
+.ve-navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  height: 60px;
+  background: #1a1a1a;
+  padding: 0;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+.ve-navbar-tab {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  background: none;
+  border: none;
+  color: #888;
+  cursor: pointer;
+  padding: 8px 12px;
+  transition: color 0.2s;
+  flex: 1;
+}
+
+.ve-navbar-tab:hover {
+  color: #aaa;
+}
+
+.ve-navbar-tab.active {
+  color: #FAFF5E;
+}
+
+.ve-navbar-tab-icon {
+  font-size: 20px;
+  line-height: 1;
+}
+
+.ve-navbar-tab-label {
+  font-size: 10px;
+  font-weight: 500;
+}
