@@ -2,7 +2,7 @@
 .home-container {
   min-height: 100%;
   height: 100%;
-  background-color: #000000;
+  background-color: var(--bg-surface);
   padding-top: 20px;
   padding-bottom: 90px;
   overflow-y: auto;
@@ -13,9 +13,8 @@
   padding: 12px 20px 16px;
   position: sticky;
   top: 0;
-  background-color: #000000;
+  background-color: var(--bg-surface);
   z-index: 100;
-  /* 스크롤 시 아래 콘텐츠와 구분 */
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
 }
 
@@ -23,25 +22,25 @@
   display: flex;
   align-items: center;
   padding: 14px 16px;
-  background-color: #1C1C1E;
+  background-color: var(--bg-card-dark);
   border-radius: 12px;
   cursor: pointer;
   transition: background-color 0.2s;
 }
 
 .search-bar:hover {
-  background-color: #2C2C2E;
+  background-color: var(--bg-tertiary);
 }
 
 .search-icon {
   font-size: 16px;
   margin-right: 10px;
-  color: #888;
+  color: var(--text-secondary);
 }
 
 .search-placeholder {
-  font-size: 14px;
-  color: #888;
+  font-size: var(--font-size-14);
+  color: var(--text-secondary);
 }
 
 /* Main Recommend Section */
@@ -111,7 +110,7 @@
 .card-skeleton {
   width: 100%;
   height: 100%;
-  background: linear-gradient(135deg, #2C2C2E 0%, #1C1C1E 50%, #2C2C2E 100%);
+  background: linear-gradient(135deg, var(--bg-tertiary) 0%, var(--bg-card-dark) 50%, var(--bg-tertiary) 100%);
   background-size: 200% 200%;
   animation: shimmer 1.5s ease-in-out infinite;
 }
@@ -138,9 +137,9 @@
   padding: 12px 20px;
   background-color: rgba(0, 0, 0, 0.6);
   border-radius: 8px;
-  color: #FFFFFF;
-  font-size: 15px;
-  font-weight: 600;
+  color: var(--text-primary);
+  font-size: var(--font-size-14);
+  font-weight: var(--font-weight-semibold);
   text-align: center;
   max-width: 80%;
   backdrop-filter: blur(4px);
@@ -159,20 +158,20 @@
   height: 6px;
   border-radius: 50%;
   border: none;
-  background-color: #444;
+  background-color: var(--gray-600);
   cursor: pointer;
   transition: all 0.3s ease;
   padding: 0;
 }
 
 .indicator-dot.active {
-  background-color: #FFFFFF;
+  background-color: var(--text-primary);
   width: 20px;
   border-radius: 3px;
 }
 
 .indicator-dot:hover:not(.active) {
-  background-color: #666;
+  background-color: var(--text-tertiary);
 }
 
 /* Recommend Text */
@@ -182,23 +181,23 @@
 }
 
 .recommend-title {
-  font-size: 22px;
-  font-weight: 700;
-  color: #FFFFFF;
-  line-height: 1.4;
+  font-size: var(--font-size-24);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+  line-height: var(--line-height-140);
   margin: 0 0 10px 0;
 }
 
 .recommend-reason {
-  font-size: 14px;
-  color: #888;
+  font-size: var(--font-size-14);
+  color: var(--text-secondary);
   margin: 0;
 }
 
 /* Sub Recommend Section */
 .sub-recommend-section {
   padding: 24px 20px;
-  border-top: 8px solid #1C1C1E;
+  border-top: 8px solid var(--bg-card-dark);
 }
 
 .section-header {
@@ -213,21 +212,23 @@
 }
 
 .section-title {
-  font-size: 17px;
-  font-weight: 700;
-  color: #FFFFFF;
+  font-size: var(--font-size-18);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
   margin: 0 0 4px 0;
 }
 
 .section-subtitle {
-  font-size: 12px;
-  color: #888;
+  font-size: var(--font-size-12);
+  font-weight: var(--font-weight-medium);
+  color: var(--text-secondary);
   margin: 0;
 }
 
 .more-button {
-  font-size: 13px;
-  color: #888;
+  font-size: var(--font-size-13);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-secondary);
   background: none;
   border: none;
   cursor: pointer;
@@ -236,7 +237,7 @@
 }
 
 .more-button:hover {
-  color: #FAFF5E;
+  color: var(--text-accent);
 }
 
 /* Template Grid */
@@ -263,16 +264,16 @@
 }
 
 .template-card:hover {
-  transform: scale(1.03);
+  transform: scale(var(--card-tpl-hover-scale));
 }
 
 .template-thumbnail {
   position: relative;
   width: 100%;
-  aspect-ratio: 3 / 4;
-  border-radius: 12px;
+  aspect-ratio: var(--card-tpl-s-aspect);
+  border-radius: var(--card-tpl-border-radius);
   overflow: hidden;
-  background-color: #1C1C1E;
+  background-color: var(--bg-card-dark);
 }
 
 .template-image {
@@ -284,7 +285,7 @@
 .thumbnail-placeholder.small {
   width: 100%;
   height: 100%;
-  background: linear-gradient(180deg, #2C2C2E 0%, #1C1C1E 100%);
+  background: linear-gradient(180deg, var(--bg-tertiary) 0%, var(--bg-card-dark) 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -294,31 +295,81 @@
   content: '';
   width: 30px;
   height: 45px;
-  border: 2px solid #444;
+  border: 2px solid var(--gray-600);
   border-radius: 6px;
   background: transparent;
 }
 
 .template-users {
   position: absolute;
-  top: 8px;
-  left: 8px;
+  top: var(--card-tpl-badge-offset);
+  left: var(--card-tpl-badge-offset);
   display: flex;
   align-items: center;
   gap: 4px;
-  padding: 4px 8px;
-  background-color: rgba(0, 0, 0, 0.5);
-  border-radius: 12px;
+  padding: var(--card-tpl-badge-padding);
+  background-color: var(--card-tpl-badge-bg);
+  border-radius: var(--card-tpl-badge-radius);
 }
 
-.users-icon {
-  font-size: 10px;
+.template-users svg {
+  opacity: 0.9;
 }
 
 .users-count {
-  font-size: 11px;
-  color: #fff;
-  font-weight: 500;
+  font-size: var(--font-size-12);
+  color: var(--text-primary);
+  font-weight: var(--font-weight-medium);
+}
+
+/* Bookmark Button */
+.template-bookmark {
+  position: absolute;
+  top: var(--card-tpl-badge-offset);
+  right: var(--card-tpl-badge-offset);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background-color: var(--card-tpl-badge-bg);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  color: var(--text-primary);
+  transition: all 0.2s ease;
+  padding: 0;
+}
+
+.template-bookmark:hover {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.template-bookmark:active {
+  transform: scale(0.95);
+}
+
+/* Info Tags */
+.template-info-tags {
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+  display: flex;
+  gap: 6px;
+}
+
+.template-info-tag {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  font-size: var(--font-size-12);
+  font-weight: var(--font-weight-medium);
+  color: var(--text-primary);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.template-info-tag svg {
+  opacity: 0.9;
 }
 
 /* Mobile Responsive */
@@ -329,7 +380,7 @@
   }
 
   .recommend-title {
-    font-size: 20px;
+    font-size: var(--font-size-20);
   }
 }
 

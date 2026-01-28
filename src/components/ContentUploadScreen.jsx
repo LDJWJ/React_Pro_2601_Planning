@@ -331,14 +331,19 @@ function ContentUploadScreen({ template, onBack, onNext, savedMemos }) {
         <div className="content-planning-section">
           <div className="content-planning-header">
             <span className="content-planning-label">콘텐츠 기획 📋 {currentCutIndex + 1}</span>
-            <span className="content-planning-duration">{currentCut.duration}</span>
           </div>
           <div className="content-planning-card">
-            <div className="planning-card-title">{currentCutIndex + 1}번째 영상 포인트</div>
-            <div className="planning-card-description">{currentCut.description}</div>
-            {currentCut.memo && (
-              <div className="planning-card-memo">{currentCut.memo}</div>
-            )}
+            <div className="planning-card-badge">{currentCutIndex + 1}</div>
+            <div className="planning-card-body">
+              <div className="planning-card-header-row">
+                <span className="planning-card-title">{currentCut.title || `${currentCutIndex + 1}번째 영상 포인트`}</span>
+                <span className="planning-card-time-chip">{currentCut.duration}</span>
+              </div>
+              <p className="planning-card-description">{currentCut.description}</p>
+              {currentCut.memo && (
+                <div className="planning-card-memo">{currentCut.memo}</div>
+              )}
+            </div>
           </div>
         </div>
 

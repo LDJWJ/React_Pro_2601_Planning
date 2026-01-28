@@ -46,18 +46,24 @@ const weekendTemplates = [
     id: 6,
     title: '주말 브이로그',
     users: 300,
+    duration: '18초',
+    cuts: 6,
     image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=300&h=400&fit=crop'
   },
   {
     id: 7,
     title: '카페 투어',
     users: 300,
+    duration: '12초',
+    cuts: 4,
     image: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=300&h=400&fit=crop'
   },
   {
     id: 8,
     title: '맛집 리뷰',
     users: 300,
+    duration: '15초',
+    cuts: 5,
     image: 'https://images.unsplash.com/photo-1551024601-bec78aea704b?w=300&h=400&fit=crop'
   },
 ];
@@ -307,8 +313,29 @@ function Home({ user, selections, onLogout, onTabChange, activeTab = 'template' 
                 />
                 <div className="thumbnail-placeholder small" style={{ display: 'none' }}></div>
                 <div className="template-users">
-                  <span className="users-icon">👤</span>
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
+                  </svg>
                   <span className="users-count">{template.users}</span>
+                </div>
+                <button className="template-bookmark" onClick={(e) => e.stopPropagation()}>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+                  </svg>
+                </button>
+                <div className="template-info-tags">
+                  <span className="template-info-tag">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
+                    </svg>
+                    {template.duration}
+                  </span>
+                  <span className="template-info-tag">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M18 4l2 4h-3l-2-4h-2l2 4h-3l-2-4H8l2 4H7L5 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4h-4z"/>
+                    </svg>
+                    {template.cuts}컷
+                  </span>
                 </div>
               </div>
             </div>

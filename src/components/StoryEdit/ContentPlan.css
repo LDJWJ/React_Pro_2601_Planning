@@ -10,42 +10,66 @@
 }
 
 .se-content-plan-label {
-  font-size: 16px;
-  font-weight: 700;
-  color: #1a1a1a;
-}
-
-.se-content-plan-duration {
-  font-size: 13px;
-  font-weight: 600;
-  color: #fff;
-  background: #1a1a1a;
-  padding: 4px 10px;
-  border-radius: 12px;
+  font-size: var(--font-size-16);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-inverse);
 }
 
 .se-content-plan-card {
-  background: var(--color-card, #F5F5F5);
-  border-radius: 12px;
-  padding: 16px;
+  display: flex;
+  gap: var(--card-guide-gap);
+  padding: var(--card-guide-padding);
+  background-color: var(--card-guide-bg);
+  border: 1px solid var(--card-guide-border-color);
+  border-radius: var(--card-guide-border-radius);
 }
 
-.se-plan-card-title {
-  font-size: 15px;
-  font-weight: 600;
-  color: #1a1a1a;
-  margin-bottom: 6px;
+.se-plan-badge {
+  width: var(--card-guide-badge-size);
+  height: var(--card-guide-badge-size);
+  min-width: var(--card-guide-badge-size);
+  background-color: var(--card-guide-badge-bg);
+  color: var(--card-guide-badge-color);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-size-13);
+  font-weight: var(--font-weight-semibold);
 }
 
-.se-plan-card-point {
-  font-size: 14px;
-  font-weight: 500;
-  color: #333;
-  margin-bottom: 4px;
+.se-plan-body {
+  flex: 1;
+  min-width: 0;
 }
 
-.se-plan-card-description {
-  font-size: 14px;
-  color: #888;
-  line-height: 1.5;
+.se-plan-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2px;
+}
+
+.se-plan-title {
+  font-size: var(--font-size-14);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+}
+
+.se-plan-time-chip {
+  font-size: var(--font-size-12);
+  color: var(--card-guide-time-color);
+  background-color: transparent;
+  padding: var(--card-guide-time-padding);
+  border-radius: var(--card-guide-time-radius);
+  border: 1px solid var(--card-guide-time-color);
+  font-weight: var(--font-weight-medium);
+}
+
+.se-plan-description {
+  margin: 0;
+  font-size: var(--font-size-13);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-secondary);
+  line-height: var(--line-height-140);
 }

@@ -5,12 +5,16 @@ function ContentPlan({ cutNumber, duration, point, description }) {
     <div className="se-content-plan">
       <div className="se-content-plan-header">
         <span className="se-content-plan-label">콘텐츠 기획 📋 {cutNumber}</span>
-        <span className="se-content-plan-duration">{duration}</span>
       </div>
       <div className="se-content-plan-card">
-        <div className="se-plan-card-title">{cutNumber}번째 영상 포인트</div>
-        {point && <div className="se-plan-card-point">{point}</div>}
-        <div className="se-plan-card-description">{description}</div>
+        <div className="se-plan-badge">{cutNumber}</div>
+        <div className="se-plan-body">
+          <div className="se-plan-header-row">
+            <span className="se-plan-title">{point || `${cutNumber}번째 영상 포인트`}</span>
+            <span className="se-plan-time-chip">{duration}</span>
+          </div>
+          <p className="se-plan-description">{description}</p>
+        </div>
       </div>
     </div>
   );
