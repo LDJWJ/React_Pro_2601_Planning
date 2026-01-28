@@ -1,0 +1,31 @@
+/* Chip – HookHook Design System
+   BEM: .hh-chip  .hh-chip--{variant} */
+
+.hh-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  font-family: inherit;
+  box-sizing: border-box;
+}
+
+/* ── Time variant ──────────────────────────────── */
+.hh-chip--time {
+  font-size: var(--font-size-12);
+  font-weight: var(--font-weight-medium);
+  color: var(--chip-time-color);
+  background-color: var(--chip-time-bg);
+  padding: var(--chip-time-padding);
+  border-radius: var(--chip-time-radius);
+}
+
+/* ── Category variant ──────────────────────────── */
+.hh-chip--category {
+  font-size: var(--font-size-12);
+  font-weight: var(--font-weight-medium);
+  color: var(--chip-category-color);
+  background-color: var(--chip-category-bg);
+  padding: var(--chip-category-padding);
+  border-radius: var(--chip-category-radius);
+}

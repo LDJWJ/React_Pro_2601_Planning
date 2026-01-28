@@ -1,4 +1,5 @@
 import './ContentPlan.css';
+import { Chip } from '../common';
 
 function ContentPlan({ cutNumber, duration, point, description }) {
   return (
@@ -11,7 +12,7 @@ function ContentPlan({ cutNumber, duration, point, description }) {
         <div className="se-plan-body">
           <div className="se-plan-header-row">
             <span className="se-plan-title">{point || `${cutNumber}번째 영상 포인트`}</span>
-            <span className="se-plan-time-chip">{duration}</span>
+            <Chip variant="time">{duration}</Chip>
           </div>
           <p className="se-plan-description">{description}</p>
         </div>

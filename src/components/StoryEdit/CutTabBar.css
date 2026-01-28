@@ -87,14 +87,18 @@
 
 /* Progress bar */
 .se-progress-bar {
-  height: 3px;
-  background: var(--gray-100);
-  position: relative;
+  display: flex;
+  gap: 2px;
 }
 
-.se-progress-fill {
-  height: 100%;
-  background: var(--color-primary, var(--se-accent));
-  border-radius: 0 2px 2px 0;
-  transition: width 0.3s ease;
+.se-progress-segment {
+  flex: 1;
+  height: 6px;
+  border-radius: 3px;
+  background-color: var(--yellow-900);
+  transition: background-color 0.3s ease;
+}
+
+.se-progress-segment.active {
+  background-color: var(--fill-primary);
 }

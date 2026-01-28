@@ -3,9 +3,6 @@ import './CutTabBar.css';
 
 function CutTabBar({ cuts, currentCutIndex, onCutSelect, onVideoUpload }) {
   const fileInputRef = useRef(null);
-  const completedCount = cuts.filter(c => c.isCompleted).length;
-  const progress = cuts.length > 0 ? (completedCount / cuts.length) * 100 : 0;
-
   const parseDuration = (durationStr) => {
     if (!durationStr) return '';
     const match = String(durationStr).match(/(\d+(\.\d+)?)/);
@@ -49,7 +46,12 @@ function CutTabBar({ cuts, currentCutIndex, onCutSelect, onVideoUpload }) {
         style={{ display: 'none' }}
       />
       <div className="se-progress-bar">
-        <div className="se-progress-fill" style={{ width: `${progress}%` }} />
+        {cuts.map((cut, index) => (
+          <div
+            key={cut.id}
+            className={`se-progress-segment ${cut.isCompleted ? 'active' : ''}`}
+          />
+        ))}
       </div>
     </div>
   );
