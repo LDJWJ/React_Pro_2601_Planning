@@ -23,7 +23,7 @@
   border: none;
   background: transparent;
   color: var(--text-primary);
-  font-size: 24px;
+  font-size: var(--font-size-24);
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -186,7 +186,7 @@
   background: var(--yellow-50);
   border-color: var(--fill-primary);
   color: var(--text-inverse);
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
 }
 
 .timeline-accent-line {
@@ -227,6 +227,10 @@
   background-color: var(--card-guide-bg);
   border: 1px solid var(--card-guide-border-color);
   border-radius: var(--card-guide-border-radius);
+}
+
+.content-planning-card-filled {
+  border-color: var(--card-guide-border-focus);
 }
 
 .planning-card-badge {

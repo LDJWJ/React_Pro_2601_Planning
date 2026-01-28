@@ -332,7 +332,7 @@ function ContentUploadScreen({ template, onBack, onNext, savedMemos }) {
           <div className="content-planning-header">
             <span className="content-planning-label">콘텐츠 기획 📋 {currentCutIndex + 1}</span>
           </div>
-          <div className="content-planning-card">
+          <div className={`content-planning-card ${currentCut.memo ? 'content-planning-card-filled' : ''}`}>
             <div className="planning-card-badge">{currentCutIndex + 1}</div>
             <div className="planning-card-body">
               <div className="planning-card-header-row">

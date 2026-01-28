@@ -204,7 +204,13 @@ function StoryPlanningScreen({ template, onBack, onSave, initialMemos }) {
             {cuts.map((cut, index) => (
               <div
                 key={cut.id}
-                className={`sp-cut-item ${activeCutId === cut.id ? 'sp-cut-item-active' : ''}`}
+                className={`sp-cut-item ${
+                  activeCutId === cut.id
+                    ? 'sp-cut-item-active'
+                    : memos[cut.id]?.trim()
+                      ? 'sp-cut-item-filled'
+                      : ''
+                }`}
                 onClick={() => handleCutSelect(cut)}
               >
                 <div className="sp-cut-number">{index + 1}</div>
