@@ -314,7 +314,10 @@
   transition: opacity 0.2s;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 6px;
+  min-width: 120px;
+  box-sizing: border-box;
 }
 
 .ai-subtitle-chip:hover {

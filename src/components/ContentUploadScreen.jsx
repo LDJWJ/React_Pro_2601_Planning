@@ -159,6 +159,8 @@ function ContentUploadScreen({ template, onBack, onNext, savedMemos }) {
           cutTitle: currentCut?.title || '',
           cutDescription: currentCut?.description || '',
           memo: currentCut?.memo || '',
+          templateTitle: template?.title || '',
+          templateCategory: template?.category || '',
         }),
       });
 

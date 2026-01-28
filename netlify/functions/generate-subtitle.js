@@ -25,7 +25,7 @@ export async function handler(event) {
   }
 
   try {
-    const { cutTitle, cutDescription, memo } = JSON.parse(event.body);
+    const { cutTitle, cutDescription, memo, templateTitle, templateCategory } = JSON.parse(event.body);
 
     // 환경 변수에서 API 키 가져오기
     const apiKey = process.env.OPENAI_API_KEY;
@@ -38,6 +38,11 @@ export async function handler(event) {
       };
     }
 
+    // 템플릿 컨텍스트 생성
+    const templateContext = templateTitle || templateCategory
+      ? `\n템플릿: ${templateTitle || ''}${templateCategory ? ` (${templateCategory})` : ''}`
+      : '';
+
     // ChatGPT API 호출
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
@@ -46,22 +51,24 @@ export async function handler(event) {
         'Authorization': `Bearer ${apiKey}`,
       },
       body: JSON.stringify({
-        model: 'gpt-3.5-turbo',
+        model: 'gpt-4o-mini',
         messages: [
           {
             role: 'system',
             content: `당신은 짧은 영상 자막을 작성하는 전문가입니다.
-사용자가 제공하는 컷 정보를 바탕으로 짧고 매력적인 자막 3개를 추천해주세요.
+사용자가 제공하는 콘텐츠 기획 정보를 바탕으로 짧고 매력적인 자막 3개를 추천해주세요.
 각 자막은 20자 이내로, 시청자의 관심을 끌 수 있어야 합니다.
+템플릿의 전체 콘텐츠 흐름과 해당 컷의 역할을 고려하여 자막을 작성하세요.
 JSON 배열 형식으로만 응답하세요. 예: ["자막1", "자막2", "자막3"]`,
           },
           {
             role: 'user',
-            content: `컷 제목: ${cutTitle || '영상 컷'}
+            content: `${templateContext}
+컷 제목: ${cutTitle || '영상 컷'}
 컷 설명: ${cutDescription || ''}
 사용자 메모: ${memo || '없음'}
 
-위 정보를 바탕으로 짧고 매력적인 자막 3개를 추천해주세요.`,
+위 콘텐츠 기획 정보를 바탕으로 짧고 매력적인 자막 3개를 추천해주세요.`,
           },
         ],
         temperature: 0.8,
