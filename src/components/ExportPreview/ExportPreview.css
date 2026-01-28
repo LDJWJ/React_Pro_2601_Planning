@@ -7,7 +7,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: #000000;
+  background: var(--bg-surface);
   display: flex;
   justify-content: center;
   z-index: 100;
@@ -20,8 +20,8 @@
   display: flex;
   flex-direction: column;
   position: relative;
-  background: #000000;
-  color: #fff;
+  background: var(--bg-surface);
+  color: var(--text-primary);
 }
 
 /* === Header === */
@@ -30,14 +30,14 @@
   align-items: center;
   height: 52px;
   padding: 0 16px;
-  background: #000000;
+  background: var(--bg-surface);
   flex-shrink: 0;
 }
 
 .ep-header-back {
   background: none;
   border: none;
-  color: #fff;
+  color: var(--text-primary);
   font-size: 22px;
   cursor: pointer;
   padding: 4px 8px 4px 0;
@@ -48,9 +48,9 @@
 .ep-header-title {
   flex: 1;
   text-align: center;
-  font-size: 16px;
-  font-weight: 600;
-  color: #fff;
+  font-size: var(--font-size-16);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
 }
 
 .ep-header-spacer {
@@ -63,7 +63,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #000000;
+  background: var(--bg-surface);
   position: relative;
   overflow: hidden;
   min-height: 0;
@@ -83,7 +83,7 @@
   max-height: 100%;
   border-radius: 12px;
   overflow: hidden;
-  background: #111;
+  background: var(--gray-950);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -97,8 +97,8 @@
 }
 
 .ep-preview-placeholder {
-  color: #666;
-  font-size: 14px;
+  color: var(--text-tertiary);
+  font-size: var(--font-size-14);
 }
 
 /* Subtitle overlay */
@@ -117,10 +117,10 @@
   padding: 6px 14px;
   background: rgba(0, 0, 0, 0.6);
   border-radius: 6px;
-  color: #FFD700;
-  font-size: 15px;
-  font-weight: 700;
-  line-height: 1.4;
+  color: var(--editor-playhead);
+  font-size: var(--font-size-14);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-140);
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
 }
 
@@ -149,8 +149,8 @@
 }
 
 .ep-play-icon {
-  color: #fff;
-  font-size: 20px;
+  color: var(--text-primary);
+  font-size: var(--font-size-20);
   margin-left: 2px;
 }
 
@@ -159,51 +159,6 @@
   padding: 16px 20px;
   padding-bottom: max(20px, env(safe-area-inset-bottom));
   flex-shrink: 0;
-}
-
-/* Solid yellow button (review CTA & export CTA) */
-.ep-yellow-btn {
-  width: 100%;
-  padding: 16px;
-  background: #FAEC23;
-  color: #000;
-  border: none;
-  border-radius: 12px;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-}
-
-.ep-yellow-btn:active {
-  opacity: 0.85;
-}
-
-/* Outline yellow button (complete screen) */
-.ep-outline-btn {
-  width: 100%;
-  padding: 16px;
-  background: transparent;
-  color: #FAEC23;
-  border: 2px solid #FAEC23;
-  border-radius: 12px;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.ep-outline-btn:active {
-  background: rgba(250, 236, 35, 0.1);
-}
-
-.ep-export-icon {
-  font-size: 18px;
 }
 
 /* === Modal Overlay (settings bottom sheet) === */
@@ -228,7 +183,7 @@
 .ep-modal-sheet {
   width: 100%;
   max-width: 430px;
-  background: #1C1C1E;
+  background: var(--bg-card-dark);
   border-radius: 16px 16px 0 0;
   padding-bottom: max(16px, env(safe-area-inset-bottom));
   transform: translateY(100%);
@@ -247,16 +202,16 @@
 }
 
 .ep-modal-title {
-  font-size: 16px;
-  font-weight: 600;
-  color: #fff;
+  font-size: var(--font-size-16);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
 }
 
 .ep-modal-close {
   background: none;
   border: none;
-  color: #999;
-  font-size: 20px;
+  color: var(--text-secondary);
+  font-size: var(--font-size-20);
   cursor: pointer;
   padding: 4px 0;
   line-height: 1;
@@ -272,7 +227,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 14px 0;
-  border-bottom: 1px solid #333;
+  border-bottom: 1px solid var(--line-primary);
 }
 
 .ep-setting-row:last-child {
@@ -281,19 +236,19 @@
 
 .ep-setting-label {
   width: 56px;
-  font-size: 14px;
-  color: #999;
+  font-size: var(--font-size-14);
+  color: var(--text-secondary);
   flex-shrink: 0;
 }
 
 .ep-setting-select {
   flex: 1;
-  background: #2C2C2E;
-  color: #fff;
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
   border: none;
   border-radius: 8px;
   padding: 10px 36px 10px 14px;
-  font-size: 14px;
+  font-size: var(--font-size-14);
   appearance: none;
   -webkit-appearance: none;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
@@ -318,22 +273,23 @@
   align-items: center;
   justify-content: center;
   gap: 20px;
-  background: #000000;
-  color: #fff;
+  background: var(--bg-surface);
+  color: var(--text-primary);
 }
 
 .ep-spinner {
   width: 48px;
   height: 48px;
   border: 3px solid rgba(255, 255, 255, 0.15);
-  border-top-color: #FAEC23;
+  border-top-color: var(--fill-primary);
   border-radius: 50%;
   animation: ep-spin 0.8s linear infinite;
 }
 
 .ep-loading-text {
-  font-size: 16px;
-  color: #888888;
+  font-size: var(--font-size-16);
+  font-weight: var(--font-weight-medium);
+  color: var(--text-secondary);
   margin: 0;
 }
 
@@ -342,8 +298,8 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  background: #000000;
-  color: #fff;
+  background: var(--bg-surface);
+  color: var(--text-primary);
   animation: ep-fade-in 0.4s ease;
 }
 
@@ -367,19 +323,19 @@
   font-size: 64px;
   line-height: 1;
   margin-bottom: 12px;
-  filter: drop-shadow(0 4px 12px rgba(250, 236, 35, 0.3));
+  filter: drop-shadow(0 4px 12px rgba(248, 255, 51, 0.3));
 }
 
 .ep-complete-title {
-  font-size: 24px;
-  font-weight: 700;
-  color: #fff;
+  font-size: var(--font-size-24);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
   margin: 0;
 }
 
 .ep-complete-subtitle {
-  font-size: 14px;
-  color: #888888;
+  font-size: var(--font-size-14);
+  color: var(--text-secondary);
   margin: 0;
 }
 

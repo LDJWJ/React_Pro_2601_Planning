@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect, useCallback, useMemo } from 'react';
 import logoImg from '../../assets/logo.png';
+import { Button } from '../common';
 import { logScreenView, logButtonClick } from '../../utils/logger';
 import './ExportPreview.css';
 
@@ -207,9 +208,9 @@ function ExportPreview({ cuts, onBack, onGoHome }) {
               <p className="ep-complete-subtitle">갤러리 화면을 확인해주세요!</p>
             </div>
             <div className="ep-bottom-bar">
-              <button className="ep-outline-btn" onClick={handleGoHome}>
+              <Button variant="tertiary" fullWidth onClick={handleGoHome}>
                 홈으로 이동하기
-              </button>
+              </Button>
             </div>
           </div>
         </div>
@@ -270,9 +271,9 @@ function ExportPreview({ cuts, onBack, onGoHome }) {
         {/* Bottom CTA (review only) */}
         {step === 'review' && (
           <div className="ep-bottom-bar">
-            <button className="ep-yellow-btn" onClick={openSheet}>
+            <Button variant="primary" fullWidth onClick={openSheet}>
               내보내기 설정하기
-            </button>
+            </Button>
           </div>
         )}
 
@@ -348,10 +349,9 @@ function ExportPreview({ cuts, onBack, onGoHome }) {
               </div>
 
               <div className="ep-modal-footer">
-                <button className="ep-yellow-btn" onClick={handleExportStart}>
-                  <span className="ep-export-icon">&#8595;</span>
+                <Button variant="primary" fullWidth onClick={handleExportStart} iconLeft={<span>↓</span>}>
                   내보내기
-                </button>
+                </Button>
               </div>
             </div>
           </div>

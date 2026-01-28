@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import './StoryPlanningScreen.css';
+import { Button } from './common';
 import { logScreenView, logButtonClick, logScroll } from '../utils/logger';
 
 // 샘플 데이터
@@ -217,7 +218,7 @@ function StoryPlanningScreen({ template, onBack, onSave, initialMemos }) {
                 <div className="sp-cut-content">
                   <div className="sp-cut-header">
                     <span className="sp-cut-title">{cut.title}</span>
-                    <span className="sp-cut-time-badge">{cut.time}</span>
+                    <Chip variant="time">{cut.time}</Chip>
                   </div>
                   <p className="sp-cut-description">{cut.description}</p>
                   <input
@@ -235,12 +236,12 @@ function StoryPlanningScreen({ template, onBack, onSave, initialMemos }) {
 
           {/* 하단 버튼 - 스크롤 내부에 포함 */}
           <div className="story-bottom-buttons">
-            <button className="cancel-button" onClick={handleCancel}>
+            <Button variant="secondary" onClick={handleCancel}>
               취소
-            </button>
-            <button className="save-button" onClick={handleSave}>
+            </Button>
+            <Button variant="primary" onClick={handleSave}>
               저장하기
-            </button>
+            </Button>
           </div>
         </div>
       </div>
@@ -252,12 +253,12 @@ function StoryPlanningScreen({ template, onBack, onSave, initialMemos }) {
             <h3 className="story-modal-title">스토리 기획을 저장할까요?</h3>
             <p className="story-modal-description">입력한 메모가 저장돼요.</p>
             <div className="story-modal-buttons">
-              <button className="modal-cancel-button" onClick={handleCloseModal}>
+              <Button variant="secondary" fullWidth onClick={handleCloseModal}>
                 아니요
-              </button>
-              <button className="modal-confirm-button" onClick={handleConfirmSave}>
+              </Button>
+              <Button variant="primary" fullWidth onClick={handleConfirmSave}>
                 저장하기
-              </button>
+              </Button>
             </div>
           </div>
         </div>

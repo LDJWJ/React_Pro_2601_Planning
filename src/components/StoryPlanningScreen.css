@@ -219,16 +219,6 @@
   color: var(--text-primary);
 }
 
-.sp-cut-time-badge {
-  font-size: var(--font-size-12);
-  color: var(--card-guide-time-color);
-  background-color: transparent;
-  padding: var(--card-guide-time-padding);
-  border-radius: var(--card-guide-time-radius);
-  border: 1px solid var(--card-guide-time-color);
-  font-weight: var(--font-weight-medium);
-}
-
 .sp-cut-description {
   margin: 0;
   font-size: var(--font-size-13);
@@ -282,41 +272,6 @@
   margin-top: 8px;
 }
 
-.cancel-button {
-  width: 80px;
-  min-width: 80px;
-  padding: 14px 0;
-  background-color: transparent;
-  color: var(--gray-200);
-  border: 1px solid var(--gray-600);
-  border-radius: 8px;
-  font-size: var(--font-size-14);
-  font-weight: var(--font-weight-medium);
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-.cancel-button:hover {
-  background-color: var(--bg-secondary);
-}
-
-.story-bottom-buttons .save-button {
-  flex: 1;
-  padding: 14px 24px;
-  background-color: var(--fill-primary);
-  color: var(--text-on-primary);
-  border: none;
-  border-radius: 8px;
-  font-size: var(--font-size-14);
-  font-weight: var(--font-weight-semibold);
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-.story-bottom-buttons .save-button:hover {
-  background-color: var(--fill-primary-hover);
-}
-
 /* 저장 확인 모달 */
 .story-modal-overlay {
   position: fixed;
@@ -357,40 +312,6 @@
 .story-modal-buttons {
   display: flex;
   gap: 8px;
-}
-
-.modal-cancel-button {
-  flex: 1;
-  padding: 14px 0;
-  background-color: transparent;
-  color: var(--gray-200);
-  border: 1px solid var(--gray-600);
-  border-radius: 9999px;
-  font-size: var(--font-size-14);
-  font-weight: var(--font-weight-medium);
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-.modal-cancel-button:hover {
-  background-color: var(--bg-tertiary);
-}
-
-.modal-confirm-button {
-  flex: 1;
-  padding: 14px 0;
-  background-color: #111827;
-  color: var(--text-primary);
-  border: none;
-  border-radius: 9999px;
-  font-size: var(--font-size-14);
-  font-weight: var(--font-weight-semibold);
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-.modal-confirm-button:hover {
-  background-color: #1f2937;
 }
 
 /* 모바일 대응 */

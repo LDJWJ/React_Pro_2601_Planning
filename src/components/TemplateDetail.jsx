@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import './TemplateDetail.css';
+import { Button } from './common';
 import { logScreenView, logButtonClick } from '../utils/logger';
 
 function TemplateDetail({ template, onBack, onTabChange, onStoryPlanning, onStoryEdit, onContentUpload }) {
@@ -123,9 +124,9 @@ function TemplateDetail({ template, onBack, onTabChange, onStoryPlanning, onStor
                   <span className="hashtag">#브이로그</span>
                   <span className="hashtag">#감성</span>
                 </div>
-                <button className="start-edit-button" onClick={handleStartEdit}>
+                <Button variant="primary" fullWidth onClick={handleStartEdit}>
                   편집 시작하기
-                </button>
+                </Button>
               </div>
               <div className="info-items-column">
                 <button className={`info-item info-icon-btn${activeIcon === 'duration' ? ' info-item-active' : ''}`} onClick={(e) => { e.stopPropagation(); handleIconSelect('duration'); }}>

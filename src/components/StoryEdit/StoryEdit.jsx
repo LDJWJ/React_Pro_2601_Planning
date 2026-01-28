@@ -3,6 +3,7 @@ import './StoryEdit.css';
 import CutTabBar from './CutTabBar';
 import ContentPlan from './ContentPlan';
 import SubtitleSection from './SubtitleSection';
+import { Button } from '../common';
 import { logScreenView, logButtonClick } from '../../utils/logger';
 import { saveCut, saveAllCuts, loadAllCuts } from '../../utils/storyEditDB';
 
@@ -318,12 +319,12 @@ function StoryEdit({ template, onBack, onComplete, savedMemos, user }) {
 
         {/* 하단 버튼 */}
         <div className="se-footer-buttons">
-          <button className="se-save-btn" onClick={handleSave}>
+          <Button variant="secondary" onClick={handleSave}>
             저장하기
-          </button>
-          <button className="se-complete-btn" onClick={handleComplete}>
+          </Button>
+          <Button variant="primary" onClick={handleComplete}>
             완성하기
-          </button>
+          </Button>
         </div>
       </div>
 

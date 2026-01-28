@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import './ContentUploadScreen.css';
+import { Button } from './common';
 import { logScreenView, logButtonClick, logScroll } from '../utils/logger';
 
 function ContentUploadScreen({ template, onBack, onNext, savedMemos }) {
@@ -337,7 +338,7 @@ function ContentUploadScreen({ template, onBack, onNext, savedMemos }) {
             <div className="planning-card-body">
               <div className="planning-card-header-row">
                 <span className="planning-card-title">{currentCut.title || `${currentCutIndex + 1}번째 영상 포인트`}</span>
-                <span className="planning-card-time-chip">{currentCut.duration}</span>
+                <Chip variant="time">{currentCut.duration}</Chip>
               </div>
               <p className="planning-card-description">{currentCut.description}</p>
               {currentCut.memo && (
@@ -394,12 +395,12 @@ function ContentUploadScreen({ template, onBack, onNext, savedMemos }) {
 
         {/* 하단 버튼 */}
         <div className="content-upload-footer-redesign">
-          <button className="complete-button" onClick={handleComplete}>
+          <Button variant="primary" onClick={handleComplete}>
             완성하기
-          </button>
-          <button className="save-progress-button" onClick={handleSaveProgress}>
+          </Button>
+          <Button variant="secondary" onClick={handleSaveProgress}>
             저장하기
-          </button>
+          </Button>
         </div>
       </div>
     </div>

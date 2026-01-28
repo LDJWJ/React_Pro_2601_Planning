@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import './Category.css';
+import { Button } from './common';
 import { logScreenView, logButtonClick, logSelect } from '../utils/logger';
 
 const purposes = [
@@ -84,13 +85,9 @@ function CategoryPurpose({ onNext, onBack }) {
       </div>
 
       <div className="category-footer">
-        <button
-          className={`next-button ${selected ? 'active' : ''}`}
-          onClick={handleNext}
-          disabled={!selected}
-        >
+        <Button variant="primary" fullWidth onClick={handleNext} disabled={!selected}>
           다음
-        </button>
+        </Button>
       </div>
     </div>
   );

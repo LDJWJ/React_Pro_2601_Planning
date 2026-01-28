@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import './Category.css';
+import { Button } from './common';
 import { logScreenView, logButtonClick, logSelect } from '../utils/logger';
 
 const platforms = [
@@ -88,13 +89,9 @@ function CategoryPlatform({ onNext, onBack }) {
       </div>
 
       <div className="category-footer">
-        <button
-          className={`next-button ${selected.length > 0 ? 'active' : ''}`}
-          onClick={handleNext}
-          disabled={selected.length === 0}
-        >
+        <Button variant="primary" fullWidth onClick={handleNext} disabled={selected.length === 0}>
           시작하기
-        </button>
+        </Button>
       </div>
     </div>
   );

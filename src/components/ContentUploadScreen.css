@@ -265,16 +265,6 @@
   color: var(--text-primary);
 }
 
-.planning-card-time-chip {
-  font-size: var(--font-size-12);
-  color: var(--card-guide-time-color);
-  background-color: transparent;
-  padding: var(--card-guide-time-padding);
-  border-radius: var(--card-guide-time-radius);
-  border: 1px solid var(--card-guide-time-color);
-  font-weight: var(--font-weight-medium);
-}
-
 .planning-card-description {
   margin: 0;
   font-size: var(--font-size-13);
@@ -412,40 +402,6 @@
   display: flex;
   gap: 12px;
   margin-top: 24px;
-}
-
-.complete-button {
-  flex: 1;
-  padding: 16px 24px;
-  background: var(--fill-primary);
-  border: none;
-  border-radius: 25px;
-  color: var(--text-on-primary);
-  font-size: var(--font-size-16);
-  font-weight: var(--font-weight-semibold);
-  cursor: pointer;
-  transition: opacity 0.2s;
-}
-
-.complete-button:hover {
-  opacity: 0.85;
-}
-
-.save-progress-button {
-  flex: 0 0 auto;
-  padding: 16px 24px;
-  background: var(--gray-100);
-  border: none;
-  border-radius: 25px;
-  color: var(--text-on-primary);
-  font-size: var(--font-size-16);
-  font-weight: var(--font-weight-semibold);
-  cursor: pointer;
-  transition: opacity 0.2s;
-}
-
-.save-progress-button:hover {
-  opacity: 0.85;
 }
 
 /* 로딩 */
