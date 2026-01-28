@@ -68,7 +68,11 @@ function CategoryTopic({ onNext, onBack }) {
 
   return (
     <div className="category-container">
-      <div className="category-progress-bar" style={{ '--progress': '66%' }}></div>
+      <div className="category-progress-bar">
+        <div className="category-progress-segment active" />
+        <div className="category-progress-segment active" />
+        <div className="category-progress-segment" />
+      </div>
 
       <div className="category-content">
         <div className="category-header">

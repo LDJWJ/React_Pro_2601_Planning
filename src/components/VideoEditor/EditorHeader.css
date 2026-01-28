@@ -5,8 +5,8 @@
   align-items: center;
   justify-content: space-between;
   padding: 12px 16px;
-  background: #1a1a1a;
-  border-bottom: 1px solid #333;
+  background: var(--editor-bg);
+  border-bottom: 1px solid var(--editor-border);
   z-index: 10;
   flex-shrink: 0;
 }
@@ -20,8 +20,8 @@
 .ve-header-back-btn {
   background: none;
   border: none;
-  color: #fff;
-  font-size: 20px;
+  color: var(--text-primary);
+  font-size: var(--font-size-20);
   cursor: pointer;
   padding: 4px 8px;
   display: flex;
@@ -29,9 +29,9 @@
 }
 
 .ve-header-title {
-  font-size: 16px;
-  font-weight: 600;
-  color: #fff;
+  font-size: var(--font-size-16);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
 }
 
 .ve-header-center {
@@ -43,24 +43,24 @@
 .ve-header-action-btn {
   background: none;
   border: none;
-  color: #888;
-  font-size: 20px;
+  color: var(--text-secondary);
+  font-size: var(--font-size-20);
   cursor: pointer;
   padding: 4px 8px;
   transition: color 0.2s;
 }
 
 .ve-header-action-btn:not(:disabled):hover {
-  color: #fff;
+  color: var(--text-primary);
 }
 
 .ve-header-action-btn:disabled {
-  color: #444;
+  color: var(--gray-600);
   cursor: not-allowed;
 }
 
 .ve-header-action-btn.active {
-  color: #fff;
+  color: var(--text-primary);
 }
 
 .ve-header-right {
@@ -69,13 +69,13 @@
 }
 
 .ve-header-export-btn {
-  background: #FF6B35;
-  color: #fff;
+  background: var(--editor-export-btn);
+  color: var(--text-primary);
   border: none;
   padding: 8px 16px;
   border-radius: 20px;
-  font-size: 13px;
-  font-weight: 600;
+  font-size: var(--font-size-13);
+  font-weight: var(--font-weight-semibold);
   cursor: pointer;
   transition: opacity 0.2s;
 }

@@ -1,0 +1,115 @@
+/* ============================================================
+   Button – HookHook Design System
+   BEM: .hh-btn  .hh-btn--{variant}  .hh-btn--{size}
+   ============================================================ */
+
+/* ── Base ─────────────────────────────────────────────────── */
+.hh-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--btn-icon-gap);
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color 0.15s, border-color 0.15s, opacity 0.15s;
+  font-family: inherit;
+  box-sizing: border-box;
+}
+
+.hh-btn:disabled {
+  cursor: not-allowed;
+}
+
+/* ── Size ─────────────────────────────────────────────────── */
+.hh-btn--large {
+  height: var(--btn-height-lg);
+  padding: 14px 24px;
+  border-radius: var(--btn-radius-lg);
+  font: var(--typo-body1-b-16);
+}
+
+.hh-btn--small {
+  height: var(--btn-height-sm);
+  padding: 8px 16px;
+  border-radius: var(--btn-radius-sm);
+  font: var(--typo-body3-b-13);
+}
+
+/* ── Full width ───────────────────────────────────────────── */
+.hh-btn--full {
+  width: 100%;
+}
+
+/* ── Primary ──────────────────────────────────────────────── */
+.hh-btn--primary {
+  background-color: var(--fill-primary);
+  color: var(--text-on-primary);
+}
+
+.hh-btn--primary:hover:not(:disabled) {
+  background-color: var(--fill-primary-hover);
+}
+
+.hh-btn--primary:active:not(:disabled) {
+  opacity: 0.85;
+}
+
+.hh-btn--primary:disabled {
+  background-color: var(--btn-disabled-bg);
+  color: var(--btn-disabled-text);
+}
+
+/* ── Secondary ────────────────────────────────────────────── */
+.hh-btn--secondary {
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+  border: 1px solid var(--line-primary);
+}
+
+.hh-btn--secondary:hover:not(:disabled) {
+  background-color: var(--bg-tertiary);
+}
+
+.hh-btn--secondary:active:not(:disabled) {
+  opacity: 0.85;
+}
+
+.hh-btn--secondary:disabled {
+  background-color: var(--btn-disabled-bg);
+  color: var(--btn-disabled-text);
+  border-color: var(--btn-disabled-border);
+}
+
+/* ── Tertiary ─────────────────────────────────────────────── */
+.hh-btn--tertiary {
+  background-color: transparent;
+  color: var(--fill-primary);
+  border: 2px solid var(--fill-primary);
+}
+
+.hh-btn--tertiary:hover:not(:disabled) {
+  background-color: rgba(248, 255, 51, 0.1);
+}
+
+.hh-btn--tertiary:active:not(:disabled) {
+  background-color: rgba(248, 255, 51, 0.15);
+}
+
+.hh-btn--tertiary:disabled {
+  color: var(--btn-disabled-text);
+  border-color: var(--btn-disabled-border);
+  background-color: transparent;
+}
+
+/* ── Inner elements ───────────────────────────────────────── */
+.hh-btn__icon {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.hh-btn__label {
+  display: inline-flex;
+  align-items: center;
+}

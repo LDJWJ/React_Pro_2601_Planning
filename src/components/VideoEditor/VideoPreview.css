@@ -6,7 +6,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: #000;
+  background: var(--bg-surface);
   position: relative;
   min-height: 0;
   overflow: hidden;
@@ -17,7 +17,7 @@
   width: 100%;
   max-height: 100%;
   aspect-ratio: 9 / 16;
-  background: #111;
+  background: var(--gray-950);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -31,8 +31,8 @@
 }
 
 .ve-preview-placeholder {
-  color: #666;
-  font-size: 14px;
+  color: var(--text-tertiary);
+  font-size: var(--font-size-14);
   text-align: center;
 }
 
@@ -50,10 +50,10 @@
   padding: 6px 14px;
   background: rgba(0, 0, 0, 0.6);
   border-radius: 6px;
-  color: #FFD700;
-  font-size: 15px;
-  font-weight: 700;
-  line-height: 1.4;
+  color: var(--editor-playhead);
+  font-size: var(--font-size-14);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-140);
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
 }
 
@@ -72,8 +72,8 @@
 .ve-preview-play-btn {
   background: none;
   border: none;
-  color: #fff;
-  font-size: 20px;
+  color: var(--text-primary);
+  font-size: var(--font-size-20);
   cursor: pointer;
   padding: 4px;
   display: flex;
@@ -82,13 +82,15 @@
 }
 
 .ve-preview-time {
-  font-size: 12px;
-  color: #ccc;
+  font-size: var(--font-size-12);
+  font-weight: var(--font-weight-medium);
+  color: var(--gray-200);
   font-variant-numeric: tabular-nums;
 }
 
 .ve-preview-cut-count {
-  font-size: 12px;
-  color: #999;
+  font-size: var(--font-size-12);
+  font-weight: var(--font-weight-medium);
+  color: var(--text-secondary);
   margin-left: auto;
 }

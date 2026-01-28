@@ -25,8 +25,8 @@
 .ve-timeline-ruler {
   height: 24px;
   position: relative;
-  border-bottom: 1px solid #333;
-  background: #222;
+  border-bottom: 1px solid var(--editor-border);
+  background: var(--gray-800);
   margin-left: 50px;
 }
 
@@ -42,12 +42,13 @@
 .ve-timeline-ruler-line {
   width: 1px;
   height: 8px;
-  background: #555;
+  background: var(--gray-500);
 }
 
 .ve-timeline-ruler-label {
-  font-size: 9px;
-  color: #888;
+  font-size: var(--font-size-12);
+  font-weight: var(--font-weight-medium);
+  color: var(--text-secondary);
   margin-top: 2px;
   font-variant-numeric: tabular-nums;
 }
@@ -58,7 +59,7 @@
   top: 0;
   bottom: 0;
   width: 2px;
-  background: #FFD700;
+  background: var(--editor-playhead);
   z-index: 5;
   pointer-events: none;
   margin-left: 50px;
@@ -73,7 +74,7 @@
   height: 0;
   border-left: 6px solid transparent;
   border-right: 6px solid transparent;
-  border-top: 8px solid #FFD700;
+  border-top: 8px solid var(--editor-playhead);
 }
 
 /* Tracks container */

@@ -129,6 +129,8 @@ src/
 ├── App.css
 ├── main.jsx               # 엔트리 포인트
 ├── index.css
+├── styles/
+│   └── design-tokens.css  # 디자인 토큰 (Primitive + Semantic 컬러 변수)
 ├── assets/
 │   └── logo.png           # 앱 로고
 ├── components/
@@ -170,6 +172,12 @@ src/
 │   │   ├── Track.css
 │   │   ├── EditorNavBar.jsx      # 하단 5탭 네비게이션
 │   │   └── EditorNavBar.css
+│   ├── common/                  # 공통 UI 컴포넌트 (디자인 시스템)
+│   │   ├── index.js             # barrel export
+│   │   ├── Button.jsx           # Button 컴포넌트 (Primary/Secondary/Tertiary)
+│   │   ├── Button.css
+│   │   ├── IconButton.jsx       # IconButton 컴포넌트 (transparent/background)
+│   │   └── IconButton.css
 │   ├── BottomNavigation.jsx   # 하단 네비게이션
 │   ├── BottomNavigation.css
 │   ├── Editor.jsx             # 영상 편집기 (레거시)
@@ -259,7 +267,138 @@ VideoEditor → convertToTimeline(cuts)
 
 ---
 
+## 디자인 시스템
+
+`src/styles/design-tokens.css`에서 2계층 CSS 변수 구조로 컬러를 중앙 관리합니다.
+
+### Primitive 토큰 (원시 팔레트)
+| 계열 | 토큰 |
+|------|------|
+| Black/White | `--black`, `--white` |
+| Gray | `--gray-50` ~ `--gray-950` (9단계) |
+| Yellow | `--yellow-50` ~ `--yellow-900` (7단계) |
+| Orange | `--orange-100` ~ `--orange-800` (4단계) |
+| Red | `--red-50` ~ `--red-800` (5단계) |
+
+### Semantic 토큰 (역할 기반)
+| 카테고리 | 주요 토큰 | 용도 |
+|----------|----------|------|
+| Fill | `--fill-primary` (#F8FF33), `--fill-secondary` (#FF721A) | 버튼, CTA |
+| Text | `--text-primary` (#FFF), `--text-secondary` (#999), `--text-accent` (#F8FF33) | 텍스트 |
+| Background | `--bg-surface` (#000), `--bg-secondary` (#1A1A1A), `--bg-tertiary` (#333) | 배경 |
+| Line | `--line-primary` (#333), `--line-accent` (#F8FF33) | 테두리, 구분선 |
+| Navigation | `--nav-icon-default` (#999), `--nav-icon-active` (#F8FF33) | 하단 네비게이션 |
+| Editor | `--editor-playhead` (#F8FF33), `--editor-export-btn` (#FF721A) | 편집기 전용 |
+| StoryEdit | `--se-accent` (#F8FF33), `--se-tab-current-bg` (#FEFFDD) | 스토리 편집 전용 |
+| Button | `--btn-height-lg` (48px), `--btn-radius-lg` (12px), `--btn-disabled-bg` (#333) | 공통 버튼 |
+
+### 공통 컴포넌트 (`src/components/common/`)
+
+디자인 시스템 기반 재사용 가능한 UI 컴포넌트:
+
+**Button** — 3가지 variant × 2가지 size + disabled 상태
+| Variant | 배경 | 텍스트 | Border |
+|---------|------|--------|--------|
+| `primary` | 노란색 (`--fill-primary`) | 검정 (`--text-on-primary`) | 없음 |
+| `secondary` | 다크 (`--bg-secondary`) | 흰색 (`--text-primary`) | 1px `--line-primary` |
+| `tertiary` | 투명 | 노란색 (`--fill-primary`) | 2px `--fill-primary` |
+
+```jsx
+import { Button } from '../common';
+<Button variant="primary" size="large" fullWidth>다음</Button>
+<Button variant="secondary" size="small" iconLeft={<Icon />}>취소</Button>
+<Button variant="tertiary" disabled>홈으로</Button>
+```
+
+**IconButton** — 2가지 variant + selected 상태
+| Variant | 기본 | Selected |
+|---------|------|----------|
+| `transparent` | 배경 없음, gray-400 텍스트 | 흰색 텍스트 |
+| `background` | gray-700 배경, 투명 border | 노란색 border + 텍스트 |
+
+```jsx
+import { IconButton } from '../common';
+<IconButton variant="background" selected icon={<Icon />} label="편집" />
+```
+
+### 적용 범위
+- 22개 CSS 파일의 하드코딩된 컬러를 CSS 변수로 교체
+- 플랫폼 브랜드 컬러(YouTube, Instagram, Naver, Kakao, TikTok)는 원본 유지
+- `rgba()` 반투명 오버레이는 원본 유지
+
+---
+
 ## 버전 히스토리
+
+### v1.22.0 (2026-01-28)
+**공통 Button / IconButton 컴포넌트 추가 — 디자인 시스템 Buttons 스펙 구현**
+
+디자인 시스템 Buttons.jpg 스펙 기반으로 공통 Button 및 IconButton 컴포넌트를 신규 생성. 기존 화면에는 영향 없이 새 파일만 추가.
+
+주요 변경:
+- **Button 컴포넌트** — `variant` (primary/secondary/tertiary) × `size` (large/small) × `disabled` 조합 지원
+  - Primary: 노란 배경 + 검정 텍스트, hover 시 `--fill-primary-hover`
+  - Secondary: 다크 배경 + 흰 텍스트 + border, hover 시 `--bg-tertiary`
+  - Tertiary: 투명 + 노란 border + 노란 텍스트, hover 시 반투명 노란 배경
+  - `iconLeft` / `iconRight` 아이콘 슬롯, `fullWidth` 전체 너비 옵션
+- **IconButton 컴포넌트** — `variant` (transparent/background) × `selected` 상태 지원
+  - Transparent: 배경 없음, selected 시 흰색 텍스트
+  - Background: gray-700 배경, selected 시 노란 border + 노란 텍스트
+  - `icon` + 선택적 `label` 지원
+- **design-tokens.css** — `/* Button */` 토큰 섹션 추가 (radius, height, gap, disabled 컬러)
+- **BEM 네이밍** — `hh-btn`, `hh-icon-btn` 접두사로 기존 스타일과 충돌 방지
+- **barrel export** — `import { Button, IconButton } from '../common'`
+
+| 작업 | 파일 | 변경 내용 |
+|------|------|----------|
+| 생성 | `src/components/common/Button.jsx` | Button 컴포넌트 (variant/size/disabled/icon/fullWidth) |
+| 생성 | `src/components/common/Button.css` | BEM 스타일 (Primary/Secondary/Tertiary × Large/Small × hover/active/disabled) |
+| 생성 | `src/components/common/IconButton.jsx` | IconButton 컴포넌트 (variant/selected/icon/label) |
+| 생성 | `src/components/common/IconButton.css` | BEM 스타일 (transparent/background × selected) |
+| 생성 | `src/components/common/index.js` | barrel export (Button, IconButton) |
+| 수정 | `src/styles/design-tokens.css` | `/* Button */` 토큰 섹션 추가 |
+
+---
+
+### v1.21.0 (2026-01-28)
+**디자인 시스템 컬러 토큰 전체 적용**
+
+`src/styles/design-tokens.css`에 Primitive(원시 팔레트) + Semantic(역할 기반) 2계층 CSS 변수를 정의하고, 22개 CSS 파일의 하드코딩된 컬러 값을 모두 CSS 변수로 교체.
+
+주요 변경:
+- **design-tokens.css 신규 생성** — Primitive(Gray/Yellow/Orange/Red) + Semantic(Fill/Text/BG/Line/Nav/Editor/StoryEdit) 토큰 정의
+- **브랜드 액센트 통일** — `#FAFF5E`, `#FAEC23`, `#FFD700` 등 유사 노란색 → `#F8FF33` (`--fill-primary`)로 통일
+- **비표준 그레이 표준화** — `#1C1C1E`, `#2C2C2E`, `#444`, `#888` 등 → 디자인 시스템 Gray Scale로 매핑
+- **비디자인 시스템 컬러 교체** — `#3B82F6`(파랑) → Yellow Primary, `#81C784`(초록) → Orange/300, `#ff4d6d`(핑크) → Red/500
+- **플랫폼 브랜드 컬러 유지** — YouTube `#FF0000`, Instagram/Naver 그라데이션, Kakao `#FEE500` 등
+
+| 작업 | 파일 | 변경 내용 |
+|------|------|----------|
+| 생성 | `src/styles/design-tokens.css` | 2계층 CSS 변수 정의 (Primitive + Semantic) |
+| 수정 | `src/index.css` | `@import './styles/design-tokens.css'` 추가 + 하드코딩 컬러 교체 |
+| 수정 | `src/App.css` | 하드코딩 컬러 → CSS 변수 교체 |
+| 수정 | `src/components/LoginScreen.css` | 라이트 테마 그레이 → CSS 변수 |
+| 수정 | `src/components/Category.css` | 브랜드 컬러 유지, 나머지 → CSS 변수 |
+| 수정 | `src/components/BottomNavigation.css` | 네비게이션 컬러 → CSS 변수 |
+| 수정 | `src/components/Home.css` | 다크 테마 컬러 → CSS 변수 |
+| 수정 | `src/components/SearchCategory.css` | 다크 테마 + 좋아요 컬러 → CSS 변수 |
+| 수정 | `src/components/TemplateDetail.css` | 액센트 + 배경 컬러 → CSS 변수 |
+| 수정 | `src/components/ContentUploadScreen.css` | 라이트 테마 컬러 → CSS 변수 |
+| 수정 | `src/components/StoryPlanningScreen.css` | 다크 테마 컬러 → CSS 변수 |
+| 수정 | `src/components/StoryEdit/StoryEdit.css` | 로컬 CSS 변수 → 글로벌 토큰 매핑 |
+| 수정 | `src/components/StoryEdit/CutTabBar.css` | 파란색/빨간색 → Yellow/Orange 토큰 |
+| 수정 | `src/components/StoryEdit/SubtitleSection.css` | 파란색 → Yellow 토큰 |
+| 수정 | `src/components/StoryEdit/ContentPlan.css` | 그레이 → CSS 변수 |
+| 수정 | `src/components/VideoEditor/VideoEditor.css` | 로컬 CSS 변수 → 글로벌 토큰 매핑 |
+| 수정 | `src/components/VideoEditor/EditorHeader.css` | 주황색 + 배경 → CSS 변수 |
+| 수정 | `src/components/VideoEditor/EditorNavBar.css` | 네비게이션 컬러 → CSS 변수 |
+| 수정 | `src/components/VideoEditor/VideoPreview.css` | 자막/배경 컬러 → CSS 변수 |
+| 수정 | `src/components/VideoEditor/Track.css` | 클립 컬러 → CSS 변수 |
+| 수정 | `src/components/VideoEditor/Timeline.css` | 플레이헤드/배경 → CSS 변수 |
+| 수정 | `src/components/ExportPreview/ExportPreview.css` | 전체 컬러 → CSS 변수 |
+| 수정 | `src/components/Editor.css` | 배경 컬러 → CSS 변수 |
+
+---
 
 ### v1.20.0 (2026-01-27)
 **로그 한글 라벨 자동 생성 + 편집/내보내기 화면 로그 추가**
@@ -691,4 +830,4 @@ StoryEdit에서 업로드한 영상 파일(Blob)과 편집 상태를 IndexedDB�
 
 ---
 
-*Last updated: 2026-01-27 (v1.20.0)*
+*Last updated: 2026-01-28 (v1.22.0)*

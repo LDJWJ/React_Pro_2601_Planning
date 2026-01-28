@@ -1,0 +1,218 @@
+/* ============================================================
+   Design Tokens - HookHook Design System
+   2-layer structure: Primitive (raw palette) + Semantic (role-based)
+   ============================================================ */
+
+:root {
+  /* ── Primitive Tokens ─────────────────────────────────── */
+
+  /* Black & White */
+  --black: #000000;
+  --white: #FFFFFF;
+
+  /* Gray Scale */
+  --gray-50:  #F2F2F2;
+  --gray-100: #E6E6E6;
+  --gray-200: #CCCCCC;
+  --gray-300: #B3B3B3;
+  --gray-400: #999999;
+  --gray-500: #666666;
+  --gray-600: #4D4D4D;
+  --gray-700: #333333;
+  --gray-800: #1A1A1A;
+  --gray-900: #121212;
+  --gray-950: #0D0D0D;
+
+  /* Yellow */
+  --yellow-50:  #FEFFDD;
+  --yellow-100: #FAFFD6;
+  --yellow-200: #FFF3B0;
+  --yellow-400: #F8FF33;
+  --yellow-500: #FAEC23;
+  --yellow-600: #DDE300;
+  --yellow-900: #3A3A20;
+
+  /* Orange */
+  --orange-100: #FFE0CC;
+  --orange-300: #FF9A55;
+  --orange-500: #FF721A;
+  --orange-700: #CC8844;
+  --orange-800: #CC5B15;
+
+  /* Red */
+  --red-50:  #FFE5E5;
+  --red-300: #FF8080;
+  --red-500: #FF4242;
+  --red-700: #E52222;
+  --red-800: #B71C1C;
+
+  /* Green (Status용) */
+  --green-500: #34C759;
+
+  /* ── Semantic Tokens ──────────────────────────────────── */
+
+  /* Fill */
+  --fill-primary:       var(--yellow-400);   /* #F8FF33 */
+  --fill-primary-hover: var(--yellow-600);   /* #DDE300 */
+  --fill-secondary:     var(--orange-500);   /* #FF721A */
+  --fill-error:         var(--red-700);      /* #E52222 */
+  --fill-normal:        var(--gray-800);     /* #1A1A1A — 기본 채우기 */
+  --fill-subtle:        var(--gray-700);     /* #333333 — 약한 채우기 */
+  --fill-assistive:     var(--gray-600);     /* #4D4D4D — 보조 채우기 */
+  --fill-disable:       var(--gray-700);     /* #333333 — 비활성 채우기 */
+
+  /* Text */
+  --text-primary:    var(--white);           /* #FFFFFF */
+  --text-secondary:  var(--gray-400);        /* #999999 */
+  --text-tertiary:   var(--gray-500);        /* #666666 */
+  --text-accent:     var(--yellow-400);      /* #F8FF33 */
+  --text-on-primary: var(--black);           /* #000000 */
+  --text-inverse:    var(--gray-800);        /* #1A1A1A */
+  --text-disable:    var(--gray-500);        /* #666666 — 비활성 텍스트 */
+  --text-error:      var(--red-700);         /* #E52222 — 에러 텍스트 */
+
+  /* Background */
+  --bg-primary:       var(--gray-900);       /* #121212 */
+  --bg-secondary:     var(--gray-800);       /* #1A1A1A */
+  --bg-tertiary:      var(--gray-700);       /* #333333 */
+  --bg-surface:       var(--black);          /* #000000 */
+  --bg-surface-light: var(--white);          /* #FFFFFF */
+  --bg-card-dark:     var(--gray-800);       /* #1A1A1A */
+  --bg-card-light:    var(--gray-50);        /* #F2F2F2 */
+  --bg-assistive:     var(--gray-700);       /* #333333 — 보조 배경 */
+  --bg-dim:           rgba(0, 0, 0, 0.5);   /* 딤 처리 */
+  --bg-overlay:       rgba(0, 0, 0, 0.7);   /* 오버레이 */
+
+  /* Line / Border */
+  --line-primary:   var(--gray-700);         /* #333333 */
+  --line-secondary: var(--gray-200);         /* #CCCCCC */
+  --line-accent:    var(--yellow-400);       /* #F8FF33 */
+  --line-error:     var(--red-700);          /* #E52222 */
+  --line-disable:   var(--gray-600);         /* #4D4D4D — 비활성 테두리 */
+
+  /* Navigation */
+  --nav-icon-default: var(--gray-400);       /* #999999 */
+  --nav-icon-active:  var(--yellow-400);     /* #F8FF33 */
+
+  /* Icon */
+  --icon-primary:   var(--white);            /* #FFFFFF */
+  --icon-secondary: var(--gray-400);         /* #999999 */
+  --icon-subtle:    var(--gray-500);         /* #666666 */
+  --icon-disable:   var(--gray-600);         /* #4D4D4D */
+  --icon-error:     var(--red-700);          /* #E52222 */
+
+  /* Status */
+  --status-positive:    var(--green-500);    /* #34C759 — 성공/긍정 */
+  --status-negative:    var(--red-500);      /* #FF4242 — 실패/부정 */
+  --status-progressive: var(--yellow-400);   /* #F8FF33 — 진행중 */
+
+  /* Editor */
+  --editor-bg:           var(--gray-800);    /* #1A1A1A */
+  --editor-track-bg:     var(--gray-700);    /* #333333 */
+  --editor-playhead:     var(--yellow-400);  /* #F8FF33 */
+  --editor-clip-text:    var(--yellow-400);  /* #F8FF33 */
+  --editor-clip-bgm:     var(--yellow-200);  /* #FFF3B0 */
+  --editor-clip-voice:   var(--orange-300);  /* #FF9A55 */
+  --editor-export-btn:   var(--orange-500);  /* #FF721A */
+  --editor-border:       var(--gray-700);    /* #333333 */
+
+  /* StoryEdit */
+  --se-accent:               var(--yellow-400);  /* #F8FF33 */
+  --se-tab-current-bg:       var(--yellow-50);   /* #FEFFDD */
+  --se-tab-completed-border: var(--orange-500);  /* #FF721A */
+
+  /* Button */
+  --btn-radius-lg: 12px;
+  --btn-radius-sm: 8px;
+  --btn-height-lg: 48px;
+  --btn-height-sm: 36px;
+  --btn-icon-gap: 6px;
+  --btn-disabled-bg:     var(--gray-700);   /* #333333 */
+  --btn-disabled-text:   var(--gray-500);   /* #666666 */
+  --btn-disabled-border: var(--gray-600);   /* #4D4D4D */
+
+  /* ── Typography Tokens ─────────────────────────────── */
+
+  /* Font Weight */
+  --font-weight-regular:  400;
+  --font-weight-medium:   500;
+  --font-weight-semibold: 600;
+
+  /* Font Size */
+  --font-size-24: 24px;
+  --font-size-20: 20px;
+  --font-size-18: 18px;
+  --font-size-16: 16px;
+  --font-size-14: 14px;
+  --font-size-13: 13px;
+  --font-size-12: 12px;
+
+  /* Line Height */
+  --line-height-140: 1.4;
+  --line-height-150: 1.5;
+
+  /* Composite Typography (font-size / line-height / font-weight) */
+  --typo-heading-24:    600 24px/1.4;  /* Heading */
+  --typo-title1-b-20:   600 20px/1.5;  /* Title1-B */
+  --typo-title2-b-18:   600 18px/1.5;  /* Title2-B */
+  --typo-subtitle-m-18: 500 18px/1.5;  /* Subtitle-M */
+  --typo-body1-b-16:    600 16px/1.4;  /* Body1-B */
+  --typo-body1-m-16:    500 16px/1.4;  /* Body1-M */
+  --typo-body2-b-14:    600 14px/1.4;  /* Body2-B */
+  --typo-body2-m-14:    500 14px/1.4;  /* Body2-M */
+  --typo-body2-r-14:    400 14px/1.4;  /* Body2-R */
+  --typo-body3-b-13:    600 13px/1.4;  /* Body3-B */
+  --typo-caption-b-12:  600 12px/1.4;  /* Caption-B */
+  --typo-caption-m-12:  500 12px/1.4;  /* Caption-M */
+
+  /* ── Card Tokens ──────────────────────────────────── */
+
+  /* Guide Card - Container */
+  --card-guide-bg:              var(--bg-secondary);
+  --card-guide-border-radius:   12px;
+  --card-guide-padding:         14px 16px;
+  --card-guide-gap:             12px;
+  --card-guide-border-color:    var(--line-primary);
+  --card-guide-border-focus:    var(--line-accent);
+
+  /* Guide Card - Number Badge */
+  --card-guide-badge-size:      24px;
+  --card-guide-badge-bg:        var(--fill-primary);
+  --card-guide-badge-color:     var(--text-on-primary);
+
+  /* Guide Card - Time Badge */
+  --card-guide-time-color:      var(--orange-700);
+  --card-guide-time-radius:     6px;
+  --card-guide-time-padding:    3px 10px;
+
+  /* Chip */
+  --chip-time-color:        var(--orange-700);           /* #CC8844 */
+  --chip-time-bg:           rgba(204, 136, 68, 0.15);   /* 오렌지 계열 어두운 배경 */
+  --chip-time-radius:       6px;
+  --chip-time-padding:      3px 10px;
+
+  --chip-category-color:    var(--text-primary);         /* #FFFFFF */
+  --chip-category-bg:       var(--gray-700);             /* #333333 */
+  --chip-category-radius:   6px;
+  --chip-category-padding:  3px 10px;
+
+  /* Guide Card - Input (Label field) */
+  --card-guide-input-bg:        var(--bg-tertiary);
+  --card-guide-input-radius:    8px;
+  --card-guide-input-padding:   12px;
+
+  /* Template Card - Shared */
+  --card-tpl-border-radius:     12px;
+  --card-tpl-badge-bg:          rgba(0, 0, 0, 0.55);
+  --card-tpl-badge-radius:      12px;
+  --card-tpl-badge-padding:     4px 8px;
+  --card-tpl-badge-offset:      8px;
+  --card-tpl-hover-scale:       1.03;
+
+  /* Template Card - Size S */
+  --card-tpl-s-aspect:          3 / 4;
+
+  /* Template Card - Size M */
+  --card-tpl-m-aspect:          9 / 16;
+  --card-tpl-info-offset:       10px;
+}

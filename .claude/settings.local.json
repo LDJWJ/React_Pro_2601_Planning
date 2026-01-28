@@ -16,7 +16,13 @@
       "Bash(git config:*)",
       "Bash(npm run lint:*)",
       "Bash(git status:*)",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "Bash(wc:*)",
+      "Bash(find:*)",
+      "Bash(cat <<'EOF'\necho \"=== PRIMITIVE COLOR TOKENS IN design-tokens.css ===\"\necho \"\"\necho \"BLACK & WHITE:\"\ngrep -E \"black|white\" /mnt/d/Github/React_Pro_2601_Planning/src/styles/design-tokens.css | head -2\n\necho \"\"\necho \"GRAY SCALE:\"\ngrep -E \"gray-[0-9]\" /mnt/d/Github/React_Pro_2601_Planning/src/styles/design-tokens.css | head -20\n\necho \"\"\necho \"YELLOW SCALE:\"\ngrep -E \"yellow-\" /mnt/d/Github/React_Pro_2601_Planning/src/styles/design-tokens.css\n\necho \"\"\necho \"ORANGE SCALE:\"\ngrep -E \"orange-\" /mnt/d/Github/React_Pro_2601_Planning/src/styles/design-tokens.css\n\necho \"\"\necho \"RED SCALE:\"\ngrep -E \"red-\" /mnt/d/Github/React_Pro_2601_Planning/src/styles/design-tokens.css\nEOF)",
+      "Bash(bash:*)",
+      "Bash(git remote set-url:*)",
+      "Bash(gh auth:*)"
     ]
   }
 }

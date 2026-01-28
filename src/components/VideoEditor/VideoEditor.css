@@ -1,20 +1,20 @@
 /* VideoEditor.css - 메인 컨테이너 스타일 */
 
 .ve-container {
-  --editor-bg: #1a1a1a;
-  --track-bg: #2a2a2a;
-  --playhead-color: #FFD700;
-  --clip-text: #FFD700;
-  --clip-bgm: #FFF3B0;
-  --clip-voice: #81C784;
-  --export-btn-color: #FF6B35;
-  --border-color: #333;
+  --editor-bg: var(--editor-bg);
+  --track-bg: var(--editor-track-bg);
+  --playhead-color: var(--editor-playhead);
+  --clip-text: var(--editor-clip-text);
+  --clip-bgm: var(--editor-clip-bgm);
+  --clip-voice: var(--editor-clip-voice);
+  --export-btn-color: var(--editor-export-btn);
+  --border-color: var(--editor-border);
 
   display: flex;
   flex-direction: column;
   height: 100%;
   background: var(--editor-bg);
-  color: #fff;
+  color: var(--text-primary);
   overflow: hidden;
   position: relative;
 }
@@ -31,10 +31,10 @@
   min-height: 0;
   display: flex;
   flex-direction: column;
-  border-top: 1px solid var(--border-color);
+  border-top: 1px solid var(--editor-border);
 }
 
 .ve-nav-area {
   flex: 0 0 60px;
-  border-top: 1px solid var(--border-color);
+  border-top: 1px solid var(--editor-border);
 }

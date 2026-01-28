@@ -62,7 +62,11 @@ function CategoryPlatform({ onNext, onBack }) {
 
   return (
     <div className="category-container">
-      <div className="category-progress-bar"></div>
+      <div className="category-progress-bar">
+        <div className="category-progress-segment active" />
+        <div className="category-progress-segment active" />
+        <div className="category-progress-segment active" />
+      </div>
 
       <div className="category-content">
         <div className="category-header">

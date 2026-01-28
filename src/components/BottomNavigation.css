@@ -7,7 +7,7 @@
   display: flex;
   justify-content: space-around;
   align-items: center;
-  background-color: #1a1a1a;
+  background-color: var(--bg-secondary);
   padding: 12px 0 28px;
   z-index: 1000;
   border-bottom-left-radius: 40px;
@@ -36,31 +36,31 @@
   align-items: center;
   justify-content: center;
   margin-bottom: 4px;
-  color: #888;
+  color: var(--nav-icon-default);
   transition: color 0.2s ease;
 }
 
 .nav-tab.active .nav-icon {
-  color: #FAFF5E;
+  color: var(--nav-icon-active);
 }
 
 .nav-tab:hover .nav-icon {
-  color: #ffffff;
+  color: var(--text-primary);
 }
 
 .nav-label {
-  font-size: 11px;
-  font-weight: 500;
-  color: #888;
+  font-size: var(--font-size-12);
+  font-weight: var(--font-weight-medium);
+  color: var(--nav-icon-default);
   transition: color 0.2s ease;
 }
 
 .nav-tab.active .nav-label {
-  color: #FAFF5E;
+  color: var(--nav-icon-active);
 }
 
 .nav-tab:hover .nav-label {
-  color: #ffffff;
+  color: var(--text-primary);
 }
 
 /* Safe area padding for devices with home indicator */

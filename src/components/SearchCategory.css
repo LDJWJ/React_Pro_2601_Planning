@@ -33,7 +33,7 @@
 }
 
 .search-category-container .search-icon {
-  font-size: 16px;
+  font-size: var(--font-size-16);
   margin-right: 10px;
   color: var(--text-secondary);
 }
