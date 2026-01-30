@@ -82,8 +82,14 @@
 
 ### 7. 스토리 기획 (`StoryPlanningScreen`) — 레거시
 - 상단 고정 영상 프리뷰 (선택된 컷 타임스탬프 재생)
-- 세그먼트 프로그레스 바 (컷별 진행 표시, 탭으로 컷 이동)
+- 세그먼트 프로그레스 바 (컷별 진행 표시, 탭으로 컷 이동, 컷 time 기반 동적 비율)
 - 컷별 메모 입력 기능
+- **AI 추천 컷 생성**: 헤더 우측 "AI 추천" 버튼
+  - 온보딩에서 선택한 목적(purpose)/주제(topics) 기반 6컷 스토리보드 자동 생성
+  - Netlify Functions 엔드포인트 호출 (`/.netlify/functions/generate-cuts`)
+  - OpenAI `gpt-4o-mini` 모델로 숏폼 영상 기획 전문가 프롬프트 사용
+  - API 실패 시 카테고리별 fallback 데이터 자동 적용 (브이로그/먹방/default)
+  - 로딩 중 "추천 중..." 상태 표시, 결과 수신 시 컷 리스트 교체
 - 하단 취소/저장 버튼
 - TemplateDetail 메뉴 아이콘에서 진입 가능
 
@@ -185,6 +191,10 @@ src/
 └── utils/
     ├── logger.js          # 로깅 유틸리티
     └── storyEditDB.js     # IndexedDB CRUD (컷 저장/로드/삭제)
+netlify/
+└── functions/
+    ├── generate-subtitle.js  # AI 자막 추천 (OpenAI gpt-4o-mini)
+    └── generate-cuts.js      # AI 추천 컷 생성 (OpenAI gpt-4o-mini)
 ```
 
 ## 환경 변수 설정
@@ -194,12 +204,14 @@ src/
 ```env
 VITE_GOOGLE_CLIENT_ID=your_google_client_id
 VITE_GOOGLE_SCRIPT_URL=your_google_apps_script_url
+OPENAI_API_KEY=your_openai_api_key
 ```
 
 | 변수 | 설명 |
 |------|------|
 | `VITE_GOOGLE_CLIENT_ID` | Google OAuth 클라이언트 ID |
 | `VITE_GOOGLE_SCRIPT_URL` | Google Apps Script 엔드포인트 (분석 로깅용) |
+| `OPENAI_API_KEY` | OpenAI API 키 (Netlify Functions 서버사이드, AI 자막/컷 추천용) |
 
 ## 실행 방법
 
@@ -329,6 +341,34 @@ import { IconButton } from '../common';
 ---
 
 ## 버전 히스토리
+
+### v1.23.0 (2026-01-30)
+**AI 추천 컷 생성 기능 — 스토리 기획 화면**
+
+온보딩에서 선택한 목적(purpose)/주제(topics)를 기반으로 AI가 6컷 스토리보드를 자동 생성하는 기능 추가. 스토리 기획 화면 헤더에 "AI 추천" 버튼 배치.
+
+주요 변경:
+- **generate-cuts.js** Netlify Function 신규 생성 — `gpt-4o-mini` 모델로 숏폼 영상 기획 전문가 프롬프트 사용
+  - purpose + topics를 전달하여 6컷(title, time) 추천 요청
+  - JSON 응답 파싱 (코드블록 내 배열 추출 지원)
+  - 6컷 미만 시 보정, 6컷 초과 시 슬라이스
+  - API 키 미설정 / API 실패 / JSON 파싱 실패 시 카테고리별 fallback 반환 (브이로그/먹방/default)
+- **StoryPlanningScreen.jsx** — `selections` prop 수신, `aiCuts` / `aiLoading` state 추가
+  - "AI 추천" 버튼 클릭 → Netlify Function 호출 → 컷 리스트 교체
+  - 로딩 중 "추천 중..." 표시 + disabled 처리
+  - AI 결과 수신 시 id/startTime 자동 계산, 메모 초기화
+- **프로그레스 바 동적화** — 고정 `[2,2,1,2,2,1]` → `cuts.map(cut => parseInt(cut.time))` 동적 계산
+- **App.jsx** — `StoryPlanningScreen`에 `selections` prop 전달 추가
+- **StoryPlanningScreen.css** — AI 추천 버튼 스타일 (그라데이션 pill 버튼, disabled/active 상태)
+
+| 작업 | 파일 | 변경 내용 |
+|------|------|----------|
+| 생성 | `netlify/functions/generate-cuts.js` | AI 추천 컷 생성 Netlify Function (gpt-4o-mini, fallback 포함) |
+| 수정 | `src/App.jsx` | StoryPlanningScreen에 selections prop 전달 |
+| 수정 | `src/components/StoryPlanningScreen.jsx` | AI 추천 버튼, aiCuts/aiLoading state, 동적 프로그레스 바 |
+| 수정 | `src/components/StoryPlanningScreen.css` | AI 추천 버튼 스타일 (header-row, pill 버튼) |
+
+---
 
 ### v1.22.0 (2026-01-28)
 **공통 Button / IconButton 컴포넌트 추가 — 디자인 시스템 Buttons 스펙 구현**
@@ -830,4 +870,4 @@ StoryEdit에서 업로드한 영상 파일(Blob)과 편집 상태를 IndexedDB�
 
 ---
 
-*Last updated: 2026-01-28 (v1.22.0)*
+*Last updated: 2026-01-30 (v1.23.0)*

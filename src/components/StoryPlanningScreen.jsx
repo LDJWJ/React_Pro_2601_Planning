@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import './StoryPlanningScreen.css';
-import { Button } from './common';
+import { Button, Chip } from './common';
 import { logScreenView, logButtonClick, logScroll } from '../utils/logger';
 
 // 샘플 데이터
@@ -13,23 +13,146 @@ const defaultCuts = [
   { id: 6, title: "테이블 무드", description: "소지품 + 커피 (줌 인)", time: "1초", startTime: 9 },
 ];
 
-function StoryPlanningScreen({ template, onBack, onSave, initialMemos }) {
+// AI 추천 실패 시 카테고리별 fallback 컷
+const FALLBACK_CUTS_MAP = {
+  '브이로그': [
+    { title: "오프닝", time: "2초" },
+    { title: "장소 소개", time: "2초" },
+    { title: "활동 장면", time: "1초" },
+    { title: "디테일 컷", time: "2초" },
+    { title: "리액션", time: "2초" },
+    { title: "엔딩 인사", time: "1초" },
+  ],
+  '먹방': [
+    { title: "음식 전체샷", time: "2초" },
+    { title: "첫 입 리액션", time: "2초" },
+    { title: "클로즈업", time: "1초" },
+    { title: "먹는 장면", time: "2초" },
+    { title: "사이드 메뉴", time: "2초" },
+    { title: "마무리 한마디", time: "1초" },
+  ],
+  '가게/브랜드 소개': [
+    { title: "외관 소개", time: "2초" },
+    { title: "내부 분위기", time: "2초" },
+    { title: "대표 메뉴", time: "1초" },
+    { title: "디테일 샷", time: "2초" },
+    { title: "고객 반응", time: "2초" },
+    { title: "마무리 멘트", time: "1초" },
+  ],
+  '제품/메뉴 홍보': [
+    { title: "제품 등장", time: "2초" },
+    { title: "디테일 클로즈업", time: "2초" },
+    { title: "사용 장면", time: "1초" },
+    { title: "효과 강조", time: "2초" },
+    { title: "비교 컷", time: "2초" },
+    { title: "구매 유도", time: "1초" },
+  ],
+  '일상/경험 공유': [
+    { title: "일상 시작", time: "2초" },
+    { title: "준비 과정", time: "2초" },
+    { title: "하이라이트", time: "1초" },
+    { title: "감성 컷", time: "2초" },
+    { title: "마무리 장면", time: "2초" },
+    { title: "엔딩 한마디", time: "1초" },
+  ],
+  default: [
+    { title: "인트로", time: "2초" },
+    { title: "메인 장면 1", time: "2초" },
+    { title: "전환 컷", time: "1초" },
+    { title: "메인 장면 2", time: "2초" },
+    { title: "하이라이트", time: "2초" },
+    { title: "아웃트로", time: "1초" },
+  ],
+};
+
+function getFallbackCuts(purpose, topics) {
+  // 목적 매칭 우선
+  if (purpose && FALLBACK_CUTS_MAP[purpose]) return FALLBACK_CUTS_MAP[purpose];
+  // 주제 매칭
+  if (topics && topics.length > 0) {
+    for (const topic of topics) {
+      if (FALLBACK_CUTS_MAP[topic]) return FALLBACK_CUTS_MAP[topic];
+    }
+  }
+  return FALLBACK_CUTS_MAP.default;
+}
+
+function StoryPlanningScreen({ template, onBack, onSave, initialMemos, selections }) {
   const [memos, setMemos] = useState(initialMemos || {});
   const [isPlaying, setIsPlaying] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [activeCutId, setActiveCutId] = useState(null);
+  const [aiCuts, setAiCuts] = useState(null);
+  const [aiLoading, setAiLoading] = useState(false);
   const videoRef = useRef(null);
   const scrollRef = useRef(null);
   const scrollTimerRef = useRef(null);
 
-  const cuts = template?.cuts ?
+  const baseCuts = aiCuts || (template?.cuts ?
     Array.from({ length: template.cuts }, (_, i) => defaultCuts[i] || {
       id: i + 1,
       title: `컷 ${i + 1}`,
       description: "설명",
       time: "2초",
       startTime: i * 2
-    }) : defaultCuts;
+    }) : defaultCuts);
+  const cuts = baseCuts;
+
+  const handleAiRecommend = async () => {
+    setAiLoading(true);
+    logButtonClick('story_planning', 'ai_recommend');
+    try {
+      const res = await fetch('/.netlify/functions/generate-cuts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          purpose: selections?.purpose,
+          topics: selections?.topics,
+        }),
+      });
+      const data = await res.json();
+      if (data.cuts && Array.isArray(data.cuts)) {
+        let startTime = 0;
+        const newCuts = data.cuts.map((cut, i) => {
+          const seconds = parseInt(cut.time) || 2;
+          const result = {
+            id: i + 1,
+            title: cut.title,
+            description: cut.description || '',
+            time: cut.time,
+            startTime,
+          };
+          startTime += seconds;
+          return result;
+        });
+        setAiCuts(newCuts);
+        setMemos({});
+        setActiveCutId(null);
+      }
+    } catch (err) {
+      console.error('AI 추천 실패 (fallback 적용):', err);
+      // API 호출 실패 시 클라이언트 fallback 컷 적용
+      const fallbackRaw = getFallbackCuts(selections?.purpose, selections?.topics);
+      let startTime = 0;
+      const fallbackCuts = fallbackRaw.map((cut, i) => {
+        const seconds = parseInt(cut.time) || 2;
+        const result = {
+          id: i + 1,
+          title: cut.title,
+          description: '',
+          time: cut.time,
+          startTime,
+        };
+        startTime += seconds;
+        return result;
+      });
+      setAiCuts(fallbackCuts);
+      setMemos({});
+      setActiveCutId(null);
+    } finally {
+      setAiLoading(false);
+    }
+  };
 
   useEffect(() => {
     logScreenView('story_planning');
@@ -113,8 +236,8 @@ function StoryPlanningScreen({ template, onBack, onSave, initialMemos }) {
   const scenes = cuts.map(cut => ({ ...cut, memo: memos[cut.id] || '' }));
   const activeCount = scenes.filter(s => s.memo.trim() !== '').length;
 
-  // 프로그레스 바 구간 비율 (2:2:1:2:2:1 = 총 10)
-  const progressWidths = [2, 2, 1, 2, 2, 1];
+  // 프로그레스 바 구간 비율 - 컷의 time 값에서 동적 계산
+  const progressWidths = cuts.map(cut => parseInt(cut.time) || 2);
 
   const handleBack = () => {
     logButtonClick('story_planning', 'back');
@@ -196,7 +319,16 @@ function StoryPlanningScreen({ template, onBack, onSave, initialMemos }) {
 
           {/* 헤더 */}
           <div className="story-header">
-            <h2 className="story-title">스토리 기획</h2>
+            <div className="story-header-row">
+              <h2 className="story-title">스토리 기획</h2>
+              <button
+                className="sp-ai-recommend-btn"
+                onClick={handleAiRecommend}
+                disabled={aiLoading}
+              >
+                {aiLoading ? '추천 중...' : '✨ AI 추천'}
+              </button>
+            </div>
             <p className="story-description">각 컷에 넣을 장면을 미리 생각해보고 적어보세요.</p>
           </div>
 
@@ -220,7 +352,6 @@ function StoryPlanningScreen({ template, onBack, onSave, initialMemos }) {
                     <span className="sp-cut-title">{cut.title}</span>
                     <Chip variant="time">{cut.time}</Chip>
                   </div>
-                  <p className="sp-cut-description">{cut.description}</p>
                   <input
                     type="text"
                     className="sp-cut-memo-input"

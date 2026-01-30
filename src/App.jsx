@@ -164,6 +164,7 @@ function App() {
             onBack={handleStoryPlanningBack}
             onSave={handleStoryPlanningSave}
             initialMemos={savedMemos[String(selectedTemplate?.id)] || {}}
+            selections={selections}
           />
         );
       case 'storyEdit':
