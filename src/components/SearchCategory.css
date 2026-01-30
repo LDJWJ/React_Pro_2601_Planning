@@ -78,6 +78,14 @@
   margin-bottom: 8px;
 }
 
+.category-icon-img {
+  width: 48px;
+  height: 48px;
+  margin-bottom: 8px;
+  object-fit: contain;
+  border-radius: 8px;
+}
+
 .category-name {
   font-size: var(--font-size-12);
   font-weight: var(--font-weight-medium);
@@ -238,6 +246,11 @@
 
   .category-emoji {
     font-size: 30px;
+  }
+
+  .category-icon-img {
+    width: 40px;
+    height: 40px;
   }
 
   .category-name {

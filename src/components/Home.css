@@ -43,6 +43,38 @@
   color: var(--text-secondary);
 }
 
+/* Filter Tabs */
+.home-filter-tabs {
+  display: flex;
+  gap: 8px;
+  padding: 12px 20px;
+}
+
+.home-filter-tab {
+  padding: 8px 16px;
+  border: 1px solid var(--line-primary);
+  border-radius: 20px;
+  background: none;
+  color: var(--text-secondary);
+  font-size: var(--font-size-13);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.home-filter-tab.active {
+  background-color: var(--text-primary);
+  color: var(--bg-surface);
+  border-color: var(--text-primary);
+  font-weight: var(--font-weight-semibold);
+}
+
+.home-filter-tab:hover:not(.active) {
+  border-color: var(--text-secondary);
+  color: var(--text-primary);
+}
+
 /* Main Recommend Section */
 .main-recommend-section {
   padding: 20px 0 30px;

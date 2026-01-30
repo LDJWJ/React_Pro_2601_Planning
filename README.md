@@ -26,33 +26,35 @@
 - 일상/경험 공유
 - 리뷰/정보 전달
 
-**주제 선택 (`CategoryTopic`)** - 복수 선택 가능
-- 일상기록, 홍보, 여행
-- 패션·뷰티, 맛집·카페, 운동·건강
+**주제 선택 (`CategoryTopic`)** - 복수 선택 가능, 170×170 SVG 일러스트 이미지 카드
+- 일상기록, 운동·건강, 여행, 패션·뷰티
+- 맛집·카페, 홍보, 정보·꿀팁, 챌린지·틸
+- "아직까지는 잘 모르겠어요..." (search.svg 이미지 카드)
 
-**플랫폼 선택 (`CategoryPlatform`)** - 복수 선택 가능
-- 인스타그램 릴스, 유튜브 쇼츠, 틱톡
-- 네이버 클립, 카카오톡 지금
+**플랫폼 선택 (`CategoryPlatform`)** - 복수 선택 가능, SVG 아이콘 적용
+- 유튜브 쇼츠, 인스타 릴스, 틱톡
+- 네이버 클립, 카카오톡 지금, 다른 플랫폼
 
 ### 3. 홈 화면 (`Home`)
 - 검색 바
+- **필터 탭**: "추천", "내가 자주 쓴", "어제 올라온" (검색 바 아래, pill 형태)
 - **3D 캐러셀**: 사용자 맞춤 추천 템플릿 표시
 - 주말 추천 템플릿 그리드
 - 하단 네비게이션 (템플릿, 편집기, 마이페이지)
 
 ### 4. 템플릿 탐색 (`SearchCategory`)
-- 카테고리별 필터 (일상기록, 여행, 패션·뷰티 등)
+- 카테고리별 필터 (일상기록, 여행, 패션·뷰티 등) — SVG 아이콘 적용
 - 2열 그리드 템플릿 목록
 - 좋아요 버튼, 사용자 수/재생시간/컷 수 표시
 - 템플릿 클릭 시 상세 화면으로 이동
 
 ### 5. 템플릿 상세 (`TemplateDetail`)
 - 영상 미리보기 (자동재생, 탭으로 재생/일시정지)
-- 우측 플로팅 정보 (재생시간, 컷 수, 사용자 수, 좋아요)
+- 우측 플로팅 정보 (재생시간, 컷 수, 사용자 수, 북마크) — 4개 아이콘
 - 해시태그 표시
-- "편집 시작하기" CTA 버튼 → StoryEdit 화면으로 이동
-- 메뉴 아이콘 → StoryPlanning 화면으로 이동
-- 저장/북마크 버튼
+- 하단 2버튼 레이아웃 (전체 너비):
+  - "영상 가이드" (secondary) → StoryPlanning 화면으로 이동
+  - "템플릿 사용하기" (primary) → StoryEdit 화면으로 이동
 
 ### 6. 스토리 편집 (`StoryEdit`)
 기존 스토리 기획 + 콘텐츠 업로드를 하나로 통합한 화면:
@@ -124,6 +126,14 @@ StoryEdit에서 완성한 컷 데이터(영상, 자막, 썸네일)를 받아 타
 
 ```
 public/
+├── images/
+│   ├── onboarding/            # 온보딩 주제 선택 일러스트 (170×170 SVG)
+│   │   ├── 일상기록.svg, execise.svg, trip.svg, fashion.svg
+│   │   ├── eat.svg, ad.svg, education.svg, challenge.svg
+│   │   └── search.svg         # "잘 모르겠어요" 카드 이미지
+│   └── template-icons/        # 템플릿 탐색 카테고리 아이콘 (SVG)
+│       ├── daily.svg, travel.svg, beauty.svg, promotion.svg
+│       └── map.svg, education.svg, trend.svg, exercise.svg
 ├── videos/
 │   ├── sample-1.mp4       # 샘플 비디오 1
 │   ├── sample-1-thumb.png # 썸네일 1
@@ -341,6 +351,69 @@ import { IconButton } from '../common';
 ---
 
 ## 버전 히스토리
+
+### v1.25.0 (2026-01-30)
+**UI 전면 개선 — 온보딩 텍스트 수정, 소셜 아이콘, 홈 필터 탭, 템플릿 상세 2버튼 레이아웃**
+
+여러 화면의 UI를 참조 디자인에 맞게 일괄 개선.
+
+주요 변경:
+- **CategoryTopic.jsx** — description 텍스트 수정 (운동·건강/여행/패션·뷰티), CSS 2줄 말줄임 적용
+- **CategoryPlatform.jsx** — CSS 의사요소 브랜드 아이콘 → SVG 이미지 아이콘 교체 (6개 플랫폼)
+- **Home.jsx** — 검색 바 아래 필터 탭 추가 ("추천", "내가 자주 쓴", "어제 올라온"), pill 형태 버튼
+- **TemplateDetail.jsx** — 하단 레이아웃 전면 변경:
+  - ≡ 햄버거 메뉴 아이콘 삭제 (우측 5개 → 4개 아이콘)
+  - "편집 시작하기" 1개 → "영상 가이드" (secondary) + "템플릿 사용하기" (primary) 2개 버튼
+  - 우측 아이콘 절대 위치, 하단 버튼 전체 너비 가로 배치
+
+| 작업 | 파일 | 변경 내용 |
+|------|------|----------|
+| 수정 | `src/components/CategoryTopic.jsx` | description 텍스트 수정 3건, CSS 2줄 말줄임 |
+| 수정 | `src/components/Category.css` | topic-description -webkit-line-clamp: 2 |
+| 수정 | `src/components/CategoryPlatform.jsx` | CSS 아이콘 → SVG 이미지 교체 |
+| 수정 | `src/components/Category.css` | 플랫폼 CSS 의사요소 삭제, platform-icon-svg 추가 |
+| 수정 | `src/components/Home.jsx` | 필터 탭 UI 추가 (filterTabs, activeFilter state) |
+| 수정 | `src/components/Home.css` | home-filter-tabs, home-filter-tab 스타일 |
+| 수정 | `src/components/TemplateDetail.jsx` | ≡ 삭제, 2버튼 레이아웃 (영상 가이드 + 템플릿 사용하기) |
+| 수정 | `src/components/TemplateDetail.css` | 아이콘 절대 위치, 전체 너비 2버튼 flex |
+| 추가 | `public/images/social/` | 6개 SVG (youtube, insta, tictok, clip, kakao, plus) |
+
+---
+
+### v1.24.0 (2026-01-30)
+**온보딩 SVG 일러스트 카드 + 템플릿 카테고리 SVG 아이콘 적용**
+
+온보딩 주제 선택 화면의 이모지 카드를 170×170 SVG 일러스트 이미지 카드로 교체하고, 토픽을 8개 + "잘 모르겠어요" 옵션으로 확장. 템플릿 탐색 화면의 카테고리 이모지를 SVG 아이콘으로 교체.
+
+주요 변경:
+- **CategoryTopic.jsx** — 이모지(`icon`) → SVG 이미지(`image`) 카드로 전면 교체
+  - 토픽 8개로 확장: 일상기록, 운동·건강, 여행, 패션·뷰티, 맛집·카페, 홍보, 정보·꿀팁, 챌린지·틸
+  - "아직까지는 잘 모르겠어요..." 카드 추가 (search.svg, 동일 그리드 내 배치)
+  - 카드 구조: `<img>` 배경 + 그라데이션 오버레이 + 하단 텍스트(title + description)
+  - 선택 시 노란색 border + accent 텍스트
+  - 콘텐츠 영역 스크롤 대응 (`category-content-scrollable`)
+- **Category.css** — `.topic-card-img` 이미지 카드 스타일 신규 추가
+  - 정사각형 비율 (`aspect-ratio: 1/1`), border-radius 16px
+  - 하단 그라데이션 오버레이 (텍스트 가독성)
+  - hover/selected 상태 스타일
+- **SearchCategory.jsx** — 카테고리 이모지 → SVG 아이콘 이미지 교체
+  - `emoji` 필드 → `icon` (SVG 경로)
+  - `<span className="category-emoji">` → `<img className="category-icon-img">`
+- **SearchCategory.css** — `.category-icon-img` 스타일 (48×48px, 모바일 40×40px)
+- **정적 파일 배치**:
+  - `public/images/onboarding/` — 9개 SVG (170×170 일러스트 + search)
+  - `public/images/template-icons/` — 8개 SVG (카테고리 아이콘)
+
+| 작업 | 파일 | 변경 내용 |
+|------|------|----------|
+| 수정 | `src/components/CategoryTopic.jsx` | 이모지 → SVG 이미지 카드, 8개 토픽 + "잘 모르겠어요" |
+| 수정 | `src/components/Category.css` | topic-card-img 이미지 카드 스타일, 스크롤 대응 |
+| 수정 | `src/components/SearchCategory.jsx` | 카테고리 이모지 → SVG 아이콘 이미지 |
+| 수정 | `src/components/SearchCategory.css` | category-icon-img 스타일 (48×48px) |
+| 추가 | `public/images/onboarding/` | 9개 SVG (일상기록, execise, trip 등) |
+| 추가 | `public/images/template-icons/` | 8개 SVG (daily, travel, beauty 등) |
+
+---
 
 ### v1.23.0 (2026-01-30)
 **AI 추천 컷 생성 기능 — 스토리 기획 화면**
@@ -870,4 +943,4 @@ StoryEdit에서 업로드한 영상 파일(Blob)과 편집 상태를 IndexedDB�
 
 ---
 
-*Last updated: 2026-01-30 (v1.23.0)*
+*Last updated: 2026-01-30 (v1.25.0)*

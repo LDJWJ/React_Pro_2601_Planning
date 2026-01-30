@@ -4,14 +4,14 @@ import { logScreenView, logButtonClick } from '../utils/logger';
 
 // 카테고리 데이터
 const categories = [
-  { id: 'daily', name: '일상기록', emoji: '📅' },
-  { id: 'travel', name: '여행', emoji: '✈️' },
-  { id: 'fashion', name: '패션·뷰티', emoji: '🌸' },
-  { id: 'promotion', name: '홍보', emoji: '🎁' },
-  { id: 'fitness', name: '운동·건강', emoji: '⚽' },
-  { id: 'tips', name: '정보·꿀팁', emoji: '📖' },
-  { id: 'challenge', name: '챌린지·밈', emoji: '🍭' },
-  { id: 'food', name: '맛집·카페', emoji: '🍎' },
+  { id: 'daily', name: '일상기록', icon: '/images/template-icons/daily.svg' },
+  { id: 'travel', name: '여행', icon: '/images/template-icons/travel.svg' },
+  { id: 'fashion', name: '패션·뷰티', icon: '/images/template-icons/beauty.svg' },
+  { id: 'promotion', name: '홍보', icon: '/images/template-icons/promotion.svg' },
+  { id: 'food', name: '맛집·카페', icon: '/images/template-icons/map.svg' },
+  { id: 'tips', name: '정보·꿀팁', icon: '/images/template-icons/education.svg' },
+  { id: 'challenge', name: '챌린지·밈', icon: '/images/template-icons/trend.svg' },
+  { id: 'fitness', name: '운동·건강', icon: '/images/template-icons/exercise.svg' },
 ];
 
 // 임시 템플릿 데이터
@@ -76,7 +76,7 @@ function SearchCategory({ onTabChange }) {
             className={`category-item ${selectedCategory === category.id ? 'selected' : ''}`}
             onClick={() => handleCategoryClick(category)}
           >
-            <span className="category-emoji">{category.emoji}</span>
+            <img className="category-icon-img" src={category.icon} alt={category.name} />
             <span className="category-name">{category.name}</span>
           </button>
         ))}

@@ -5,34 +5,34 @@ import { logScreenView, logButtonClick, logSelect } from '../utils/logger';
 
 const platforms = [
   {
-    id: 'instagram',
-    name: '인스타그램 릴스',
-    logo: 'instagram',
-  },
-  {
     id: 'youtube',
     name: '유튜브 쇼츠',
-    logo: 'youtube',
+    icon: '/images/social/youtube.svg',
+  },
+  {
+    id: 'instagram',
+    name: '인스타 릴스',
+    icon: '/images/social/insta.svg',
   },
   {
     id: 'tiktok',
     name: '틱톡',
-    logo: 'tiktok',
+    icon: '/images/social/tictok.svg',
   },
   {
     id: 'naver',
     name: '네이버 클립',
-    logo: 'naver',
+    icon: '/images/social/clip.svg',
   },
   {
     id: 'kakao',
     name: '카카오톡 지금',
-    logo: 'kakao',
+    icon: '/images/social/kakao.svg',
   },
   {
     id: 'other',
     name: '다른 플랫폼',
-    logo: 'other',
+    icon: '/images/social/plus.svg',
   },
 ];
 
@@ -85,7 +85,7 @@ function CategoryPlatform({ onNext, onBack }) {
               className={`platform-item ${selected.includes(platform.id) ? 'selected' : ''}`}
               onClick={() => handleSelect(platform.id)}
             >
-              <span className={`platform-icon-img ${platform.logo}`}></span>
+              <img className="platform-icon-svg" src={platform.icon} alt={platform.name} />
               <span className="platform-name">{platform.name}</span>
             </button>
           ))}

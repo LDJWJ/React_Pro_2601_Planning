@@ -68,11 +68,18 @@ const weekendTemplates = [
   },
 ];
 
+const filterTabs = [
+  { id: 'recommend', label: '추천' },
+  { id: 'frequent', label: '내가 자주 쓴' },
+  { id: 'yesterday', label: '어제 올라온' },
+];
+
 function Home({ user, selections, onLogout, onTabChange, activeTab = 'template' }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [imageLoadStatus, setImageLoadStatus] = useState({});
   const [touchStart, setTouchStart] = useState(null);
   const [touchEnd, setTouchEnd] = useState(null);
+  const [activeFilter, setActiveFilter] = useState('recommend');
   const carouselRef = useRef(null);
 
   // 스와이프 감지를 위한 최소 거리
@@ -209,6 +216,22 @@ function Home({ user, selections, onLogout, onTabChange, activeTab = 'template' 
           <span className="search-icon">🔍</span>
           <span className="search-placeholder">원하는 템플릿을 검색해보세요</span>
         </div>
+      </div>
+
+      {/* 필터 탭 */}
+      <div className="home-filter-tabs">
+        {filterTabs.map((tab) => (
+          <button
+            key={tab.id}
+            className={`home-filter-tab ${activeFilter === tab.id ? 'active' : ''}`}
+            onClick={() => {
+              setActiveFilter(tab.id);
+              logButtonClick('home', 'filter_tab', tab.label);
+            }}
+          >
+            {tab.label}
+          </button>
+        ))}
       </div>
 
       {/* 메인 추천 템플릿 캐러셀 */}

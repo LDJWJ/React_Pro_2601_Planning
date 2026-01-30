@@ -115,50 +115,47 @@ function TemplateDetail({ template, onBack, onTabChange, onStoryPlanning, onStor
             )}
           </div>
 
-          {/* 하단 오버레이 - 해시태그 + 버튼 + 우측 아이콘 */}
+          {/* 하단 오버레이 - 우측 아이콘 + 해시태그 + 버튼 */}
           <div className="template-bottom-overlay">
-            <div className="template-bottom-row">
-              <div className="template-left-column">
-                <div className="template-hashtags-overlay">
-                  <span className="hashtag">#맛집</span>
-                  <span className="hashtag">#브이로그</span>
-                  <span className="hashtag">#감성</span>
-                </div>
-                <Button variant="primary" fullWidth onClick={handleStartEdit}>
-                  편집 시작하기
-                </Button>
-              </div>
-              <div className="info-items-column">
-                <button className={`info-item info-icon-btn${activeIcon === 'duration' ? ' info-item-active' : ''}`} onClick={(e) => { e.stopPropagation(); handleIconSelect('duration'); }}>
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z" />
-                  </svg>
-                  <span>{formatDuration(template.duration)}</span>
-                </button>
-                <button className={`info-item info-icon-btn${activeIcon === 'cuts' ? ' info-item-active' : ''}`} onClick={(e) => { e.stopPropagation(); handleIconSelect('cuts'); }}>
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M4 4h16v16H4V4zm2 2v2h2V6H6zm10 0v2h2V6h-2zM6 10v2h2v-2H6zm10 0v2h2v-2h-2zM6 14v2h2v-2H6zm10 0v2h2v-2h-2zM9 7v10h6V7H9z" />
-                  </svg>
-                  <span>{template.cuts}컷</span>
-                </button>
-                <button className={`info-item info-icon-btn${activeIcon === 'users' ? ' info-item-active' : ''}`} onClick={(e) => { e.stopPropagation(); handleIconSelect('users'); }}>
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z" />
-                  </svg>
-                  <span>1.2k</span>
-                </button>
-                <button className={`info-item info-icon-btn${activeIcon === 'bookmark' ? ' info-item-active' : ''}`} onClick={(e) => { e.stopPropagation(); handleIconSelect('bookmark'); handleSaveToggle(); }}>
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill={isSaved ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2">
-                    <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
-                  </svg>
-                  <span>1.2k</span>
-                </button>
-                <button className={`info-item info-icon-btn${activeIcon === 'menu' ? ' info-item-active' : ''}`} onClick={(e) => { e.stopPropagation(); handleIconSelect('menu'); handleStoryPlanningClick(); }}>
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" />
-                  </svg>
-                </button>
-              </div>
+            {/* 우측 아이콘 4개 */}
+            <div className="info-items-column">
+              <button className={`info-item info-icon-btn${activeIcon === 'duration' ? ' info-item-active' : ''}`} onClick={(e) => { e.stopPropagation(); handleIconSelect('duration'); }}>
+                <span className="info-icon-mask" style={{ maskImage: 'url(/images/template-selected/vedio-time.svg)', WebkitMaskImage: 'url(/images/template-selected/vedio-time.svg)' }} aria-label="시간" />
+                <span>{formatDuration(template.duration)}</span>
+              </button>
+              <button className={`info-item info-icon-btn${activeIcon === 'cuts' ? ' info-item-active' : ''}`} onClick={(e) => { e.stopPropagation(); handleIconSelect('cuts'); }}>
+                <span className="info-icon-mask" style={{ maskImage: 'url(/images/template-selected/media.svg)', WebkitMaskImage: 'url(/images/template-selected/media.svg)' }} aria-label="컷" />
+                <span>{template.cuts}컷</span>
+              </button>
+              <button className={`info-item info-icon-btn${activeIcon === 'users' ? ' info-item-active' : ''}`} onClick={(e) => { e.stopPropagation(); handleIconSelect('users'); }}>
+                <span className="info-icon-mask" style={{ maskImage: 'url(/images/template-selected/used-count.svg)', WebkitMaskImage: 'url(/images/template-selected/used-count.svg)' }} aria-label="사용자" />
+                <span>200명</span>
+              </button>
+              <button className={`info-item info-icon-btn${activeIcon === 'bookmark' ? ' info-item-active' : ''}`} onClick={(e) => { e.stopPropagation(); handleIconSelect('bookmark'); handleSaveToggle(); }}>
+                <span className="info-icon-mask" style={{ maskImage: `url(${isSaved ? '/images/template-selected/bookmark_filled.svg' : '/images/template-selected/bookmark_lined.svg'})`, WebkitMaskImage: `url(${isSaved ? '/images/template-selected/bookmark_filled.svg' : '/images/template-selected/bookmark_lined.svg'})` }} aria-label="북마크" />
+              </button>
+            </div>
+
+            {/* 해시태그 */}
+            <div className="template-hashtags-overlay">
+              <span className="hashtag">#맛집</span>
+              <span className="hashtag">#브이로그</span>
+            </div>
+
+            {/* 하단 버튼 2개 - 전체 너비 */}
+            <div className="template-bottom-buttons">
+              <Button variant="secondary" onClick={handleStoryPlanningClick}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ marginRight: '6px' }}>
+                  <rect x="3" y="3" width="18" height="18" rx="2" />
+                  <line x1="8" y1="8" x2="16" y2="8" />
+                  <line x1="8" y1="12" x2="16" y2="12" />
+                  <line x1="8" y1="16" x2="12" y2="16" />
+                </svg>
+                영상 가이드
+              </Button>
+              <Button variant="primary" onClick={handleStartEdit}>
+                템플릿 사용하기
+              </Button>
             </div>
           </div>
         </div>
