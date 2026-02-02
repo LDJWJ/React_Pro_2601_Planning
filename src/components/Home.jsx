@@ -9,35 +9,40 @@ const templates = [
     title: '뷰티 체험단 후기',
     image: 'https://images.unsplash.com/photo-1607083206869-4c7672e72a8a?w=400&h=600&fit=crop',
     category: '일상 기록 숏폼',
-    usageCount: 200
+    usageCount: 200,
+    tags: ['뷰티', '브이로그', '홍보']
   },
   {
     id: 2,
     title: '여행 브이로그',
     image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&h=600&fit=crop',
     category: '여행 영상',
-    usageCount: 150
+    usageCount: 150,
+    tags: ['여행', '브이로그']
   },
   {
     id: 3,
     title: '먹방 리뷰',
     image: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&h=600&fit=crop',
     category: '음식 콘텐츠',
-    usageCount: 180
+    usageCount: 180,
+    tags: ['맛집', '먹방', '리뷰']
   },
   {
     id: 4,
     title: '일상 브이로그',
     image: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=400&h=600&fit=crop',
     category: '일상 기록',
-    usageCount: 220
+    usageCount: 220,
+    tags: ['일상', '브이로그']
   },
   {
     id: 5,
     title: '운동 루틴',
     image: 'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=400&h=600&fit=crop',
     category: '피트니스',
-    usageCount: 165
+    usageCount: 165,
+    tags: ['운동', '건강', '루틴']
   },
 ];
 
@@ -48,7 +53,8 @@ const weekendTemplates = [
     users: 300,
     duration: '18초',
     cuts: 6,
-    image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=300&h=400&fit=crop'
+    image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=300&h=400&fit=crop',
+    tags: ['일상', '브이로그', '주말']
   },
   {
     id: 7,
@@ -56,7 +62,8 @@ const weekendTemplates = [
     users: 300,
     duration: '12초',
     cuts: 4,
-    image: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=300&h=400&fit=crop'
+    image: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=300&h=400&fit=crop',
+    tags: ['카페', '맛집', '투어']
   },
   {
     id: 8,
@@ -64,7 +71,8 @@ const weekendTemplates = [
     users: 300,
     duration: '15초',
     cuts: 5,
-    image: 'https://images.unsplash.com/photo-1551024601-bec78aea704b?w=300&h=400&fit=crop'
+    image: 'https://images.unsplash.com/photo-1551024601-bec78aea704b?w=300&h=400&fit=crop',
+    tags: ['맛집', '먹방', '리뷰']
   },
 ];
 

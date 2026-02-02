@@ -24,7 +24,9 @@
       "Bash(git remote set-url:*)",
       "Bash(gh auth:*)",
       "Bash(tree:*)",
-      "Bash(done)"
+      "Bash(done)",
+      "Bash(grep:*)",
+      "Bash(xargs:*)"
     ]
   }
 }

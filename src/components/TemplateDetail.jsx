@@ -6,7 +6,6 @@ import { logScreenView, logButtonClick } from '../utils/logger';
 function TemplateDetail({ template, onBack, onTabChange, onStoryPlanning, onStoryEdit, onContentUpload }) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
-  const [activeIcon, setActiveIcon] = useState(null);
   const videoRef = useRef(null);
 
   useEffect(() => {
@@ -31,10 +30,6 @@ function TemplateDetail({ template, onBack, onTabChange, onStoryPlanning, onStor
     } else if (template?.videoUrl && onTabChange) {
       onTabChange('editor', { videoUrl: template.videoUrl });
     }
-  };
-
-  const handleIconSelect = (iconName) => {
-    setActiveIcon(prev => prev === iconName ? null : iconName);
   };
 
   const handleSaveToggle = () => {
@@ -115,31 +110,34 @@ function TemplateDetail({ template, onBack, onTabChange, onStoryPlanning, onStor
             )}
           </div>
 
-          {/* 하단 오버레이 - 우측 아이콘 + 해시태그 + 버튼 */}
+          {/* 우측 아이콘 - 시간, 컷, 사용수 (오버레이 밖, preview-section 기준) */}
+          <div className="info-items-column">
+            <div className="info-item">
+              <span className="info-icon-mask" style={{ maskImage: `url(/images/template-selected/vedio-time.svg)`, WebkitMaskImage: `url(/images/template-selected/vedio-time.svg)` }} aria-label="시간" />
+              <span className="info-label">{formatDuration(template.duration || 18)}</span>
+            </div>
+            <div className="info-item">
+              <span className="info-icon-mask" style={{ maskImage: `url(/images/template-selected/media.svg)`, WebkitMaskImage: `url(/images/template-selected/media.svg)` }} aria-label="컷" />
+              <span className="info-label">{template.cuts || 6}컷</span>
+            </div>
+            <div className="info-item">
+              <span className="info-icon-mask" style={{ maskImage: `url(/images/template-selected/used-count.svg)`, WebkitMaskImage: `url(/images/template-selected/used-count.svg)` }} aria-label="사용수" />
+              <span className="info-label">{template.usedCount || 200}명</span>
+            </div>
+          </div>
+
+          {/* 하단 오버레이 - 해시태그 + 버튼 */}
           <div className="template-bottom-overlay">
-            {/* 우측 아이콘 4개 */}
-            <div className="info-items-column">
-              <button className={`info-item info-icon-btn${activeIcon === 'duration' ? ' info-item-active' : ''}`} onClick={(e) => { e.stopPropagation(); handleIconSelect('duration'); }}>
-                <span className="info-icon-mask" style={{ maskImage: 'url(/images/template-selected/vedio-time.svg)', WebkitMaskImage: 'url(/images/template-selected/vedio-time.svg)' }} aria-label="시간" />
-                <span>{formatDuration(template.duration)}</span>
-              </button>
-              <button className={`info-item info-icon-btn${activeIcon === 'cuts' ? ' info-item-active' : ''}`} onClick={(e) => { e.stopPropagation(); handleIconSelect('cuts'); }}>
-                <span className="info-icon-mask" style={{ maskImage: 'url(/images/template-selected/media.svg)', WebkitMaskImage: 'url(/images/template-selected/media.svg)' }} aria-label="컷" />
-                <span>{template.cuts}컷</span>
-              </button>
-              <button className={`info-item info-icon-btn${activeIcon === 'users' ? ' info-item-active' : ''}`} onClick={(e) => { e.stopPropagation(); handleIconSelect('users'); }}>
-                <span className="info-icon-mask" style={{ maskImage: 'url(/images/template-selected/used-count.svg)', WebkitMaskImage: 'url(/images/template-selected/used-count.svg)' }} aria-label="사용자" />
-                <span>200명</span>
-              </button>
-              <button className={`info-item info-icon-btn${activeIcon === 'bookmark' ? ' info-item-active' : ''}`} onClick={(e) => { e.stopPropagation(); handleIconSelect('bookmark'); handleSaveToggle(); }}>
+            {/* 해시태그 + 북마크 */}
+            <div className="template-hashtags-overlay">
+              <div className="hashtag-list">
+                {(template.tags || ['맛집', '브이로그']).map((tag, idx) => (
+                  <span className="hashtag-chip" key={idx}>#{tag}</span>
+                ))}
+              </div>
+              <button className={`bookmark-btn${isSaved ? ' bookmark-active' : ''}`} onClick={(e) => { e.stopPropagation(); handleSaveToggle(); }}>
                 <span className="info-icon-mask" style={{ maskImage: `url(${isSaved ? '/images/template-selected/bookmark_filled.svg' : '/images/template-selected/bookmark_lined.svg'})`, WebkitMaskImage: `url(${isSaved ? '/images/template-selected/bookmark_filled.svg' : '/images/template-selected/bookmark_lined.svg'})` }} aria-label="북마크" />
               </button>
-            </div>
-
-            {/* 해시태그 */}
-            <div className="template-hashtags-overlay">
-              <span className="hashtag">#맛집</span>
-              <span className="hashtag">#브이로그</span>
             </div>
 
             {/* 하단 버튼 2개 - 전체 너비 */}
@@ -151,7 +149,7 @@ function TemplateDetail({ template, onBack, onTabChange, onStoryPlanning, onStor
                   <line x1="8" y1="12" x2="16" y2="12" />
                   <line x1="8" y1="16" x2="12" y2="16" />
                 </svg>
-                영상 가이드
+                훅 노트
               </Button>
               <Button variant="primary" onClick={handleStartEdit}>
                 템플릿 사용하기

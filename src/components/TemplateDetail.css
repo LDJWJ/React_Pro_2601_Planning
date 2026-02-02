@@ -126,18 +126,51 @@
   align-items: stretch;
 }
 
-/* 해시태그 영역 */
+/* 해시태그 + 북마크 영역 */
 .template-hashtags-overlay {
   display: flex;
-  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
   margin-bottom: 14px;
 }
 
-.template-hashtags-overlay .hashtag {
+.template-hashtags-overlay .hashtag-list {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  flex: 1;
+}
+
+.template-hashtags-overlay .hashtag-chip {
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: 20px;
+  background-color: rgba(255, 255, 255, 0.15);
   color: var(--text-primary);
   font-size: var(--font-size-14);
   font-weight: var(--font-weight-medium);
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+.template-hashtags-overlay .bookmark-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  margin-left: 12px;
+  flex-shrink: 0;
+}
+
+.template-hashtags-overlay .bookmark-btn .info-icon-mask {
+  width: 24px;
+  height: 24px;
+  background-color: var(--text-primary);
+}
+
+.template-hashtags-overlay .bookmark-btn.bookmark-active .info-icon-mask {
+  background-color: var(--text-accent);
+  filter: none;
 }
 
 /* 하단 버튼 2개 - 전체 너비 가로 배치 */
@@ -149,8 +182,8 @@
 
 .template-bottom-buttons .hh-btn:first-child {
   flex: 4;
-  background-color: #FFFFFF;
-  color: #000000;
+  background-color: rgba(50, 50, 50, 0.85);
+  color: #FFFFFF;
   border: none;
 }
 
@@ -158,15 +191,16 @@
   flex: 6;
 }
 
-/* 우측 아이콘 컬럼 - 절대 위치 */
+/* 우측 아이콘 컬럼 - template-preview-section 기준 절대 위치 */
 .info-items-column {
   position: absolute;
   right: 20px;
-  bottom: calc(90px + env(safe-area-inset-bottom));
+  bottom: calc(120px + env(safe-area-inset-bottom));
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 14px;
+  z-index: 16;
 }
 
 .info-items-column .info-item {
