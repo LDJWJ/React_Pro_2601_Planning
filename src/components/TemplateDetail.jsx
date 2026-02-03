@@ -71,6 +71,7 @@ function TemplateDetail({ template, onBack, onTabChange, onStoryPlanning, onStor
         <button className="back-button" onClick={onBack}>
           ←
         </button>
+        <span className="header-title">{template.title || '템플릿 미리보기'}</span>
       </div>
 
       {/* 전체 화면 비디오 영역 */}
@@ -106,6 +107,13 @@ function TemplateDetail({ template, onBack, onTabChange, onStoryPlanning, onStor
                 <button className="play-button-overlay">
                   ▶
                 </button>
+              </div>
+            )}
+            {template.overlayText && (
+              <div className="video-overlay-text">
+                {template.overlayText.split('\n').map((line, i) => (
+                  <span key={i}>{line}<br /></span>
+                ))}
               </div>
             )}
           </div>

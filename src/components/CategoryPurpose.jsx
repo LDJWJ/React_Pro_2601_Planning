@@ -6,31 +6,31 @@ import { logScreenView, logButtonClick, logSelect } from '../utils/logger';
 const purposes = [
   {
     id: 'brand',
-    icon: '🏪',
+    icon: '/images/purpose/1_1_map.png',
     title: '가게나 브랜드를',
     subtitle: '소개할래요',
   },
   {
     id: 'product',
-    icon: '🗺️',
+    icon: '/images/purpose/1_2_gallary.png',
     title: '제품/메뉴를',
     subtitle: '보여주고 싶어요',
   },
   {
     id: 'daily',
-    icon: '📷',
+    icon: '/images/purpose/1_3_camera.png',
     title: '일상이나 경험을',
     subtitle: '공유할래요',
   },
   {
     id: 'review',
-    icon: '📢',
+    icon: '/images/purpose/1_4_notice.png',
     title: '리뷰나 꿀팁같은',
     subtitle: '정보를 전달할래요',
   },
   {
     id: 'unknown',
-    icon: '🔍',
+    icon: '/images/purpose/1_5_search.png',
     title: '아직까지는',
     subtitle: '잘 모르겠어요...',
   },
@@ -80,7 +80,7 @@ function CategoryPurpose({ onNext, onBack }) {
               className={`purpose-card ${selected === purpose.id ? 'selected' : ''}`}
               onClick={() => handleSelect(purpose.id)}
             >
-              <span className="purpose-icon">{purpose.icon}</span>
+              <img className="purpose-icon-img" src={purpose.icon} alt={purpose.title} />
               <span className="purpose-title">{purpose.title}</span>
               <span className="purpose-subtitle">{purpose.subtitle}</span>
             </button>

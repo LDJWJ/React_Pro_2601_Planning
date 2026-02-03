@@ -16,12 +16,12 @@ const categories = [
 
 // 임시 템플릿 데이터
 const templates = [
-  { id: 1, users: 300, duration: '18초', cuts: 6, thumbnail: '/videos/sample-1-thumb.png', videoUrl: '/videos/sample-1.mp4' },
-  { id: 2, users: 300, duration: '18초', cuts: 6, thumbnail: '/videos/sample-2-thumb.png', videoUrl: '/videos/sample-2.mp4' },
-  { id: 3, users: 300, duration: '18초', cuts: 6, thumbnail: 'https://picsum.photos/200/300?random=3' },
-  { id: 4, users: 300, duration: '18초', cuts: 6, thumbnail: 'https://picsum.photos/200/300?random=4' },
-  { id: 5, users: 300, duration: '18초', cuts: 6, thumbnail: 'https://picsum.photos/200/300?random=5' },
-  { id: 6, users: 300, duration: '18초', cuts: 6, thumbnail: 'https://picsum.photos/200/300?random=6' },
+  { id: 1, title: '댄스 퍼포먼스 숏폼', overlayText: '시선을 사로잡는\n댄스 커버 영상', users: 300, duration: '18초', cuts: 6, thumbnail: '/videos/sample-1-thumb.png', videoUrl: '/videos/sample-1.mp4', tags: ['댄스', '퍼포먼스', '챌린지'] },
+  { id: 2, title: '감성 일러스트 릴스', overlayText: '귀여운 캐릭터로\n만드는 감성 영상', users: 300, duration: '18초', cuts: 6, thumbnail: '/videos/sample-2-thumb.png', videoUrl: '/videos/sample-2.mp4', tags: ['일러스트', '캐릭터', '감성'] },
+  { id: 3, title: '뷰티 제품 리뷰', overlayText: '메이크업 지속력\n10배 높이는 법', users: 300, duration: '10초', cuts: 5, thumbnail: '/videos/sample-3-thumb.png', videoUrl: '/videos/sample-3.mp4', tags: ['뷰티', '리뷰', '홍보'] },
+  { id: 4, title: '맛집 리뷰', overlayText: '숨은 맛집\n솔직 리뷰', users: 300, duration: '18초', cuts: 6, thumbnail: 'https://picsum.photos/200/300?random=4', tags: ['맛집', '리뷰'] },
+  { id: 5, title: '운동 루틴', overlayText: '하루 10분\n홈트레이닝', users: 300, duration: '18초', cuts: 6, thumbnail: 'https://picsum.photos/200/300?random=5', tags: ['운동', '건강'] },
+  { id: 6, title: '챌린지 영상', overlayText: '지금 핫한\n챌린지 따라하기', users: 300, duration: '18초', cuts: 6, thumbnail: 'https://picsum.photos/200/300?random=6', tags: ['챌린지', '밈'] },
 ];
 
 function SearchCategory({ onTabChange }) {

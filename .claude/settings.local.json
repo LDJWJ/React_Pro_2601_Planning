@@ -26,7 +26,23 @@
       "Bash(tree:*)",
       "Bash(done)",
       "Bash(grep:*)",
-      "Bash(xargs:*)"
+      "Bash(xargs:*)",
+      "Bash(node -e:*)",
+      "Bash(apt list:*)",
+      "Bash(snap list:*)",
+      "Bash(npm ls:*)",
+      "Bash(sudo apt-get install:*)",
+      "Bash(pip install:*)",
+      "Bash(pip3 install:*)",
+      "Bash(npx --version)",
+      "Bash(python3 -m pip install:*)",
+      "Bash(npx ffmpeg-static:*)",
+      "Bash(npx:*)",
+      "Bash(FFMPEG=\"/mnt/d/Github/React_Pro_2601_Planning/node_modules/@ffmpeg-installer/linux-x64/ffmpeg\")",
+      "Bash(chmod:*)",
+      "Bash(\"$FFMPEG\" -i /mnt/d/Github/React_Pro_2601_Planning/public/videos/sample-3.mp4 -ss 00:00:01 -vframes 1 -q:v 2 /mnt/d/Github/React_Pro_2601_Planning/public/videos/sample-3-thumb.png)",
+      "Bash(\"$FFMPEG\":*)",
+      "Bash(npm uninstall:*)"
     ]
   }
 }

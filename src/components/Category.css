@@ -111,6 +111,13 @@
   margin-bottom: 12px;
 }
 
+.purpose-icon-img {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  margin-bottom: 12px;
+}
+
 .purpose-title {
   font-size: var(--font-size-14);
   font-weight: var(--font-weight-semibold);

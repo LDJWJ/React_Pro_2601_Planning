@@ -1,16 +1,15 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import './StoryPlanningScreen.css';
-import { Button, Chip } from './common';
+import { Button } from './common';
 import { logScreenView, logButtonClick, logScroll } from '../utils/logger';
 
-// 샘플 데이터
+// 샘플 데이터 (뷰티 제품 리뷰 기준 5컷)
 const defaultCuts = [
-  { id: 1, title: "착석 후 첫 컷", description: "인물 + 커피 마시기 (상반신)", time: "2초", startTime: 0 },
-  { id: 2, title: "테이블 무드", description: "소지품 + 커피 (줌 인)", time: "2초", startTime: 2 },
-  { id: 3, title: "인물 리액션", description: "착석 리액션 컷 (상반신)", time: "1초", startTime: 4 },
-  { id: 4, title: "인물 전신샷", description: "나 + 카페에 앉아서 커피 들어올리기", time: "2초", startTime: 5 },
-  { id: 5, title: "테이블 무드", description: "소지품 + 커피 (줌 아웃)", time: "2초", startTime: 7 },
-  { id: 6, title: "테이블 무드", description: "소지품 + 커피 (줌 인)", time: "1초", startTime: 9 },
+  { id: 1, title: "디테일 포인트", description: "패키지 전체가 보이도록 제품을 한 컷으로 보여주세요.", time: "2초", startTime: 0 },
+  { id: 2, title: "사용 장면 컷", description: "제품이 손이나 얼굴에 닿는 순간만 보여줘도 좋아요.", time: "2초", startTime: 2 },
+  { id: 3, title: "디테일 포인트", description: "이 제품의 특징이 잘 보이는 부분을 담아요.", time: "2초", startTime: 4 },
+  { id: 4, title: "효과 전달 컷", description: "사용 후 어떤 느낌을 전달하고 싶은지 정리해보세요.", time: "2초", startTime: 6 },
+  { id: 5, title: "마무리 장면", description: "제품과 함께 자연스럽게 마무리해 주세요.", time: "2초", startTime: 8 },
 ];
 
 // AI 추천 실패 시 카테고리별 fallback 컷
@@ -79,12 +78,11 @@ function getFallbackCuts(purpose, topics) {
 
 function StoryPlanningScreen({ template, onBack, onSave, initialMemos, selections }) {
   const [memos, setMemos] = useState(initialMemos || {});
-  const [isPlaying, setIsPlaying] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [activeCutId, setActiveCutId] = useState(null);
   const [aiCuts, setAiCuts] = useState(null);
   const [aiLoading, setAiLoading] = useState(false);
-  const videoRef = useRef(null);
+  const [cutThumbnails, setCutThumbnails] = useState({});
   const scrollRef = useRef(null);
   const scrollTimerRef = useRef(null);
 
@@ -158,6 +156,55 @@ function StoryPlanningScreen({ template, onBack, onSave, initialMemos, selection
     logScreenView('story_planning');
   }, []);
 
+  // 썸네일 추출: hidden video에서 각 컷의 startTime 프레임 캡처
+  useEffect(() => {
+    if (!template?.videoUrl || cuts.length === 0) return;
+
+    const video = document.createElement('video');
+    video.crossOrigin = 'anonymous';
+    video.muted = true;
+    video.preload = 'auto';
+    video.src = template.videoUrl;
+
+    let cancelled = false;
+
+    const extractFrames = async () => {
+      await new Promise((resolve, reject) => {
+        video.onloadeddata = resolve;
+        video.onerror = reject;
+      });
+
+      const canvas = document.createElement('canvas');
+      canvas.width = 112;
+      canvas.height = 112;
+      const ctx = canvas.getContext('2d');
+      const thumbnails = {};
+
+      for (const cut of cuts) {
+        if (cancelled) break;
+        video.currentTime = cut.startTime || 0;
+        await new Promise((resolve) => {
+          video.onseeked = resolve;
+        });
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+        thumbnails[cut.id] = canvas.toDataURL('image/jpeg', 0.7);
+      }
+
+      if (!cancelled) {
+        setCutThumbnails(thumbnails);
+      }
+    };
+
+    extractFrames().catch(() => {
+      // 비디오 로드 실패 시 빈 썸네일 유지
+    });
+
+    return () => {
+      cancelled = true;
+      video.src = '';
+    };
+  }, [template?.videoUrl, cuts]);
+
   // 스크롤 로그 (디바운스 500ms)
   const handleScroll = useCallback(() => {
     const el = scrollRef.current;
@@ -183,27 +230,9 @@ function StoryPlanningScreen({ template, onBack, onSave, initialMemos, selection
     };
   }, [handleScroll]);
 
-  const handlePlayPause = () => {
-    if (videoRef.current) {
-      if (isPlaying) {
-        videoRef.current.pause();
-        logButtonClick('story_planning', 'video_pause');
-      } else {
-        videoRef.current.play();
-        logButtonClick('story_planning', 'video_play');
-      }
-      setIsPlaying(!isPlaying);
-    }
-  };
-
   const handleCutSelect = (cut) => {
     setActiveCutId(cut.id);
     logButtonClick('story_planning', 'cut_select', String(cut.id));
-    if (videoRef.current && template?.videoUrl) {
-      videoRef.current.currentTime = cut.startTime;
-      videoRef.current.pause();
-      setIsPlaying(false);
-    }
   };
 
   const handleMemoChange = (cutId, value) => {
@@ -246,65 +275,17 @@ function StoryPlanningScreen({ template, onBack, onSave, initialMemos, selection
 
   return (
     <div className="story-planning-container">
+      {/* 상단 고정 헤더 바 */}
+      <div className="story-header-bar">
+        <button className="story-back-button" onClick={handleBack}>
+          ‹
+        </button>
+        <span className="story-header-title">{template?.title || '기획노트'}</span>
+      </div>
+
       {/* 전체 스크롤 영역 */}
       <div className="story-scroll-content" ref={scrollRef}>
-        {/* 상단 영역: 검정 배경 */}
-        <div className="story-preview-section">
-          <div className="story-header-bar">
-            <button className="story-back-button" onClick={handleBack}>
-              ‹
-            </button>
-            <span className="story-header-title">기획노트</span>
-          </div>
-          <div className="story-video-wrapper">
-            <div className="story-video-container" onClick={handlePlayPause}>
-              {template?.videoUrl ? (
-                <video
-                  ref={videoRef}
-                  className="story-video-player"
-                  src={template.videoUrl}
-                  muted
-                  loop
-                  playsInline
-                  poster={template.thumbnail}
-                />
-              ) : (
-                <div className="story-video-placeholder">
-                  {template?.thumbnail ? (
-                    <img
-                      src={template.thumbnail}
-                      alt="템플릿"
-                      onError={(e) => {
-                        e.target.src = 'https://picsum.photos/400/700?random=' + (template?.id || 1);
-                      }}
-                    />
-                  ) : (
-                    <span>미리보기</span>
-                  )}
-                </div>
-              )}
-              {!isPlaying && (
-                <div className="story-play-overlay">▶</div>
-              )}
-            </div>
-          </div>
-          <div className="story-video-info-vertical">
-            <span className="info-line">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
-              </svg>
-              00:10
-            </span>
-            <span className="info-line">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M18 4l2 4h-3l-2-4h-2l2 4h-3l-2-4H8l2 4H7L5 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4h-4z"/>
-              </svg>
-              {cuts.length}컷
-            </span>
-          </div>
-        </div>
-
-        {/* 콘텐츠 영역: 흰색 배경 */}
+        {/* 콘텐츠 영역 */}
         <div className="story-content-section">
           {/* 프로그레스 바 */}
           <div className="story-progress-bar">
@@ -320,7 +301,7 @@ function StoryPlanningScreen({ template, onBack, onSave, initialMemos, selection
           {/* 헤더 */}
           <div className="story-header">
             <div className="story-header-row">
-              <h2 className="story-title">스토리 기획</h2>
+              <h2 className="story-title">훅 노트</h2>
               <button
                 className="sp-ai-recommend-btn"
                 onClick={handleAiRecommend}
@@ -346,33 +327,58 @@ function StoryPlanningScreen({ template, onBack, onSave, initialMemos, selection
                 }`}
                 onClick={() => handleCutSelect(cut)}
               >
-                <div className="sp-cut-number">{index + 1}</div>
+                {/* 좌측: 썸네일 + 오버레이 */}
+                <div className="sp-cut-thumbnail">
+                  {cutThumbnails[cut.id] ? (
+                    <img src={cutThumbnails[cut.id]} alt={`컷 ${index + 1}`} />
+                  ) : (
+                    <div className="sp-cut-thumbnail-empty" />
+                  )}
+                  {/* 비선택 시 어두운 오버레이 + 시간 표시 */}
+                  {activeCutId !== cut.id && (
+                    <div className="sp-cut-thumbnail-dim">
+                      <span className="sp-cut-thumbnail-time">{cut.time}</span>
+                    </div>
+                  )}
+                  {/* 메모 입력 완료 시 체크 표시 */}
+                  {memos[cut.id]?.trim() && (
+                    <div className="sp-cut-thumbnail-check">
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" fill="var(--fill-primary)"/>
+                      </svg>
+                    </div>
+                  )}
+                </div>
+                {/* 우측: 정보 */}
                 <div className="sp-cut-content">
                   <div className="sp-cut-header">
+                    <img src="/images/template-selected/media.svg" alt="" className="sp-cut-icon" />
+                    <span className="sp-cut-number-inline">{index + 1}</span>
                     <span className="sp-cut-title">{cut.title}</span>
-                    <Chip variant="time">{cut.time}</Chip>
                   </div>
                   {cut.description && (
                     <p className="sp-cut-description">{cut.description}</p>
                   )}
-                  <input
-                    type="text"
-                    className="sp-cut-memo-input"
-                    placeholder="메모를 입력하세요"
-                    value={memos[cut.id] || ''}
-                    onChange={(e) => handleMemoChange(cut.id, e.target.value)}
-                    onFocus={() => handleCutSelect(cut)}
-                  />
+                  {/* 메모가 있고 비활성 상태: 노란 텍스트로 표시 */}
+                  {activeCutId !== cut.id && memos[cut.id]?.trim() && (
+                    <p className="sp-cut-memo-display">{memos[cut.id]}</p>
+                  )}
                 </div>
+                {/* 하단 전체 너비: 메모 입력란 */}
+                <input
+                  type="text"
+                  className="sp-cut-memo-input"
+                  placeholder="메모를 입력해주세요."
+                  value={memos[cut.id] || ''}
+                  onChange={(e) => handleMemoChange(cut.id, e.target.value)}
+                  onFocus={() => handleCutSelect(cut)}
+                />
               </div>
             ))}
           </div>
 
-          {/* 하단 버튼 - 스크롤 내부에 포함 */}
+          {/* 하단 버튼 */}
           <div className="story-bottom-buttons">
-            <Button variant="secondary" onClick={handleCancel}>
-              취소
-            </Button>
             <Button variant="primary" onClick={handleSave}>
               저장하기
             </Button>
