@@ -42,7 +42,9 @@
       "Bash(chmod:*)",
       "Bash(\"$FFMPEG\" -i /mnt/d/Github/React_Pro_2601_Planning/public/videos/sample-3.mp4 -ss 00:00:01 -vframes 1 -q:v 2 /mnt/d/Github/React_Pro_2601_Planning/public/videos/sample-3-thumb.png)",
       "Bash(\"$FFMPEG\":*)",
-      "Bash(npm uninstall:*)"
+      "Bash(npm uninstall:*)",
+      "Bash(netstat:*)",
+      "Bash(kill:*)"
     ]
   }
 }

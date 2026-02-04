@@ -301,7 +301,7 @@ function StoryPlanningScreen({ template, onBack, onSave, initialMemos, selection
           {/* 헤더 */}
           <div className="story-header">
             <div className="story-header-row">
-              <h2 className="story-title">훅 노트</h2>
+              <h2 className="story-title">영상 가이드</h2>
               <button
                 className="sp-ai-recommend-btn"
                 onClick={handleAiRecommend}
@@ -310,11 +310,22 @@ function StoryPlanningScreen({ template, onBack, onSave, initialMemos, selection
                 {aiLoading ? '추천 중...' : '✨ AI 추천'}
               </button>
             </div>
-            <p className="story-description">각 컷에 넣을 장면을 미리 생각해보고 적어보세요.</p>
           </div>
 
-          {/* 컷 리스트 */}
-          <div className="sp-cut-list-container">
+          {/* Step 영역 wrapper (선 포함) */}
+          <div className="sp-steps-wrapper">
+            {/* 세로 연결선 */}
+            <div className="sp-vertical-line"></div>
+
+            {/* Step 1 섹션 */}
+            <div className="sp-step-section">
+              <div className="sp-step-dot"></div>
+              <div className="sp-step-badge">step 1</div>
+              <p className="sp-step-description">메모해보세요</p>
+            </div>
+
+            {/* 컷 리스트 */}
+            <div className="sp-cut-list-container">
             {cuts.map((cut, index) => (
               <div
                 key={cut.id}
@@ -375,6 +386,14 @@ function StoryPlanningScreen({ template, onBack, onSave, initialMemos, selection
                 />
               </div>
             ))}
+            </div>
+
+            {/* Step 2 섹션 */}
+            <div className="sp-step-section sp-step-section-2">
+              <div className="sp-step-dot"></div>
+              <div className="sp-step-badge">step 2</div>
+              <p className="sp-step-description">메모를 바탕으로 바로 편집을 시작해보세요.</p>
+            </div>
           </div>
 
           {/* 하단 버튼 */}

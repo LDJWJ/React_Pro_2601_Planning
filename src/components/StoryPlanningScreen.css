@@ -70,7 +70,67 @@
 /* 헤더 */
 .story-header {
   padding: 20px 20px 16px;
-  border-bottom: 1px solid var(--gray-800);
+}
+
+/* Steps wrapper (선 포함) */
+.sp-steps-wrapper {
+  position: relative;
+  padding-left: 20px;
+  background-color: rgba(0, 255, 0, 0.3); /* 디버그용 초록색 */
+}
+
+/* 세로 연결선 */
+.sp-vertical-line {
+  position: absolute;
+  left: 24px;
+  top: 0;
+  bottom: 0;
+  width: 10px;
+  background-color: red;
+  z-index: 9999;
+}
+
+/* Step 섹션 */
+.sp-step-section {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 0 12px 0;
+  position: relative;
+}
+
+.sp-step-section-2 {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+/* 점 (dot) */
+.sp-step-dot {
+  width: 8px;
+  height: 8px;
+  min-width: 8px;
+  border-radius: 50%;
+  background-color: #FFD700;
+  position: relative;
+  z-index: 2;
+}
+
+.sp-step-badge {
+  background-color: var(--fill-primary);
+  color: var(--bg-surface);
+  font-size: var(--font-size-12);
+  font-weight: var(--font-weight-semibold);
+  padding: 4px 10px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+.sp-step-description {
+  margin: 0;
+  font-size: var(--font-size-14);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+  flex: 1;
 }
 
 .story-title {
@@ -119,7 +179,8 @@
 
 /* 컷 리스트 */
 .sp-cut-list-container {
-  padding: 12px 20px;
+  padding: 12px 20px 12px 24px;
+  position: relative;
 }
 
 .sp-cut-item {
