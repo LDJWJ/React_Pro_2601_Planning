@@ -42,8 +42,14 @@
   opacity: 0.7;
 }
 
-.header-title {
+.header-info {
   margin-left: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.header-title {
   font-size: var(--font-size-16);
   font-weight: var(--font-weight-semibold);
   color: #ffffff;
@@ -51,6 +57,20 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.header-users {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: var(--font-size-12);
+  font-weight: var(--font-weight-medium);
+  color: rgba(255, 255, 255, 0.8);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+}
+
+.header-users img {
+  opacity: 0.9;
 }
 
 /* 비디오 위 오버레이 텍스트 */
@@ -203,17 +223,92 @@
 }
 
 .template-bottom-buttons .hh-btn:first-child {
-  flex: 4;
+  width: 155px;
+  min-width: 155px;
+  height: 52px;
   background-color: rgba(50, 50, 50, 0.85);
   color: #FFFFFF;
   border: none;
 }
 
-.template-bottom-buttons .hh-btn:last-child {
-  flex: 6;
+.template-bottom-buttons .hh-btn:last-child,
+.template-bottom-buttons > button:last-child {
+  width: 190px;
+  min-width: 190px;
+  height: 52px;
+  flex-shrink: 0;
 }
 
-/* 우측 아이콘 컬럼 - template-preview-section 기준 절대 위치 */
+/* 아이디어 노트 버튼 */
+.idea-note-btn {
+  width: 155px;
+  min-width: 155px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  font-size: var(--font-size-14);
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background-color: rgba(50, 50, 50, 0.85);
+  color: #FFFFFF;
+  border: none;
+  flex-shrink: 0;
+}
+
+.idea-note-btn svg {
+  stroke: #FFFFFF;
+}
+
+.idea-note-btn:hover {
+  opacity: 0.9;
+}
+
+/* 아이디어 노트 완료 상태 - 아이콘/글자만 노란색 */
+.idea-note-btn.completed {
+  background-color: rgba(50, 50, 50, 0.85);
+  color: #F8FF33;
+}
+
+.idea-note-btn.completed svg {
+  stroke: #F8FF33;
+}
+
+/* 하단 왼쪽 아이콘 행 - 컷수, 시간 (가로 배치) */
+.info-items-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.info-items-row .info-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: var(--font-size-12);
+  font-weight: var(--font-weight-medium);
+  color: var(--text-primary);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+}
+
+.info-items-row .info-icon-img {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.8));
+}
+
+.info-items-row .info-label {
+  font-size: var(--font-size-12);
+  font-weight: var(--font-weight-medium);
+  color: var(--text-primary);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+}
+
+/* 우측 아이콘 컬럼 - template-preview-section 기준 절대 위치 (레거시) */
 .info-items-column {
   position: absolute;
   right: 20px;

@@ -4,30 +4,58 @@ import { logScreenView, logButtonClick } from '../utils/logger';
 
 // 카테고리 데이터
 const categories = [
-  { id: 'daily', name: '일상기록', icon: '/images/template-icons/daily.svg' },
-  { id: 'travel', name: '여행', icon: '/images/template-icons/travel.svg' },
-  { id: 'fashion', name: '패션·뷰티', icon: '/images/template-icons/beauty.svg' },
-  { id: 'promotion', name: '홍보', icon: '/images/template-icons/promotion.svg' },
-  { id: 'food', name: '맛집·카페', icon: '/images/template-icons/map.svg' },
-  { id: 'tips', name: '정보·꿀팁', icon: '/images/template-icons/education.svg' },
-  { id: 'challenge', name: '챌린지·밈', icon: '/images/template-icons/trend.svg' },
-  { id: 'fitness', name: '운동·건강', icon: '/images/template-icons/exercise.svg' },
+  { id: 'daily', name: '일상기록', icon: '/images/category-icons/01_life.png' },
+  { id: 'travel', name: '여행', icon: '/images/category-icons/02_trabel.png' },
+  { id: 'fashion', name: '패션·뷰티', icon: '/images/category-icons/03_fashion.png' },
+  { id: 'promotion', name: '홍보', icon: '/images/category-icons/04_marketing.png' },
+  { id: 'food', name: '맛집·카페', icon: '/images/category-icons/05_food.png' },
+  { id: 'tips', name: '정보·꿀팁', icon: '/images/category-icons/06_info.png' },
+  { id: 'challenge', name: '챌린지·밈', icon: '/images/category-icons/07_challenge.png' },
+  { id: 'fitness', name: '운동·건강', icon: '/images/category-icons/08_health.png' },
 ];
 
-// 임시 템플릿 데이터
-const templates = [
-  { id: 1, title: '댄스 퍼포먼스 숏폼', overlayText: '시선을 사로잡는\n댄스 커버 영상', users: 300, duration: '18초', cuts: 6, thumbnail: '/videos/sample-1-thumb.png', videoUrl: '/videos/sample-1.mp4', tags: ['댄스', '퍼포먼스', '챌린지'] },
-  { id: 2, title: '감성 일러스트 릴스', overlayText: '귀여운 캐릭터로\n만드는 감성 영상', users: 300, duration: '18초', cuts: 6, thumbnail: '/videos/sample-2-thumb.png', videoUrl: '/videos/sample-2.mp4', tags: ['일러스트', '캐릭터', '감성'] },
-  { id: 3, title: '뷰티 제품 리뷰', overlayText: '메이크업 지속력\n10배 높이는 법', users: 300, duration: '10초', cuts: 5, thumbnail: '/videos/sample-3-thumb.png', videoUrl: '/videos/sample-3.mp4', tags: ['뷰티', '리뷰', '홍보'] },
-  { id: 4, title: '맛집 리뷰', overlayText: '숨은 맛집\n솔직 리뷰', users: 300, duration: '18초', cuts: 6, thumbnail: 'https://picsum.photos/200/300?random=4', tags: ['맛집', '리뷰'] },
-  { id: 5, title: '운동 루틴', overlayText: '하루 10분\n홈트레이닝', users: 300, duration: '18초', cuts: 6, thumbnail: 'https://picsum.photos/200/300?random=5', tags: ['운동', '건강'] },
-  { id: 6, title: '챌린지 영상', overlayText: '지금 핫한\n챌린지 따라하기', users: 300, duration: '18초', cuts: 6, thumbnail: 'https://picsum.photos/200/300?random=6', tags: ['챌린지', '밈'] },
+// 추천 템플릿 데이터
+const recommendedTemplates = [
+  {
+    id: 1,
+    title: '혼자하는 여행 브이로그',
+    users: 143,
+    duration: '01:16',
+    cuts: 12,
+    image: '/images/templates/2_2_01.svg',
+    tags: ['일상', '브이로그', '여행']
+  },
+  {
+    id: 2,
+    title: '유니크한 소품샵 소개',
+    users: 218,
+    duration: '00:18',
+    cuts: 6,
+    image: '/images/templates/2_2_02.svg',
+    tags: ['소품', '인테리어', '홍보']
+  },
+  {
+    id: 3,
+    title: '작업하기 좋은 카페 추천',
+    users: 326,
+    duration: '00:33',
+    cuts: 6,
+    image: '/images/templates/2_2_03.svg',
+    tags: ['카페', '맛집', '브이로그']
+  },
+  {
+    id: 4,
+    title: '가성비 해외여행 코스 소개',
+    users: 219,
+    duration: '00:47',
+    cuts: 9,
+    image: '/images/templates/2_2_04.svg',
+    tags: ['여행', '해외', '정보']
+  },
 ];
 
-function SearchCategory({ onTabChange }) {
-  const [selectedCategory, setSelectedCategory] = useState(null);
-  const [filterOpen, setFilterOpen] = useState(false);
-  const [sortBy, setSortBy] = useState('추천');
+function SearchCategory({ onTabChange, user }) {
+  const [bookmarkedIds, setBookmarkedIds] = useState([]);
 
   useEffect(() => {
     logScreenView('search_category');
@@ -38,8 +66,10 @@ function SearchCategory({ onTabChange }) {
   };
 
   const handleCategoryClick = (category) => {
-    setSelectedCategory(category.id);
     logButtonClick('search_category', 'category', category.name);
+    if (onTabChange) {
+      onTabChange('categoryDetail', { category });
+    }
   };
 
   const handleTemplateClick = (template) => {
@@ -52,92 +82,96 @@ function SearchCategory({ onTabChange }) {
   const handleBookmarkClick = (e, templateId) => {
     e.stopPropagation();
     logButtonClick('search_category', 'bookmark', templateId);
+    setBookmarkedIds((prev) =>
+      prev.includes(templateId)
+        ? prev.filter((id) => id !== templateId)
+        : [...prev, templateId]
+    );
   };
 
-  const handleFilterClick = () => {
-    setFilterOpen(!filterOpen);
-  };
+  const userName = user?.name?.split(' ')[0] || '민지';
 
   return (
     <div className="search-category-container">
       {/* 검색창 */}
-      <div className="search-section">
-        <div className="search-bar" onClick={handleSearch}>
-          <span className="search-icon">🔍</span>
-          <span className="search-placeholder">원하는 템플릿을 검색해보세요</span>
+      <div className="sc-search-section">
+        <div className="sc-search-bar" onClick={handleSearch}>
+          <span className="sc-search-icon">🔍</span>
+          <span className="sc-search-placeholder">원하는 템플릿을 검색해보세요</span>
         </div>
       </div>
 
       {/* 카테고리 그리드 */}
-      <div className="category-grid">
+      <div className="sc-category-grid">
         {categories.map((category) => (
           <button
             key={category.id}
-            className={`category-item ${selectedCategory === category.id ? 'selected' : ''}`}
+            className="sc-category-item"
             onClick={() => handleCategoryClick(category)}
           >
-            <img className="category-icon-img" src={category.icon} alt={category.name} />
-            <span className="category-name">{category.name}</span>
+            <div className="sc-category-icon-wrapper">
+              <img className="sc-category-icon" src={category.icon} alt={category.name} />
+            </div>
+            <span className="sc-category-name">{category.name}</span>
           </button>
         ))}
       </div>
 
-      {/* 필터 영역 */}
-      <div className="filter-section">
-        <button className="filter-button" onClick={handleFilterClick}>
-          {sortBy}
-          <span className="filter-arrow">▼</span>
-        </button>
-      </div>
+      {/* 추천 템플릿 섹션 */}
+      <div className="sc-recommend-section">
+        <h3 className="sc-recommend-title">{userName}님을 위한 추천 템플릿🔥</h3>
 
-      {/* 템플릿 그리드 */}
-      <div className="template-grid-search">
-        {templates.map((template) => (
-          <div
-            key={template.id}
-            className="template-card-search"
-            onClick={() => handleTemplateClick(template)}
-          >
-            <div className="template-thumbnail-search">
-              <img
-                src={template.thumbnail}
-                alt="템플릿"
-                className="thumbnail-image"
-              />
-              {/* 사용자 수 뱃지 */}
-              <div className="users-badge">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
-                </svg>
-                <span>{template.users}</span>
+        <div className="sc-template-grid">
+          {recommendedTemplates.map((template) => (
+            <div
+              key={template.id}
+              className="sc-template-card"
+              onClick={() => handleTemplateClick(template)}
+            >
+              <div className="sc-template-thumbnail">
+                <img
+                  src={template.image}
+                  alt={template.title}
+                  className="sc-template-image"
+                />
+                {/* 북마크 버튼 */}
+                <button
+                  className="sc-bookmark-btn"
+                  onClick={(e) => handleBookmarkClick(e, template.id)}
+                >
+                  <img
+                    src={bookmarkedIds.includes(template.id)
+                      ? '/images/bookmark/bookmark_filled.png'
+                      : '/images/bookmark/bookmark_basic.png'}
+                    alt="bookmark"
+                    width="20"
+                    height="20"
+                  />
+                </button>
+                {/* 사용자 수 뱃지 */}
+                <div className="sc-users-badge">
+                  <img src="/images/meta-icons/03_pick.png" alt="users" width="12" height="12" />
+                  <span>{template.users}명</span>
+                </div>
               </div>
-              {/* 북마크 버튼 */}
-              <button
-                className="bookmark-button"
-                onClick={(e) => handleBookmarkClick(e, template.id)}
-              >
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
-                </svg>
-              </button>
-              {/* 하단 정보 */}
-              <div className="template-info">
-                <span className="template-duration">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                  </svg>
-                  {template.duration}
-                </span>
-                <span className="template-cuts">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14z"/>
-                  </svg>
-                  {template.cuts}컷
-                </span>
+              {/* 템플릿 정보 */}
+              <div className="sc-template-info">
+                <h4 className="sc-template-title">{template.title}</h4>
+                <div className="sc-template-meta">
+                  <span className="sc-meta-item">
+                    <img src="/images/meta-icons/02_media.png" alt="cuts" width="12" height="12" />
+                    {template.cuts}컷
+                  </span>
+                  <span className="sc-meta-dot">·</span>
+                  <span className="sc-meta-item">
+                    <img src="/images/meta-icons/01_time.png" alt="duration" width="12" height="12" />
+                    {template.duration}
+                  </span>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   );

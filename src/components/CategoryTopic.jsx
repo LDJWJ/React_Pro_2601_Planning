@@ -93,7 +93,7 @@ function CategoryTopic({ onNext, onBack }) {
             <br />
             영상을 만들고 싶으신가요?
           </h1>
-          <p className="category-subtitle">여러가지의 종류를 골라도 괜찮아요</p>
+          <p className="category-subtitle">여러가지 종류를 골라도 괜찮아요</p>
         </div>
 
         <div className="topic-grid">

@@ -8,18 +8,21 @@ import Home from './components/Home';
 import SearchCategory from './components/SearchCategory';
 import TemplateDetail from './components/TemplateDetail';
 import StoryPlanningScreen from './components/StoryPlanningScreen';
+import IdeaNoteScreen from './components/IdeaNoteScreen';
 import ContentUploadScreen from './components/ContentUploadScreen';
-import StoryEdit from './components/StoryEdit/StoryEdit';
+import EditScreen from './components/EditScreen';
 import BottomNavigation from './components/BottomNavigation';
 import Editor from './components/Editor';
 import VideoEditor from './components/VideoEditor/VideoEditor';
+import CategoryDetail from './components/CategoryDetail';
 
 function App() {
-  const [currentScreen, setCurrentScreen] = useState('login');
+  const [currentScreen, setCurrentScreen] = useState('purpose'); // TODO: 개발 완료 후 'login'으로 복원
   const [activeTab, setActiveTab] = useState('home');
   const [user, setUser] = useState(null);
   const [selectedVideoUrl, setSelectedVideoUrl] = useState(null);
   const [selectedTemplate, setSelectedTemplate] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState(null);
   const [savedMemos, setSavedMemos] = useState(() => {
     try {
       const stored = localStorage.getItem('storyPlanningMemos');
@@ -70,6 +73,9 @@ function App() {
     if (data?.template) {
       setSelectedTemplate(data.template);
     }
+    if (data?.category) {
+      setSelectedCategory(data.category);
+    }
     setActiveTab(tab);
   };
 
@@ -79,17 +85,42 @@ function App() {
   };
 
   const handleTemplateDetailBack = () => {
-    setActiveTab('template');
+    if (selectedCategory) {
+      setActiveTab('categoryDetail');
+    } else {
+      setActiveTab('template');
+    }
     setSelectedTemplate(null);
+  };
+
+  const handleCategoryDetailBack = () => {
+    setActiveTab('template');
+    setSelectedCategory(null);
   };
 
   const handleStoryPlanning = (template) => {
     setSelectedTemplate(template);
-    setActiveTab('storyPlanning');
+    setActiveTab('ideaNote');
   };
 
   const handleStoryPlanningBack = () => {
     setActiveTab('templateDetail');
+  };
+
+  const handleIdeaNoteBack = () => {
+    setActiveTab('templateDetail');
+  };
+
+  const handleIdeaNoteSave = (memos) => {
+    if (!selectedTemplate?.id) return;
+    const templateId = String(selectedTemplate.id);
+    const updated = { ...savedMemos, [templateId]: memos };
+    setSavedMemos(updated);
+    try {
+      localStorage.setItem('storyPlanningMemos', JSON.stringify(updated));
+    } catch (e) {
+      console.warn('localStorage 저장 실패:', e);
+    }
   };
 
   const handleStoryPlanningSave = (memos) => {
@@ -145,7 +176,15 @@ function App() {
           />
         );
       case 'template':
-        return <SearchCategory onTabChange={handleTabChange} />;
+        return <SearchCategory onTabChange={handleTabChange} user={user} />;
+      case 'categoryDetail':
+        return (
+          <CategoryDetail
+            category={selectedCategory}
+            onBack={handleCategoryDetailBack}
+            onTabChange={handleTabChange}
+          />
+        );
       case 'templateDetail':
         return (
           <TemplateDetail
@@ -155,6 +194,7 @@ function App() {
             onStoryPlanning={handleStoryPlanning}
             onStoryEdit={handleStoryEdit}
             onContentUpload={handleContentUpload}
+            hasIdeaNote={!!savedMemos[String(selectedTemplate?.id)]}
           />
         );
       case 'storyPlanning':
@@ -167,14 +207,20 @@ function App() {
             selections={selections}
           />
         );
+      case 'ideaNote':
+        return (
+          <IdeaNoteScreen
+            template={selectedTemplate}
+            onBack={handleIdeaNoteBack}
+            onSave={handleIdeaNoteSave}
+          />
+        );
       case 'storyEdit':
         return (
-          <StoryEdit
+          <EditScreen
             template={selectedTemplate}
             onBack={handleStoryEditBack}
             onComplete={handleStoryEditComplete}
-            savedMemos={savedMemos[String(selectedTemplate?.id)] || {}}
-            user={user}
           />
         );
       case 'contentUpload':
@@ -224,7 +270,7 @@ function App() {
             <div className="mobile-content">
               {renderMainContent()}
             </div>
-            {activeTab !== 'templateDetail' && activeTab !== 'storyPlanning' && activeTab !== 'storyEdit' && activeTab !== 'contentUpload' && !(activeTab === 'editor' && editorCuts) && (
+            {activeTab !== 'templateDetail' && activeTab !== 'categoryDetail' && activeTab !== 'storyPlanning' && activeTab !== 'ideaNote' && activeTab !== 'storyEdit' && activeTab !== 'contentUpload' && !(activeTab === 'editor' && editorCuts) && (
               <BottomNavigation activeTab={activeTab} onTabChange={handleTabChange} />
             )}
           </>

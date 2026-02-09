@@ -1,0 +1,212 @@
+/* CategoryDetail Styles */
+.cd-container {
+  min-height: 100%;
+  background-color: var(--bg-surface);
+  padding-bottom: 40px;
+}
+
+/* 헤더 */
+.cd-header {
+  display: flex;
+  align-items: center;
+  padding: 50px 20px 16px;
+  gap: 8px;
+}
+
+.cd-back-btn {
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cd-header-title {
+  font-size: var(--font-size-16);
+  font-weight: var(--font-weight-medium);
+  color: var(--text-secondary);
+}
+
+/* 카테고리 타이틀 */
+.cd-category-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 20px 20px;
+}
+
+.cd-category-icon-wrapper {
+  width: 40px;
+  height: 40px;
+  background-color: #272727;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cd-category-icon {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+.cd-category-name {
+  font-size: var(--font-size-24);
+  font-weight: var(--font-weight-bold);
+  color: var(--text-primary);
+  margin: 0;
+}
+
+/* 필터 탭 */
+.cd-filter-tabs {
+  display: flex;
+  gap: 8px;
+  padding: 0 20px 20px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.cd-filter-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.cd-filter-tab {
+  padding: 8px 16px;
+  border: 1px solid var(--line-primary);
+  border-radius: 20px;
+  background: none;
+  color: var(--text-secondary);
+  font-size: var(--font-size-13);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.cd-filter-tab.active {
+  background-color: var(--fill-primary);
+  color: var(--bg-surface);
+  border-color: var(--fill-primary);
+  font-weight: var(--font-weight-semibold);
+}
+
+.cd-filter-tab:hover:not(.active) {
+  border-color: var(--text-secondary);
+  color: var(--text-primary);
+}
+
+/* 템플릿 그리드 */
+.cd-template-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px 11px;
+  padding: 0 20px;
+}
+
+.cd-template-card {
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.cd-template-card:hover {
+  transform: scale(1.02);
+}
+
+.cd-template-thumbnail {
+  position: relative;
+  width: 168px;
+  height: 299px;
+  border-radius: 12px;
+  overflow: hidden;
+  background-color: var(--bg-card-dark);
+}
+
+.cd-template-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 북마크 버튼 */
+.cd-bookmark-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 32px;
+  height: 32px;
+  background-color: rgba(0, 0, 0, 0.4);
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--text-primary);
+  transition: all 0.2s ease;
+}
+
+.cd-bookmark-btn:hover {
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+/* 사용자 수 뱃지 */
+.cd-users-badge {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 12px;
+  font-size: var(--font-size-12);
+  color: var(--text-primary);
+}
+
+.cd-users-badge img {
+  opacity: 0.9;
+}
+
+/* 템플릿 정보 */
+.cd-template-info {
+  padding: 10px 4px;
+}
+
+.cd-template-title {
+  font-size: var(--font-size-14);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+  margin: 0 0 6px 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cd-template-meta {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: var(--font-size-12);
+  color: var(--text-secondary);
+}
+
+.cd-meta-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.cd-meta-item img {
+  opacity: 0.7;
+}
+
+.cd-meta-dot {
+  color: var(--text-tertiary);
+}

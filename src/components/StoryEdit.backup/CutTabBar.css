@@ -1,0 +1,104 @@
+.se-cut-tab-bar {
+  background: var(--bg-surface-light);
+  padding: 12px 0 0;
+}
+
+.se-tab-scroll {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 16px 12px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.se-tab-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.se-tab-item {
+  flex-shrink: 0;
+  width: 60px;
+  height: 60px;
+  border-radius: 8px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  transition: all 0.2s;
+  padding: 0;
+  position: relative;
+  background: var(--color-pending-tab, var(--gray-100));
+}
+
+.se-tab-item.current {
+  background: var(--color-current-tab, var(--se-tab-current-bg));
+  border-color: var(--se-accent);
+}
+
+.se-tab-item.completed {
+  background: var(--gray-200);
+  border-color: var(--se-tab-completed-border);
+}
+
+.se-tab-thumbnail {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.se-tab-plus {
+  font-size: var(--font-size-24);
+  font-weight: 300;
+  color: var(--se-accent);
+  line-height: 1;
+}
+
+.se-tab-duration {
+  font-size: var(--font-size-12);
+  font-weight: var(--font-weight-medium);
+  color: var(--text-secondary);
+}
+
+.se-tab-number {
+  font-size: var(--font-size-12);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-tertiary);
+  position: absolute;
+  bottom: 2px;
+  right: 4px;
+  z-index: 1;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 4px;
+  padding: 0 3px;
+}
+
+.se-tab-item.completed .se-tab-number {
+  color: var(--text-primary);
+  background: rgba(0, 0, 0, 0.5);
+}
+
+/* Progress bar */
+.se-progress-bar {
+  display: flex;
+  gap: 2px;
+}
+
+.se-progress-segment {
+  flex: 1;
+  height: 6px;
+  border-radius: 3px;
+  background-color: var(--yellow-900);
+  transition: background-color 0.3s ease;
+}
+
+.se-progress-segment.active {
+  background-color: var(--fill-primary);
+}

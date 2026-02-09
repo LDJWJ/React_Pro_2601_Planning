@@ -53,7 +53,7 @@ const weekendTemplates = [
     users: 300,
     duration: '18초',
     cuts: 6,
-    image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=300&h=400&fit=crop',
+    image: '/images/category/category01.png',
     tags: ['일상', '브이로그', '주말']
   },
   {
@@ -62,7 +62,7 @@ const weekendTemplates = [
     users: 300,
     duration: '12초',
     cuts: 4,
-    image: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=300&h=400&fit=crop',
+    image: '/images/category/category02.png',
     tags: ['카페', '맛집', '투어']
   },
   {
@@ -71,8 +71,45 @@ const weekendTemplates = [
     users: 300,
     duration: '15초',
     cuts: 5,
-    image: 'https://images.unsplash.com/photo-1551024601-bec78aea704b?w=300&h=400&fit=crop',
+    image: '/images/category/category03.png',
     tags: ['맛집', '먹방', '리뷰']
+  },
+];
+
+// Top5 카테고리 탭
+const top5Categories = [
+  { id: 'new', label: 'NEW' },
+  { id: 'trending', label: '급상승' },
+  { id: 'promo', label: '홍보' },
+  { id: 'food', label: '맛집' },
+  { id: 'daily', label: '일상기록' },
+];
+
+// Top5 템플릿 데이터
+const top5Templates = [
+  {
+    id: 't1',
+    title: '혼자 일본여행🇯🇵',
+    subtitle: '1일차',
+    caption: '와 이거 개맛있다',
+    image: '/images/home/TOP5_01.svg',
+    category: 'new'
+  },
+  {
+    id: 't2',
+    title: '역대급 고양이 전투력',
+    subtitle: '랭킹 TOP10',
+    caption: '1. 생선드 기',
+    image: '/images/home/TOP5_02.svg',
+    category: 'trending'
+  },
+  {
+    id: 't3',
+    title: 'Tewaje',
+    subtitle: '',
+    caption: '새로운 맛의 발견',
+    image: '/images/home/TOP5_03.svg',
+    category: 'food'
   },
 ];
 
@@ -88,6 +125,7 @@ function Home({ user, selections, onLogout, onTabChange, activeTab = 'template' 
   const [touchStart, setTouchStart] = useState(null);
   const [touchEnd, setTouchEnd] = useState(null);
   const [activeFilter, setActiveFilter] = useState('recommend');
+  const [activeTop5Category, setActiveTop5Category] = useState('new');
   const carouselRef = useRef(null);
 
   // 스와이프 감지를 위한 최소 거리
@@ -313,6 +351,56 @@ function Home({ user, selections, onLogout, onTabChange, activeTab = 'template' 
         </div>
       </div>
 
+      {/* 이번 주 조회수 상위 템플릿 Top5 */}
+      <div className="top5-section">
+        <div className="top5-header">
+          <h3 className="top5-title">이번 주 조회수 상위 템플릿 Top5🔥</h3>
+          <p className="top5-subtitle">평균 조회수 상위 20%를 달성했어요!</p>
+        </div>
+
+        <div className="top5-categories">
+          {top5Categories.map((category) => (
+            <button
+              key={category.id}
+              className={`top5-category-tab ${activeTop5Category === category.id ? 'active' : ''}`}
+              onClick={() => {
+                setActiveTop5Category(category.id);
+                logButtonClick('home', 'top5_category', category.label);
+              }}
+            >
+              {category.label}
+            </button>
+          ))}
+        </div>
+
+        <div className="top5-template-list">
+          {top5Templates.map((template) => (
+            <div
+              key={template.id}
+              className="top5-template-card"
+              onClick={() => handleTemplateClick(template, 'top5')}
+            >
+              <img
+                src={template.image}
+                alt={template.title}
+                className="top5-template-image"
+              />
+              <div className="top5-template-overlay">
+                <div className="top5-template-text">
+                  <span className="top5-template-title">{template.title}</span>
+                  {template.subtitle && (
+                    <span className="top5-template-subtitle">{template.subtitle}</span>
+                  )}
+                </div>
+                {template.caption && (
+                  <span className="top5-template-caption">{template.caption}</span>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
       {/* 하단 추천 섹션 */}
       <div className="sub-recommend-section">
         <div className="section-header">
@@ -372,6 +460,15 @@ function Home({ user, selections, onLogout, onTabChange, activeTab = 'template' 
             </div>
           ))}
         </div>
+
+        <button
+          className="weekend-section-button"
+          onClick={() => {
+            logButtonClick('home', 'weekend_more_button');
+          }}
+        >
+          더 많은 템플릿 보기
+        </button>
       </div>
     </div>
   );

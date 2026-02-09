@@ -1,0 +1,541 @@
+.idea-note-container {
+  position: relative;
+  width: 100%;
+  max-width: 393px;
+  height: 100%;
+  background-color: #1a1a1a;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+}
+
+/* 상단 헤더 바 */
+.idea-note-header-bar {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+  padding: 16px 20px;
+  background-color: #1a1a1a;
+  flex-shrink: 0;
+}
+
+.idea-note-back-button {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 28px;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+}
+
+.idea-note-header-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+}
+
+/* 스크롤 영역 */
+.idea-note-scroll-content {
+  width: 100%;
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.idea-note-scroll-content::-webkit-scrollbar {
+  display: none;
+}
+
+/* 콘텐츠 영역 */
+.idea-note-content-section {
+  background-color: #1a1a1a;
+  padding-bottom: calc(80px + env(safe-area-inset-bottom));
+}
+
+/* Step 박스 - 왼쪽 정렬 */
+.idea-note-step-box-left {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 10px;
+  padding: 8px 20px;
+  margin-bottom: 12px;
+}
+
+.idea-note-step-label {
+  padding: 6px 12px;
+  background-color: #F8FF33;
+  color: #121212;
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 4px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.idea-note-step-text {
+  font-weight: 600;
+  line-height: 1.3;
+  transition: font-size 0.2s, color 0.2s;
+}
+
+.idea-note-step-text.active {
+  font-size: 20px;
+  color: #FFFFFF;
+}
+
+.idea-note-step-text.inactive {
+  font-size: 16px;
+  color: #999999;
+}
+
+/* Step 박스 연결선 */
+.idea-note-step-box-with-line-bottom {
+  position: relative;
+}
+
+.idea-note-step-box-with-line-bottom::after {
+  content: '';
+  position: absolute;
+  left: 31px;
+  top: 100%;
+  width: 2px;
+  height: 24px;
+  background-color: #444;
+}
+
+.idea-note-step-box-with-line-top {
+  position: relative;
+  margin-top: 10px;
+}
+
+.idea-note-step-box-with-line-top::before {
+  content: '';
+  position: absolute;
+  left: 31px;
+  bottom: 100%;
+  width: 2px;
+  height: 24px;
+  background-color: #444;
+}
+
+/* 컷 리스트 */
+.idea-note-cut-list-container {
+  padding: 12px 20px;
+}
+
+/* 타임라인 래퍼 */
+.idea-note-timeline-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* 타임라인 행 */
+.idea-note-timeline-row {
+  display: flex;
+  align-items: stretch;
+}
+
+/* 왼쪽 타임라인 인디케이터 */
+.idea-note-timeline-indicator {
+  position: relative;
+  width: 24px;
+  margin-right: 12px;
+  flex-shrink: 0;
+  align-self: stretch;
+}
+
+/* 타임라인 점 */
+.idea-note-timeline-dot {
+  position: absolute;
+  left: 50%;
+  top: 22px;
+  transform: translateX(-50%);
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #444;
+  transition: background-color 0.2s ease;
+  z-index: 1;
+}
+
+.idea-note-timeline-dot.active {
+  background-color: #F8FF33;
+}
+
+/* 타임라인 선 */
+.idea-note-timeline-line {
+  position: absolute;
+  left: 50%;
+  top: 36px;
+  bottom: -14px;
+  transform: translateX(-50%);
+  width: 2px;
+  background-color: #444;
+  transition: background-color 0.2s ease;
+}
+
+.idea-note-timeline-line.active {
+  background-color: #F8FF33;
+}
+
+/* 컷 래퍼 */
+.idea-note-cut-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+}
+
+.idea-note-cut-wrapper > .idea-note-cut-header-outside {
+  margin-bottom: 8px;
+}
+
+/* 타이틀 행 */
+.idea-note-cut-header-outside {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 4px;
+}
+
+.idea-note-cut-header-left {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.idea-note-cut-icon {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+  filter: brightness(0) invert(0.5);
+  transition: filter 0.2s;
+}
+
+.idea-note-cut-icon.active {
+  filter: brightness(0) saturate(100%) invert(95%) sepia(95%) saturate(1000%) hue-rotate(10deg) brightness(105%);
+}
+
+.idea-note-cut-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #888;
+  transition: color 0.2s;
+}
+
+.idea-note-cut-label.active {
+  color: #F8FF33;
+}
+
+.idea-note-cut-label-separator {
+  font-size: 13px;
+  font-weight: 600;
+  color: #888;
+  margin: 0 2px;
+}
+
+.idea-note-cut-label-separator.active {
+  color: #F8FF33;
+}
+
+.idea-note-cut-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #888;
+  transition: color 0.2s;
+}
+
+.idea-note-cut-title.active {
+  color: #F8FF33;
+}
+
+/* 시간 태그 */
+.idea-note-cut-time-tag {
+  padding: 4px 10px;
+  background-color: transparent;
+  border: 1px solid #555;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #888;
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+
+.idea-note-cut-time-tag.active {
+  background-color: rgba(255, 114, 26, 0.2);
+  border-color: #FF721A;
+  color: #FF721A;
+}
+
+/* 컷 카드 */
+.idea-note-cut-card {
+  display: flex;
+  gap: 12px;
+  padding: 14px 12px;
+  height: 84px;
+  box-sizing: border-box;
+  background-color: #222;
+  border: 1px solid #333;
+  border-radius: 12px;
+  transition: border-color 0.2s ease;
+}
+
+.idea-note-cut-card.active {
+  border-color: #333;
+}
+
+/* 썸네일 */
+.idea-note-cut-thumbnail {
+  position: relative;
+  width: 56px;
+  height: 56px;
+  min-width: 56px;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: #333;
+  flex-shrink: 0;
+}
+
+.idea-note-cut-thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.idea-note-cut-thumbnail.active {
+  border-radius: 8px;
+}
+
+/* 비선택 시 어두운 오버레이 */
+.idea-note-cut-thumbnail-dim {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.idea-note-cut-thumbnail-time {
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* 설명 영역 */
+.idea-note-cut-description-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.idea-note-cut-description {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #999;
+  line-height: 1.4;
+}
+
+/* 메모 표시 박스 (비선택 시) */
+.idea-note-memo-display-box {
+  width: 100%;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  padding: 0 14px;
+  background-color: #272727;
+  border-radius: 8px;
+  margin-top: 8px;
+  box-sizing: border-box;
+}
+
+.idea-note-memo-display-text {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 500;
+  color: #FFFFFF;
+  line-height: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 메모 섹션 */
+.idea-note-memo-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  height: 112px;
+  box-sizing: border-box;
+  background-color: #272727;
+  border: 1px solid #F8FF33;
+  border-radius: 12px;
+  margin-top: 8px;
+}
+
+.idea-note-memo-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #F8FF33;
+}
+
+.idea-note-memo-input {
+  width: 100%;
+  flex: 1;
+  padding: 0;
+  border: none;
+  background-color: transparent;
+  font-size: 14px;
+  font-weight: 500;
+  color: #fff;
+  outline: none;
+  resize: none;
+  font-family: inherit;
+  line-height: 1.4;
+}
+
+.idea-note-memo-input::placeholder {
+  color: #555;
+}
+
+/* 하단 버튼 - 화면 하단 고정 */
+.idea-note-fixed-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  padding: 16px 20px;
+  padding-bottom: calc(37px + env(safe-area-inset-bottom));
+  background: linear-gradient(to top, #1a1a1a 80%, transparent 100%);
+  flex-shrink: 0;
+}
+
+.idea-note-save-btn {
+  width: 353px;
+  padding: 14px 0;
+  border: none;
+  border-radius: 8px;
+  background-color: #F8FF33;
+  color: #000;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.idea-note-save-btn:active {
+  opacity: 0.8;
+}
+
+.idea-note-save-btn.disabled {
+  background-color: #444;
+  color: #888;
+  cursor: not-allowed;
+}
+
+.idea-note-save-btn.disabled:active {
+  opacity: 1;
+}
+
+/* 저장 완료 팝업 오버레이 */
+.idea-note-popup-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 100;
+}
+
+/* 팝업 박스 */
+.idea-note-popup {
+  width: 320px;
+  background-color: #272727;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px 20px;
+  box-sizing: border-box;
+}
+
+/* 팝업 아이콘 */
+.idea-note-popup-icon {
+  width: 99px;
+  height: 99px;
+  object-fit: contain;
+  margin-bottom: 16px;
+}
+
+/* 팝업 타이틀 */
+.idea-note-popup-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 8px 0;
+  text-align: center;
+}
+
+/* 팝업 서브타이틀 */
+.idea-note-popup-subtitle {
+  font-size: 14px;
+  font-weight: 500;
+  color: #fff;
+  margin: 0 0 20px 0;
+  text-align: center;
+}
+
+/* 팝업 하이라이트 텍스트 */
+.idea-note-popup-highlight {
+  color: #F8FF33;
+  font-weight: 600;
+}
+
+/* 팝업 확인 버튼 */
+.idea-note-popup-btn {
+  width: 280px;
+  min-height: 52px;
+  height: 52px;
+  background-color: #F8FF33;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 700;
+  color: #000;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+  flex-shrink: 0;
+}
+
+.idea-note-popup-btn:active {
+  opacity: 0.8;
+}
+
+/* 모바일 대응 */
+@media (max-width: 480px) {
+  .idea-note-cut-thumbnail {
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+  }
+}

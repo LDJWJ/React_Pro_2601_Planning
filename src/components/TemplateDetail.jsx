@@ -3,7 +3,7 @@ import './TemplateDetail.css';
 import { Button } from './common';
 import { logScreenView, logButtonClick } from '../utils/logger';
 
-function TemplateDetail({ template, onBack, onTabChange, onStoryPlanning, onStoryEdit, onContentUpload }) {
+function TemplateDetail({ template, onBack, onTabChange, onStoryPlanning, onStoryEdit, onContentUpload, hasIdeaNote }) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
   const videoRef = useRef(null);
@@ -71,7 +71,13 @@ function TemplateDetail({ template, onBack, onTabChange, onStoryPlanning, onStor
         <button className="back-button" onClick={onBack}>
           ←
         </button>
-        <span className="header-title">{template.title || '템플릿 미리보기'}</span>
+        <div className="header-info">
+          <span className="header-title">{template.title || '템플릿 미리보기'}</span>
+          <span className="header-users">
+            <img src="/images/meta-icons/03_pick.png" alt="users" width="14" height="14" />
+            {template.users || template.usedCount || 200}명이 사용했어요!
+          </span>
+        </div>
       </div>
 
       {/* 전체 화면 비디오 영역 */}
@@ -87,7 +93,7 @@ function TemplateDetail({ template, onBack, onTabChange, onStoryPlanning, onStor
                   onEnded={() => setIsPlaying(false)}
                   playsInline
                   muted
-                  poster={template.thumbnail}
+                  poster={template.thumbnail || template.image}
                 />
                 {!isPlaying && (
                   <button className="play-button-overlay">
@@ -98,15 +104,12 @@ function TemplateDetail({ template, onBack, onTabChange, onStoryPlanning, onStor
             ) : (
               <div className="no-video-placeholder">
                 <img
-                  src={template.thumbnail}
+                  src={template.image || template.thumbnail}
                   alt="템플릿"
                   onError={(e) => {
                     e.target.src = 'https://picsum.photos/400/700?random=' + template.id;
                   }}
                 />
-                <button className="play-button-overlay">
-                  ▶
-                </button>
               </div>
             )}
             {template.overlayText && (
@@ -118,24 +121,20 @@ function TemplateDetail({ template, onBack, onTabChange, onStoryPlanning, onStor
             )}
           </div>
 
-          {/* 우측 아이콘 - 시간, 컷, 사용수 (오버레이 밖, preview-section 기준) */}
-          <div className="info-items-column">
-            <div className="info-item">
-              <span className="info-icon-mask" style={{ maskImage: `url(/images/template-selected/vedio-time.svg)`, WebkitMaskImage: `url(/images/template-selected/vedio-time.svg)` }} aria-label="시간" />
-              <span className="info-label">{formatDuration(template.duration || 18)}</span>
-            </div>
-            <div className="info-item">
-              <span className="info-icon-mask" style={{ maskImage: `url(/images/template-selected/media.svg)`, WebkitMaskImage: `url(/images/template-selected/media.svg)` }} aria-label="컷" />
-              <span className="info-label">{template.cuts || 6}컷</span>
-            </div>
-            <div className="info-item">
-              <span className="info-icon-mask" style={{ maskImage: `url(/images/template-selected/used-count.svg)`, WebkitMaskImage: `url(/images/template-selected/used-count.svg)` }} aria-label="사용수" />
-              <span className="info-label">{template.usedCount || 200}명</span>
-            </div>
-          </div>
-
           {/* 하단 오버레이 - 해시태그 + 버튼 */}
           <div className="template-bottom-overlay">
+            {/* 하단 왼쪽 - 컷수, 시간 (가로 배치) */}
+            <div className="info-items-row">
+              <div className="info-item">
+                <img src="/images/meta-icons/02_media.png" alt="컷" className="info-icon-img" />
+                <span className="info-label">{template.cuts || 6}컷</span>
+              </div>
+              <div className="info-item">
+                <img src="/images/meta-icons/01_time.png" alt="시간" className="info-icon-img" />
+                <span className="info-label">{formatDuration(template.duration || 18)}</span>
+              </div>
+            </div>
+
             {/* 해시태그 + 북마크 */}
             <div className="template-hashtags-overlay">
               <div className="hashtag-list">
@@ -144,21 +143,37 @@ function TemplateDetail({ template, onBack, onTabChange, onStoryPlanning, onStor
                 ))}
               </div>
               <button className={`bookmark-btn${isSaved ? ' bookmark-active' : ''}`} onClick={(e) => { e.stopPropagation(); handleSaveToggle(); }}>
-                <span className="info-icon-mask" style={{ maskImage: `url(${isSaved ? '/images/template-selected/bookmark_filled.svg' : '/images/template-selected/bookmark_lined.svg'})`, WebkitMaskImage: `url(${isSaved ? '/images/template-selected/bookmark_filled.svg' : '/images/template-selected/bookmark_lined.svg'})` }} aria-label="북마크" />
+                <img
+                  src={isSaved ? '/images/bookmark/bookmark_filled.png' : '/images/bookmark/bookmark_lined.png'}
+                  alt="bookmark"
+                  width="24"
+                  height="24"
+                />
               </button>
             </div>
 
             {/* 하단 버튼 2개 - 전체 너비 */}
             <div className="template-bottom-buttons">
-              <Button variant="secondary" onClick={handleStoryPlanningClick}>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ marginRight: '6px' }}>
+              <button
+                className={`idea-note-btn ${hasIdeaNote ? 'completed' : ''}`}
+                onClick={handleStoryPlanningClick}
+              >
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  style={{ marginRight: '6px' }}
+                >
                   <rect x="3" y="3" width="18" height="18" rx="2" />
                   <line x1="8" y1="8" x2="16" y2="8" />
                   <line x1="8" y1="12" x2="16" y2="12" />
                   <line x1="8" y1="16" x2="12" y2="16" />
                 </svg>
-                훅 노트
-              </Button>
+                아이디어 노트
+              </button>
               <Button variant="primary" onClick={handleStartEdit}>
                 템플릿 사용하기
               </Button>

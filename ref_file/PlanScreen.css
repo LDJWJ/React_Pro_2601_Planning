@@ -1,0 +1,810 @@
+.story-planning-container {
+  width: 393px;
+  height: 852px;
+  max-width: 393px;
+  max-height: 852px;
+  background-color: #1a1a1a;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+}
+
+/* 상단 헤더 바 - 고정 */
+.story-header-bar {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+  padding: 16px 20px;
+  background-color: #1a1a1a;
+  flex-shrink: 0;
+}
+
+.story-back-button {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 28px;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+}
+
+.story-header-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+}
+
+/* 전체 스크롤 영역 */
+.story-scroll-content {
+  width: 100%;
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.story-scroll-content::-webkit-scrollbar {
+  display: none;
+}
+
+/* 콘텐츠 영역 */
+.story-content-section {
+  background-color: #1a1a1a;
+  padding-bottom: calc(80px + env(safe-area-inset-bottom));
+}
+
+/* 프로그레스 바 */
+.story-progress-bar {
+  display: flex;
+  gap: 2px;
+  padding: 16px 20px 0;
+  height: 6px;
+  box-sizing: content-box;
+}
+
+.sp-progress-segment {
+  height: 6px;
+  border-radius: 3px;
+  background-color: #333;
+  transition: background-color 0.3s ease;
+}
+
+.sp-progress-segment.active {
+  background-color: #F8FF33;
+}
+
+/* 헤더 */
+.story-header {
+  padding: 20px 20px 16px;
+  border-bottom: 1px solid #333;
+}
+
+.story-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.story-description {
+  margin: 6px 0 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: #999;
+}
+
+/* 영상 가이드 헤더 */
+.story-guide-header {
+  padding: 20px 20px 12px;
+}
+
+.story-guide-title {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: #fff;
+}
+
+/* Step 박스 */
+.story-step-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  margin: 0 20px 12px;
+  background-color: transparent;
+}
+
+/* Step 박스 - 왼쪽 정렬 (점 없이) */
+.story-step-box-left {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 10px;
+  padding: 8px 20px;
+  margin-bottom: 12px;
+}
+
+.story-step-label {
+  padding: 6px 12px;
+  background-color: #F8FF33;
+  color: #121212;
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 4px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.story-step-text {
+  font-weight: 600;
+  line-height: 1.3;
+  transition: font-size 0.2s, color 0.2s;
+}
+
+.story-step-text.active {
+  font-size: 20px;
+  color: #FFFFFF;
+}
+
+.story-step-text.inactive {
+  font-size: 16px;
+  color: #999999;
+}
+
+/* 컷 라벨 (1, 2-4 등) */
+.sp-cut-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: #F8FF33;
+}
+
+/* 컷 리스트 */
+.sp-cut-list-container {
+  padding: 12px 20px;
+}
+
+/* 타임라인 래퍼 */
+.sp-timeline-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* 타임라인 행 (인디케이터 + 카드) */
+.sp-timeline-row {
+  display: flex;
+  align-items: stretch;
+}
+
+/* 왼쪽 타임라인 인디케이터 영역 */
+.sp-timeline-indicator {
+  position: relative;
+  width: 24px;
+  margin-right: 12px;
+  flex-shrink: 0;
+  align-self: stretch;
+}
+
+/* 타임라인 점 */
+.sp-timeline-dot {
+  position: absolute;
+  left: 50%;
+  top: 22px;
+  transform: translateX(-50%);
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #444;
+  transition: background-color 0.2s ease;
+  z-index: 1;
+}
+
+.sp-timeline-dot.active {
+  background-color: #F8FF33;
+}
+
+/* 타임라인 선 */
+.sp-timeline-line {
+  position: absolute;
+  left: 50%;
+  top: 36px;
+  bottom: -14px;
+  transform: translateX(-50%);
+  width: 2px;
+  background-color: #444;
+  transition: background-color 0.2s ease;
+}
+
+.sp-timeline-line.active {
+  background-color: #F8FF33;
+}
+
+/* Step 박스에서 아래로 연결선 (step 1용) */
+.story-step-box-with-line-bottom {
+  position: relative;
+}
+
+.story-step-box-with-line-bottom::after {
+  content: '';
+  position: absolute;
+  left: 31px;
+  top: 100%;
+  width: 2px;
+  height: 24px;
+  background-color: #444;
+}
+
+/* Step 박스에서 위로 연결선 (step 2용) */
+.story-step-box-with-line-top {
+  position: relative;
+  margin-top: 10px;
+}
+
+.story-step-box-with-line-top::before {
+  content: '';
+  position: absolute;
+  left: 31px;
+  bottom: 100%;
+  width: 2px;
+  height: 24px;
+  background-color: #444;
+}
+
+/* 타임라인 내 Step 박스 */
+.story-step-box-inline {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0;
+  margin-bottom: 16px;
+  flex: 1;
+}
+
+.sp-cut-item {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 14px 16px;
+  margin-bottom: 20px;
+  background-color: #222;
+  border: 1px solid #333;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+  align-items: flex-start;
+  flex: 1;
+}
+
+.sp-cut-item-active {
+  border-color: #F8FF33;
+}
+
+.sp-cut-item-filled {
+  border-color: #333;
+}
+
+/* 썸네일 */
+.sp-cut-thumbnail {
+  position: relative;
+  width: 56px;
+  height: 56px;
+  min-width: 56px;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: #333;
+  flex-shrink: 0;
+}
+
+.sp-cut-thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.sp-cut-thumbnail-empty {
+  width: 100%;
+  height: 100%;
+  background-color: #333;
+}
+
+/* 비선택 시 어두운 오버레이 */
+.sp-cut-thumbnail-dim {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sp-cut-thumbnail-time {
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* 선택된 아이템 썸네일: 노란 테두리 */
+.sp-cut-item-active .sp-cut-thumbnail {
+  box-shadow: 0 0 0 2px #F8FF33;
+}
+
+/* 메모 완료 체크 표시 */
+.sp-cut-thumbnail-check {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 컷 콘텐츠 */
+.sp-cut-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.sp-cut-header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+
+.sp-cut-header-left {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.sp-cut-icon {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+  filter: brightness(0) invert(0.5);
+  transition: filter 0.2s;
+}
+
+.sp-cut-icon.active {
+  filter: brightness(0) saturate(100%) invert(95%) sepia(95%) saturate(1000%) hue-rotate(10deg) brightness(105%);
+}
+
+.sp-cut-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #888;
+  transition: color 0.2s;
+}
+
+.sp-cut-label.active {
+  color: #F8FF33;
+}
+
+.sp-cut-label-separator {
+  font-size: 13px;
+  font-weight: 600;
+  color: #888;
+  margin: 0 2px;
+}
+
+.sp-cut-label-separator.active {
+  color: #F8FF33;
+}
+
+.sp-cut-number-inline {
+  font-size: 13px;
+  font-weight: 600;
+  color: #888;
+}
+
+.sp-cut-number-with-icon {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #888;
+  margin-right: 8px;
+}
+
+.sp-cut-number-with-icon svg {
+  color: #888;
+  flex-shrink: 0;
+}
+
+.sp-film-icon {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.sp-cut-item-active .sp-cut-number-with-icon,
+.sp-cut-item-active .sp-cut-number-with-icon svg {
+  color: #F8FF33;
+}
+
+.sp-cut-item-active .sp-cut-title {
+  color: #F8FF33;
+}
+
+.sp-cut-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #888;
+  transition: color 0.2s;
+}
+
+.sp-cut-title.active {
+  color: #F8FF33;
+}
+
+/* 시간 태그 */
+.sp-cut-time-tag {
+  padding: 4px 10px;
+  background-color: transparent;
+  border: 1px solid #555;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #888;
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+
+.sp-cut-time-tag.active {
+  background-color: rgba(255, 114, 26, 0.2);
+  border-color: #FF721A;
+  color: #FF721A;
+}
+
+.sp-cut-description {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #999;
+  line-height: 1.4;
+}
+
+.sp-cut-description.filled {
+  color: #FAFF66;
+  font-weight: 400;
+}
+
+.sp-cut-memo-input {
+  display: none;
+  width: 100%;
+  flex-basis: 100%;
+  margin-top: 0;
+  padding: 10px 12px;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  outline: none;
+  transition: background-color 0.2s ease;
+  background-color: #2a2a2a;
+  color: #fff;
+  box-sizing: border-box;
+}
+
+.sp-cut-item-active .sp-cut-memo-input {
+  display: block;
+}
+
+/* 메모 완료 시 텍스트 표시 (비선택 컷) */
+.sp-cut-memo-display {
+  margin: 8px 0 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: #F8FF33;
+  line-height: 1.4;
+}
+
+/* 메모 완료 시 카드 아래 표시 박스 */
+.sp-memo-display-box {
+  width: 332px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  padding: 0 14px;
+  background-color: #272727;
+  border-radius: 8px;
+  margin-top: 0;
+  box-sizing: border-box;
+}
+
+.sp-memo-display-text {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 500;
+  color: #FFFFFF;
+  line-height: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sp-cut-memo-input:focus {
+  background-color: #333;
+}
+
+.sp-cut-memo-input::placeholder {
+  color: #666;
+}
+
+/* 하단 버튼 */
+.story-bottom-buttons {
+  display: flex;
+  justify-content: center;
+  padding: 16px 20px 37px;
+  margin-top: 8px;
+}
+
+/* 하단 버튼 - 고정 */
+.story-bottom-buttons-fixed {
+  display: flex;
+  justify-content: center;
+  padding: 16px 20px 37px;
+  background-color: #1a1a1a;
+  flex-shrink: 0;
+}
+
+/* 하단 버튼 - 화면 하단 고정 */
+.story-fixed-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  padding: 16px 20px;
+  padding-bottom: calc(80px + env(safe-area-inset-bottom));
+  background: linear-gradient(to top, #1a1a1a 80%, transparent 100%);
+  flex-shrink: 0;
+}
+
+.story-save-btn {
+  width: 353px;
+  padding: 14px 0;
+  border: none;
+  border-radius: 8px;
+  background-color: #F8FF33;
+  color: #000;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.story-save-btn:active {
+  opacity: 0.8;
+}
+
+.story-save-btn.disabled {
+  background-color: #444;
+  color: #888;
+  cursor: not-allowed;
+}
+
+.story-save-btn.disabled:active {
+  opacity: 1;
+}
+
+/* B안 저장하기 버튼 - 353px 고정 너비 */
+.story-save-btn.story-save-btn-b {
+  width: 353px;
+}
+
+/* 하단 버튼 - 두 개 버전 */
+.story-bottom-buttons-dual {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  padding: 16px 20px 37px;
+  margin-top: 16px;
+}
+
+.story-secondary-btn {
+  flex: 1;
+  padding: 14px 0;
+  border: 1px solid #444;
+  border-radius: 24px;
+  background-color: transparent;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.story-secondary-btn:active {
+  opacity: 0.8;
+}
+
+.story-primary-btn {
+  flex: 1.5;
+  padding: 14px 0;
+  border: none;
+  border-radius: 24px;
+  background-color: #F8FF33;
+  color: #000;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.story-primary-btn:active {
+  opacity: 0.8;
+}
+
+/* 미션 완료 오버레이 */
+.story-complete-overlay {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 20px 0;
+}
+
+.story-complete-message {
+  text-align: center;
+  color: #fff;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.story-complete-check {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background-color: #F8FF33;
+  color: #000;
+  font-size: 32px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.story-complete-message p {
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.story-complete-next {
+  font-size: 20px !important;
+  font-weight: 700 !important;
+  color: #fff;
+  margin-top: 12px !important;
+}
+
+.story-complete-footer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding-bottom: 37px;
+}
+
+/* 모바일 대응 */
+@media (max-width: 480px) {
+  .sp-cut-item {
+    padding: 12px 14px;
+  }
+
+  .sp-cut-thumbnail {
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+  }
+}
+
+/* ===== B안 전용 스타일 ===== */
+
+/* 컷 래퍼 (타이틀 + 카드 + 메모 섹션) */
+.sp-cut-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+}
+
+.sp-cut-wrapper > .sp-cut-header-outside {
+  margin-bottom: 8px;
+}
+
+/* 타이틀 행 (카드 바깥) */
+.sp-cut-header-outside {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 4px;
+}
+
+/* 컷 카드 (썸네일 + 설명) */
+.sp-cut-card {
+  display: flex;
+  gap: 12px;
+  padding: 14px 12px;
+  height: 84px;
+  box-sizing: border-box;
+  background-color: #222;
+  border: 1px solid #333;
+  border-radius: 12px 12px 12px 12px;
+  transition: border-color 0.2s ease;
+}
+
+.sp-cut-card.active {
+  border-color: #333;
+  border-radius: 12px 12px 12px 12px;
+}
+
+/* 선택된 썸네일 노란 테두리 제거 */
+.sp-cut-thumbnail.active {
+  border-radius: 8px;
+}
+
+/* 설명 영역 */
+.sp-cut-description-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* 메모 섹션 */
+.sp-memo-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  height: 112px;
+  box-sizing: border-box;
+  background-color: #272727;
+  border: 1px solid #F8FF33;
+  border-radius: 12px;
+}
+
+.sp-memo-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #F8FF33;
+}
+
+.sp-memo-input {
+  width: 100%;
+  flex: 1;
+  padding: 0;
+  border: none;
+  background-color: transparent;
+  font-size: 14px;
+  font-weight: 500;
+  color: #fff;
+  outline: none;
+  resize: none;
+  font-family: inherit;
+  line-height: 1.4;
+}
+
+.sp-memo-input::placeholder {
+  color: #555;
+}

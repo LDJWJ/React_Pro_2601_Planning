@@ -18,6 +18,8 @@
   display: flex;
   gap: 2px;
   flex-shrink: 0;
+  padding: 50px 20px 0;
+  box-sizing: border-box;
 }
 
 .category-progress-segment {
@@ -60,7 +62,11 @@
 }
 
 .category-footer {
-  padding: 0 24px 48px;
+  position: absolute;
+  bottom: 37px;
+  left: 0;
+  right: 0;
+  padding: 0 24px;
   width: 100%;
   box-sizing: border-box;
 }
@@ -84,7 +90,8 @@
   cursor: pointer;
   transition: all 0.2s ease;
   text-align: left;
-  min-height: 110px;
+  width: 170px;
+  height: 136px;
   box-sizing: border-box;
 }
 
@@ -143,7 +150,8 @@
 .topic-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
+  row-gap: 10px;
+  column-gap: 11px;
   width: 100%;
 }
 
@@ -153,7 +161,8 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  aspect-ratio: 1 / 1;
+  width: 170px;
+  height: 160px;
   border: 2px solid transparent;
   border-radius: 16px;
   overflow: hidden;
@@ -298,7 +307,8 @@
   cursor: pointer;
   transition: all 0.2s ease;
   box-sizing: border-box;
-  aspect-ratio: 1 / 1;
+  width: 110px;
+  height: 110px;
   position: relative;
 }
 

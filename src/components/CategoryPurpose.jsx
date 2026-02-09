@@ -70,7 +70,7 @@ function CategoryPurpose({ onNext, onBack }) {
             <br />
             영상의 목적은 무엇인가요?
           </h1>
-          <p className="category-subtitle">지금 만들고 싶은 영상의 목적은 무엇인가요?</p>
+          <p className="category-subtitle">선택한 관심사는 나중에 수정이 가능해요!</p>
         </div>
 
         <div className="purpose-grid">

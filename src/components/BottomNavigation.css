@@ -37,11 +37,27 @@
   justify-content: center;
   margin-bottom: 4px;
   color: var(--nav-icon-default);
-  transition: color 0.2s ease;
+  transition: all 0.2s ease;
+}
+
+.nav-icon img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  transition: all 0.2s ease;
 }
 
 .nav-tab.active .nav-icon {
   color: var(--nav-icon-active);
+}
+
+.nav-tab.active .nav-icon img {
+  opacity: 1;
+}
+
+/* 편집, 마이 아이콘 활성 상태 filter (노란색) */
+.nav-tab.active .nav-icon img.needs-filter {
+  filter: brightness(0) saturate(100%) invert(89%) sepia(66%) saturate(587%) hue-rotate(6deg) brightness(103%) contrast(104%);
 }
 
 .nav-tab:hover .nav-icon {

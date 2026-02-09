@@ -226,6 +226,150 @@
   margin: 0;
 }
 
+/* Top5 Section */
+.top5-section {
+  padding: 24px 20px;
+  border-top: 8px solid var(--bg-card-dark);
+}
+
+.top5-header {
+  margin-bottom: 16px;
+}
+
+.top5-title {
+  font-size: var(--font-size-18);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+  margin: 0 0 4px 0;
+}
+
+.top5-subtitle {
+  font-size: var(--font-size-12);
+  font-weight: var(--font-weight-medium);
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.top5-categories {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.top5-categories::-webkit-scrollbar {
+  display: none;
+}
+
+.top5-category-tab {
+  padding: 8px 14px;
+  border: 1px solid var(--line-primary);
+  border-radius: 20px;
+  background: none;
+  color: var(--text-secondary);
+  font-size: var(--font-size-13);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.top5-category-tab.active {
+  background-color: var(--fill-primary);
+  color: var(--bg-surface);
+  border-color: var(--fill-primary);
+  font-weight: var(--font-weight-semibold);
+}
+
+.top5-category-tab:hover:not(.active) {
+  border-color: var(--text-secondary);
+  color: var(--text-primary);
+}
+
+.top5-template-list {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding-bottom: 4px;
+}
+
+.top5-template-list::-webkit-scrollbar {
+  display: none;
+}
+
+.top5-template-card {
+  flex-shrink: 0;
+  width: 120px;
+  height: 214px;
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.top5-template-card:hover {
+  transform: scale(1.03);
+}
+
+.top5-template-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.top5-template-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.1) 0%,
+    rgba(0, 0, 0, 0) 30%,
+    rgba(0, 0, 0, 0) 50%,
+    rgba(0, 0, 0, 0.7) 100%
+  );
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 12px;
+}
+
+.top5-template-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.top5-template-title {
+  font-size: var(--font-size-14);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.top5-template-subtitle {
+  font-size: var(--font-size-12);
+  font-weight: var(--font-weight-medium);
+  color: var(--text-primary);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.top5-template-caption {
+  font-size: var(--font-size-11);
+  font-weight: var(--font-weight-medium);
+  color: var(--text-primary);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  align-self: flex-start;
+}
+
 /* Sub Recommend Section */
 .sub-recommend-section {
   padding: 24px 20px;
@@ -279,7 +423,7 @@
   overflow-x: auto;
   scrollbar-width: none;
   -ms-overflow-style: none;
-  padding: 0 4px;
+  padding: 0;
 }
 
 .template-grid::-webkit-scrollbar {
@@ -288,9 +432,7 @@
 
 .template-card {
   flex-shrink: 0;
-  width: calc((100% - 20px) / 3);
-  min-width: 100px;
-  max-width: 130px;
+  width: 170px;
   cursor: pointer;
   transition: transform 0.2s;
 }
@@ -301,11 +443,35 @@
 
 .template-thumbnail {
   position: relative;
-  width: 100%;
-  aspect-ratio: var(--card-tpl-s-aspect);
+  width: 170px;
+  height: 303px;
   border-radius: var(--card-tpl-border-radius);
   overflow: hidden;
   background-color: var(--bg-card-dark);
+}
+
+/* Weekend Section Button */
+.weekend-section-button {
+  width: 100%;
+  max-width: 353px;
+  height: 52px;
+  margin-top: 16px;
+  background-color: var(--fill-primary);
+  border: none;
+  border-radius: 12px;
+  color: var(--bg-surface);
+  font-size: var(--font-size-16);
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.weekend-section-button:hover {
+  opacity: 0.9;
+}
+
+.weekend-section-button:active {
+  transform: scale(0.98);
 }
 
 .template-image {
