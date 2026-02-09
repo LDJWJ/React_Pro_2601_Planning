@@ -15,6 +15,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
+  flex: 1;
 }
 
 .ve-header-back-btn {
@@ -29,24 +30,30 @@
 }
 
 .ve-header-title {
-  font-size: var(--font-size-16);
-  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-14);
+  font-weight: var(--font-weight-medium);
   color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 150px;
 }
 
 .ve-header-center {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 8px;
 }
 
 .ve-header-action-btn {
   background: none;
   border: none;
   color: var(--text-secondary);
-  font-size: var(--font-size-20);
   cursor: pointer;
-  padding: 4px 8px;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   transition: color 0.2s;
 }
 
@@ -57,6 +64,7 @@
 .ve-header-action-btn:disabled {
   color: var(--gray-600);
   cursor: not-allowed;
+  opacity: 0.5;
 }
 
 .ve-header-action-btn.active {
@@ -69,11 +77,11 @@
 }
 
 .ve-header-export-btn {
-  background: var(--editor-export-btn);
-  color: var(--text-primary);
+  background: #F8FF33;
+  color: #000000;
   border: none;
   padding: 8px 16px;
-  border-radius: 20px;
+  border-radius: 8px;
   font-size: var(--font-size-13);
   font-weight: var(--font-weight-semibold);
   cursor: pointer;

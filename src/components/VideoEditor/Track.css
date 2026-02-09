@@ -8,16 +8,22 @@
 }
 
 .ve-track-label {
-  flex: 0 0 50px;
+  flex: 0 0 40px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: var(--font-size-16);
-  font-weight: var(--font-weight-medium);
-  color: var(--text-secondary);
+  gap: 4px;
   background: var(--gray-800);
   height: 100%;
   border-right: 1px solid var(--editor-border);
+  position: relative;
+}
+
+.ve-track-icon {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  filter: invert(1);
 }
 
 .ve-track-content {
@@ -50,7 +56,7 @@
 .ve-track-clip--text {
   background: var(--editor-clip-text);
   color: var(--text-inverse);
-  padding: 0 6px;
+  padding: 0 8px;
 }
 
 .ve-track-clip-text {
@@ -63,7 +69,7 @@
 .ve-track-clip--bgm {
   background: var(--editor-clip-bgm);
   color: var(--text-inverse);
-  padding: 0 6px;
+  padding: 0 8px;
 }
 
 /* Video track clips */
@@ -84,36 +90,35 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: var(--font-size-14);
-  color: var(--text-secondary);
-  background: var(--editor-border);
+  background: linear-gradient(135deg, #e8a56a, #d4966a);
 }
 
 /* Voice track clips */
 .ve-track-clip--voice {
   background: var(--editor-clip-voice);
   color: var(--text-inverse);
-  padding: 0 6px;
+  padding: 0 8px;
 }
 
-/* Add button */
+/* Add button - 옆에 배치 */
 .ve-track-add-btn {
   position: absolute;
-  right: 8px;
+  left: 44px;
   top: 50%;
   transform: translateY(-50%);
   background: rgba(255, 255, 255, 0.1);
-  border: 1px dashed var(--text-tertiary);
+  border: 1px solid var(--text-tertiary);
   color: var(--text-secondary);
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: var(--font-size-14);
+  font-size: var(--font-size-12);
   cursor: pointer;
   transition: all 0.2s;
+  z-index: 2;
 }
 
 .ve-track-add-btn:hover {

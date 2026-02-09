@@ -8,6 +8,7 @@
   background: var(--editor-bg);
   padding: 0;
   padding-bottom: env(safe-area-inset-bottom, 0px);
+  border-top: 1px solid var(--editor-border);
 }
 
 .ve-navbar-tab {
@@ -30,15 +31,26 @@
 }
 
 .ve-navbar-tab.active {
-  color: var(--nav-icon-active);
+  color: var(--text-primary);
 }
 
 .ve-navbar-tab-icon {
-  font-size: var(--font-size-20);
-  line-height: 1;
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  filter: invert(0.6);
+  transition: filter 0.2s;
+}
+
+.ve-navbar-tab:hover .ve-navbar-tab-icon {
+  filter: invert(0.8);
+}
+
+.ve-navbar-tab.active .ve-navbar-tab-icon {
+  filter: invert(1);
 }
 
 .ve-navbar-tab-label {
-  font-size: var(--font-size-12);
+  font-size: var(--font-size-11);
   font-weight: var(--font-weight-medium);
 }

@@ -217,7 +217,17 @@ function EditScreen({ template, onBack, onComplete }) {
   const handleComplete = () => {
     logButtonClick('edit_screen', 'complete');
     if (onComplete) {
-      onComplete(cutData);
+      // VideoEditor가 기대하는 형식으로 데이터 매핑
+      const mappedCuts = cutData.map((cut, index) => ({
+        id: cut.id,
+        title: cut.title,
+        duration: cut.duration,
+        description: cut.description,
+        videoUrl: cut.videoPreview,      // videoPreview → videoUrl
+        thumbnail: thumbnails[index] || null,  // 썸네일 포함
+        subtitle: cut.subtitle,
+      }));
+      onComplete(mappedCuts);
     }
   };
 

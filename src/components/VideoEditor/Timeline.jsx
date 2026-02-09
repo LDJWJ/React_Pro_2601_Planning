@@ -14,8 +14,7 @@ function getTickInterval(totalDuration) {
 function formatRulerTime(seconds) {
   const mins = Math.floor(seconds / 60);
   const secs = Math.floor(seconds % 60);
-  if (mins > 0) return `${mins}:${String(secs).padStart(2, '0')}`;
-  return `${secs}s`;
+  return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
 }
 
 function Timeline({ currentTime, totalDuration, tracks, onSeek, onScroll }) {
@@ -37,7 +36,6 @@ function Timeline({ currentTime, totalDuration, tracks, onSeek, onScroll }) {
   };
 
   const handleTrackClick = (e) => {
-    // Only handle clicks on the track content area (not labels)
     const trackContent = e.target.closest('.ve-track-content');
     if (!trackContent) return;
     const rect = trackContent.getBoundingClientRect();
@@ -46,40 +44,34 @@ function Timeline({ currentTime, totalDuration, tracks, onSeek, onScroll }) {
     onSeek(newTime);
   };
 
+  // 트랙 순서: 마이크, Text, 음악, 필름
   const trackConfig = [
-    { type: 'voice', icon: '🎤', items: tracks.voice, showAddButton: true },
-    { type: 'text', icon: 'Aa', items: tracks.text, showAddButton: false },
-    { type: 'bgm', icon: '🎵', items: tracks.bgm ? [tracks.bgm] : [], showAddButton: true },
-    { type: 'video', icon: '🎬', items: tracks.video, showAddButton: false },
+    { type: 'voice', icon: '/images/editor/mic.png', items: tracks.voice, showAddButton: true },
+    { type: 'text', icon: '/images/editor/text.png', items: tracks.text, showAddButton: false },
+    { type: 'bgm', icon: '/images/editor/music.png', items: tracks.bgm ? [tracks.bgm] : [], showAddButton: true },
+    { type: 'video', icon: '/images/editor/film.png', items: tracks.video, showAddButton: false },
   ];
 
   return (
     <div className="ve-timeline">
+      {/* 시간 표시 바 (프리뷰 바로 아래) */}
+      <div className="ve-timeline-time-bar">
+        {ticks.map((t) => (
+          <span
+            key={t}
+            className={`ve-timeline-time-mark ${Math.abs(currentTime - t) < tickInterval / 2 ? 'active' : ''}`}
+            onClick={() => onSeek(t)}
+          >
+            {formatRulerTime(t)}
+          </span>
+        ))}
+      </div>
+
       <div className="ve-timeline-scroll" ref={scrollRef} onScroll={onScroll}>
         <div
           className="ve-timeline-inner"
           style={{ width: `${timelineWidth + 50}px` }}
         >
-          {/* Ruler */}
-          <div
-            className="ve-timeline-ruler"
-            style={{ width: `${timelineWidth}px` }}
-            onClick={handleRulerClick}
-          >
-            {ticks.map((t) => (
-              <div
-                key={t}
-                className="ve-timeline-ruler-mark"
-                style={{ left: `${t * pps}px` }}
-              >
-                <div className="ve-timeline-ruler-line" />
-                <span className="ve-timeline-ruler-label">
-                  {formatRulerTime(t)}
-                </span>
-              </div>
-            ))}
-          </div>
-
           {/* Tracks */}
           <div className="ve-timeline-tracks" onClick={handleTrackClick}>
             {trackConfig.map(({ type, icon, items, showAddButton }) => (
@@ -100,7 +92,7 @@ function Timeline({ currentTime, totalDuration, tracks, onSeek, onScroll }) {
             className="ve-timeline-playhead"
             style={{
               left: `${currentTime * pps}px`,
-              height: `${24 + trackConfig.length * TRACK_HEIGHT}px`,
+              height: `${trackConfig.length * TRACK_HEIGHT}px`,
             }}
           >
             <div className="ve-timeline-playhead-head" />

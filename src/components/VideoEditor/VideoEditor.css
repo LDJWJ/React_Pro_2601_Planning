@@ -13,17 +13,18 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  background: var(--editor-bg);
+  background: var(--bg-surface);
   color: var(--text-primary);
   overflow: hidden;
   position: relative;
 }
 
 .ve-preview-area {
-  flex: 0 0 65%;
+  flex: 0 0 auto;
   min-height: 0;
   display: flex;
   flex-direction: column;
+  padding: 8px 0;
 }
 
 .ve-timeline-area {
@@ -31,10 +32,8 @@
   min-height: 0;
   display: flex;
   flex-direction: column;
-  border-top: 1px solid var(--editor-border);
 }
 
 .ve-nav-area {
   flex: 0 0 60px;
-  border-top: 1px solid var(--editor-border);
 }

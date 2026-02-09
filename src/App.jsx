@@ -241,7 +241,13 @@ function App() {
           />
         );
       case 'editor':
-        return <VideoEditor cuts={editorCuts || []} onBack={handleEditorBack} />;
+        return (
+          <VideoEditor
+            cuts={editorCuts || []}
+            onBack={handleEditorBack}
+            projectName={selectedTemplate?.title}
+          />
+        );
       case 'mypage':
         return (
           <div style={{ padding: '100px 20px', textAlign: 'center', color: '#999' }}>

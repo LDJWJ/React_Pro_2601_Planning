@@ -13,7 +13,7 @@ function Track({ type, icon, items, totalDuration, pps, showAddButton }) {
             className="ve-track-clip ve-track-clip--text"
             style={{ left: `${left}px`, width: `${width}px` }}
           >
-            <span className="ve-track-clip-text">{item.content}</span>
+            <span className="ve-track-clip-text">{item.content || 'Label'}</span>
           </div>
         );
       case 'bgm':
@@ -23,7 +23,7 @@ function Track({ type, icon, items, totalDuration, pps, showAddButton }) {
             className="ve-track-clip ve-track-clip--bgm"
             style={{ left: `${left}px`, width: `${width}px` }}
           >
-            <span className="ve-track-clip-text">{item.label || '♪ BGM'}</span>
+            <span className="ve-track-clip-text">{item.label || 'Label'}</span>
           </div>
         );
       case 'video':
@@ -40,7 +40,7 @@ function Track({ type, icon, items, totalDuration, pps, showAddButton }) {
                 alt=""
               />
             ) : (
-              <div className="ve-track-clip-thumbnail-placeholder">🎬</div>
+              <div className="ve-track-clip-thumbnail-placeholder" />
             )}
           </div>
         );
@@ -51,7 +51,7 @@ function Track({ type, icon, items, totalDuration, pps, showAddButton }) {
             className="ve-track-clip ve-track-clip--voice"
             style={{ left: `${left}px`, width: `${width}px` }}
           >
-            <span className="ve-track-clip-text">{item.label || '🎤'}</span>
+            <span className="ve-track-clip-text">{item.label || 'Label'}</span>
           </div>
         );
       default:
@@ -61,12 +61,14 @@ function Track({ type, icon, items, totalDuration, pps, showAddButton }) {
 
   return (
     <div className="ve-track">
-      <div className="ve-track-label">{icon}</div>
-      <div className="ve-track-content" style={{ width: `${totalDuration * pps}px` }}>
-        {items.map(renderClip)}
-        {showAddButton && items.length === 0 && (
+      <div className="ve-track-label">
+        <img src={icon} alt="" className="ve-track-icon" />
+        {showAddButton && (
           <button className="ve-track-add-btn" title="추가">+</button>
         )}
+      </div>
+      <div className="ve-track-content" style={{ width: `${totalDuration * pps}px` }}>
+        {items.map(renderClip)}
       </div>
     </div>
   );

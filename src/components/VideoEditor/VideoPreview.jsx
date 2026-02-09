@@ -14,10 +14,19 @@ function VideoPreview({
   onPlayPause,
   currentClip,
   currentSubtitle,
-  cutCount,
 }) {
   return (
     <div className="ve-preview">
+      {/* 왼쪽 재생 버튼 */}
+      <button className="ve-preview-play-btn" onClick={onPlayPause}>
+        <img
+          src="/images/editor/play.png"
+          alt={isPlaying ? '일시정지' : '재생'}
+          className="ve-preview-play-icon"
+        />
+      </button>
+
+      {/* 중앙 비디오 프레임 */}
       <div className="ve-preview-frame">
         {currentClip?.videoUrl ? (
           <video
@@ -26,6 +35,12 @@ function VideoPreview({
             src={currentClip.videoUrl}
             muted
             playsInline
+          />
+        ) : currentClip?.thumbnail ? (
+          <img
+            src={currentClip.thumbnail}
+            alt="썸네일"
+            className="ve-preview-thumbnail"
           />
         ) : (
           <div className="ve-preview-placeholder">영상을 선택하세요</div>
@@ -37,18 +52,18 @@ function VideoPreview({
           </div>
         )}
 
-        <div className="ve-preview-controls">
-          <button className="ve-preview-play-btn" onClick={onPlayPause}>
-            {isPlaying ? '⏸' : '▶'}
-          </button>
-          <span className="ve-preview-time">
-            {formatTime(currentTime)} / {formatTime(totalDuration)}
-          </span>
-          <span className="ve-preview-cut-count">
-            {cutCount}컷
-          </span>
-        </div>
+        {/* 하단 체크 버튼 */}
+        <button className="ve-preview-check-btn">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <polyline points="20 6 9 17 4 12" />
+          </svg>
+        </button>
       </div>
+
+      {/* 오른쪽 시간 표시 */}
+      <span className="ve-preview-time">
+        {formatTime(totalDuration)}
+      </span>
     </div>
   );
 }
