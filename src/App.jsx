@@ -19,6 +19,7 @@ import CategoryDetail from './components/CategoryDetail';
 function App() {
   const [currentScreen, setCurrentScreen] = useState('purpose'); // TODO: 개발 완료 후 'login'으로 복원
   const [activeTab, setActiveTab] = useState('home');
+  const [previousTab, setPreviousTab] = useState(null);
   const [user, setUser] = useState(null);
   const [selectedVideoUrl, setSelectedVideoUrl] = useState(null);
   const [selectedTemplate, setSelectedTemplate] = useState(null);
@@ -76,6 +77,10 @@ function App() {
     if (data?.category) {
       setSelectedCategory(data.category);
     }
+    // templateDetail로 이동할 때 이전 탭 저장
+    if (tab === 'templateDetail') {
+      setPreviousTab(activeTab);
+    }
     setActiveTab(tab);
   };
 
@@ -87,10 +92,13 @@ function App() {
   const handleTemplateDetailBack = () => {
     if (selectedCategory) {
       setActiveTab('categoryDetail');
+    } else if (previousTab) {
+      setActiveTab(previousTab);
     } else {
-      setActiveTab('template');
+      setActiveTab('home');
     }
     setSelectedTemplate(null);
+    setPreviousTab(null);
   };
 
   const handleCategoryDetailBack = () => {
@@ -173,6 +181,7 @@ function App() {
             user={user}
             selections={selections}
             onLogout={handleLogout}
+            onTabChange={handleTabChange}
           />
         );
       case 'template':
@@ -249,6 +258,7 @@ function App() {
             user={user}
             selections={selections}
             onLogout={handleLogout}
+            onTabChange={handleTabChange}
           />
         );
     }
