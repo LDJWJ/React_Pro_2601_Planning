@@ -12,7 +12,6 @@ import IdeaNoteScreen from './components/IdeaNoteScreen';
 import ContentUploadScreen from './components/ContentUploadScreen';
 import EditScreen from './components/EditScreen';
 import BottomNavigation from './components/BottomNavigation';
-import Editor from './components/Editor';
 import VideoEditor from './components/VideoEditor/VideoEditor';
 import CategoryDetail from './components/CategoryDetail';
 
@@ -242,10 +241,7 @@ function App() {
           />
         );
       case 'editor':
-        if (editorCuts) {
-          return <VideoEditor cuts={editorCuts} onBack={handleEditorBack} />;
-        }
-        return <Editor onBack={handleEditorBack} videoUrl={selectedVideoUrl} onVideoLoaded={() => setSelectedVideoUrl(null)} />;
+        return <VideoEditor cuts={editorCuts || []} onBack={handleEditorBack} />;
       case 'mypage':
         return (
           <div style={{ padding: '100px 20px', textAlign: 'center', color: '#999' }}>
