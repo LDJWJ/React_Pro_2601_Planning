@@ -63,11 +63,11 @@ function Track({ type, icon, items, totalDuration, pps, showAddButton }) {
     <div className="ve-track">
       <div className="ve-track-label">
         <img src={icon} alt="" className="ve-track-icon" />
+      </div>
+      <div className="ve-track-content" style={{ width: `${totalDuration * pps}px` }}>
         {showAddButton && (
           <button className="ve-track-add-btn" title="추가">+</button>
         )}
-      </div>
-      <div className="ve-track-content" style={{ width: `${totalDuration * pps}px` }}>
         {items.map(renderClip)}
       </div>
     </div>

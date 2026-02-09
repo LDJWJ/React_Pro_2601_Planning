@@ -20,7 +20,7 @@ function VideoPreview({
       {/* 왼쪽 재생 버튼 */}
       <button className="ve-preview-play-btn" onClick={onPlayPause}>
         <img
-          src="/images/editor/play.png"
+          src={isPlaying ? '/images/editor/video-stop.png' : '/images/editor/video-play.png'}
           alt={isPlaying ? '일시정지' : '재생'}
           className="ve-preview-play-icon"
         />

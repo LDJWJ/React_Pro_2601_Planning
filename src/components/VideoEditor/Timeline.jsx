@@ -1,14 +1,15 @@
-import { useRef } from 'react';
+import { useRef, useCallback } from 'react';
 import Track from './Track';
 import './Timeline.css';
 
-const PIXELS_PER_SECOND = 50;
+const PIXELS_PER_SECOND = 80;  // 50 → 80 (간격 넓힘)
 const TRACK_HEIGHT = 40;
+const TRACK_LABEL_WIDTH = 40;
 
 function getTickInterval(totalDuration) {
-  if (totalDuration <= 10) return 1;
-  if (totalDuration <= 60) return 5;
-  return 10;
+  if (totalDuration <= 30) return 1;   // 30초 이하면 1초 간격
+  if (totalDuration <= 60) return 2;   // 1분 이하면 2초 간격
+  return 5;                             // 그 이상이면 5초 간격
 }
 
 function formatRulerTime(seconds) {
@@ -19,6 +20,7 @@ function formatRulerTime(seconds) {
 
 function Timeline({ currentTime, totalDuration, tracks, onSeek, onScroll }) {
   const scrollRef = useRef(null);
+
   const pps = PIXELS_PER_SECOND;
   const timelineWidth = totalDuration * pps;
   const tickInterval = getTickInterval(totalDuration);
@@ -28,7 +30,11 @@ function Timeline({ currentTime, totalDuration, tracks, onSeek, onScroll }) {
     ticks.push(t);
   }
 
-  const handleRulerClick = (e) => {
+  const handleScroll = useCallback((e) => {
+    onScroll?.(e);
+  }, [onScroll]);
+
+  const handleTimeBarClick = (e) => {
     const rect = e.currentTarget.getBoundingClientRect();
     const clickX = e.clientX - rect.left;
     const newTime = Math.max(0, Math.min(clickX / pps, totalDuration));
@@ -54,23 +60,39 @@ function Timeline({ currentTime, totalDuration, tracks, onSeek, onScroll }) {
 
   return (
     <div className="ve-timeline">
-      {/* 시간 표시 바 (프리뷰 바로 아래) */}
-      <div className="ve-timeline-time-bar">
-        {ticks.map((t) => (
-          <span
-            key={t}
-            className={`ve-timeline-time-mark ${Math.abs(currentTime - t) < tickInterval / 2 ? 'active' : ''}`}
-            onClick={() => onSeek(t)}
-          >
-            {formatRulerTime(t)}
-          </span>
-        ))}
+      {/* 시간 표시 바 */}
+      <div className="ve-timeline-time-bar-row">
+        <div className="ve-timeline-time-bar-label" />
+        <div
+          className="ve-timeline-time-bar"
+          style={{ width: `${timelineWidth}px` }}
+          onClick={handleTimeBarClick}
+        >
+          {ticks.map((t) => (
+            <span
+              key={t}
+              className={`ve-timeline-time-mark ${Math.abs(currentTime - t) < tickInterval / 2 ? 'active' : ''}`}
+              style={{ left: `${t * pps}px` }}
+              onClick={(e) => {
+                e.stopPropagation();
+                onSeek(t);
+              }}
+            >
+              {formatRulerTime(t)}
+            </span>
+          ))}
+        </div>
       </div>
 
-      <div className="ve-timeline-scroll" ref={scrollRef} onScroll={onScroll}>
+      {/* 트랙 영역 */}
+      <div
+        className="ve-timeline-scroll"
+        ref={scrollRef}
+        onScroll={handleScroll}
+      >
         <div
           className="ve-timeline-inner"
-          style={{ width: `${timelineWidth + 50}px` }}
+          style={{ width: `${timelineWidth + TRACK_LABEL_WIDTH}px` }}
         >
           {/* Tracks */}
           <div className="ve-timeline-tracks" onClick={handleTrackClick}>
@@ -91,7 +113,7 @@ function Timeline({ currentTime, totalDuration, tracks, onSeek, onScroll }) {
           <div
             className="ve-timeline-playhead"
             style={{
-              left: `${currentTime * pps}px`,
+              left: `${TRACK_LABEL_WIDTH + currentTime * pps}px`,
               height: `${trackConfig.length * TRACK_HEIGHT}px`,
             }}
           >

@@ -15,7 +15,7 @@ const defaultCuts = [
 const formatTime = (seconds) => `${seconds}s`;
 
 
-function EditScreen({ template, onBack, onComplete }) {
+function EditScreen({ template, onBack, onComplete, savedMemos = {} }) {
   const [currentCutIndex, setCurrentCutIndex] = useState(0);
   const [cutData, setCutData] = useState([]);
   const [thumbnails, setThumbnails] = useState({});
@@ -23,6 +23,7 @@ function EditScreen({ template, onBack, onComplete }) {
   const [aiSuggestions, setAiSuggestions] = useState([]);
   const [isLoadingAI, setIsLoadingAI] = useState(false);
   const [selectedAiIndex, setSelectedAiIndex] = useState(null);
+  const [showSaveModal, setShowSaveModal] = useState(false);
 
   const fileInputRef = useRef(null);
   const videoRef = useRef(null);
@@ -30,13 +31,28 @@ function EditScreen({ template, onBack, onComplete }) {
   useEffect(() => {
     logScreenView('edit_screen');
 
-    setCutData(defaultCuts.map(cut => ({
+    // 아이디어 노트 메모를 컷에 매핑
+    // IdeaNoteScreen: 1=인트로, 2=중간(2-5컷), 3=마무리
+    // EditScreen: 1-6 개별 컷
+    const getMemoForCut = (cutIndex) => {
+      const totalCuts = defaultCuts.length;
+      if (cutIndex === 0) {
+        return savedMemos[1] || '';  // 인트로
+      } else if (cutIndex === totalCuts - 1) {
+        return savedMemos[3] || '';  // 마무리
+      } else {
+        return savedMemos[2] || '';  // 중간 컷들
+      }
+    };
+
+    setCutData(defaultCuts.map((cut, index) => ({
       ...cut,
       videoFile: null,
       videoPreview: null,
       subtitle: '',
+      memo: getMemoForCut(index),  // 아이디어 노트 메모 반영
     })));
-  }, []);
+  }, [savedMemos]);
 
   const currentCut = cutData[currentCutIndex];
   const totalCuts = cutData.length;
@@ -210,24 +226,38 @@ function EditScreen({ template, onBack, onComplete }) {
       savedAt: new Date().toISOString(),
     };
     localStorage.setItem('edit_screen_progress', JSON.stringify(saveData));
-    alert('저장되었습니다.');
+    setShowSaveModal(true);
+  };
+
+  // 저장 모달 닫기
+  const handleCloseSaveModal = () => {
+    setShowSaveModal(false);
   };
 
   // 완료
   const handleComplete = () => {
     logButtonClick('edit_screen', 'complete');
     if (onComplete) {
-      // VideoEditor가 기대하는 형식으로 데이터 매핑
-      const mappedCuts = cutData.map((cut, index) => ({
-        id: cut.id,
-        title: cut.title,
-        duration: cut.duration,
-        description: cut.description,
-        videoUrl: cut.videoPreview,      // videoPreview → videoUrl
-        thumbnail: thumbnails[index] || null,  // 썸네일 포함
-        subtitle: cut.subtitle,
-      }));
-      onComplete(mappedCuts);
+      // 영상이 업로드된 컷만 필터링하여 VideoEditor로 전달
+      const cutsWithVideo = cutData
+        .map((cut, index) => ({ cut, index }))
+        .filter(({ cut }) => cut.videoPreview)  // 영상이 있는 컷만
+        .map(({ cut, index }) => ({
+          id: cut.id,
+          title: cut.title,
+          duration: cut.duration,
+          description: cut.description,
+          videoUrl: cut.videoPreview,
+          thumbnail: thumbnails[index] || null,
+          subtitle: cut.subtitle,
+        }));
+
+      if (cutsWithVideo.length === 0) {
+        alert('최소 1개 이상의 영상을 추가해주세요.');
+        return;
+      }
+
+      onComplete(cutsWithVideo);
     }
   };
 
@@ -243,6 +273,26 @@ function EditScreen({ template, onBack, onComplete }) {
 
   return (
     <div className="content-upload-b">
+      {/* 저장 완료 모달 */}
+      {showSaveModal && (
+        <div className="cub-save-modal-overlay" onClick={handleCloseSaveModal}>
+          <div className="cub-save-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="cub-save-modal-icon">
+              <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                <rect x="8" y="12" width="20" height="24" rx="2" fill="#F8FF33"/>
+                <rect x="20" y="8" width="20" height="24" rx="2" fill="#E8EF23"/>
+                <path d="M26 18L30 22L38 14" stroke="#000" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </div>
+            <h3 className="cub-save-modal-title">자막이 저장되었습니다!</h3>
+            <p className="cub-save-modal-subtitle">영상이 있으면 편집을 시작할 수 있어요.</p>
+            <button className="cub-save-modal-btn" onClick={handleCloseSaveModal}>
+              확인
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* 헤더 */}
       <div className="cub-header">
         <button className="cub-back-btn" onClick={handleBack}>

@@ -9,34 +9,52 @@
   background: var(--editor-bg);
 }
 
-/* 시간 표시 바 */
-.ve-timeline-time-bar {
+/* 시간 표시 바 행 */
+.ve-timeline-time-bar-row {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 16px;
-  padding: 12px 16px;
   background: var(--bg-surface);
   border-bottom: 1px solid var(--editor-border);
+  height: 36px;
+  flex-shrink: 0;
   overflow-x: auto;
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
 
-.ve-timeline-time-bar::-webkit-scrollbar {
+.ve-timeline-time-bar-row::-webkit-scrollbar {
   display: none;
 }
 
+.ve-timeline-time-bar-label {
+  flex: 0 0 40px;
+  height: 100%;
+}
+
+.ve-timeline-time-bar {
+  position: relative;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
 .ve-timeline-time-mark {
+  position: absolute;
   font-size: var(--font-size-12);
   font-weight: var(--font-weight-medium);
   color: var(--text-tertiary);
   font-variant-numeric: tabular-nums;
   cursor: pointer;
-  padding: 4px 8px;
+  padding: 6px 10px;
   border-radius: 12px;
   transition: all 0.2s;
   white-space: nowrap;
+  transform: translateX(-50%);
+}
+
+.ve-timeline-time-mark:first-child {
+  transform: translateX(0);
 }
 
 .ve-timeline-time-mark:hover {
@@ -61,7 +79,6 @@
 .ve-timeline-inner {
   position: relative;
   min-width: 100%;
-  padding-left: 40px;
 }
 
 /* Playhead */
@@ -72,7 +89,6 @@
   background: var(--editor-playhead);
   z-index: 5;
   pointer-events: none;
-  margin-left: 40px;
 }
 
 .ve-timeline-playhead-head {

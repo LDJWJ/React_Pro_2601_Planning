@@ -48,27 +48,39 @@
 .ve-header-action-btn {
   background: none;
   border: none;
-  color: var(--text-secondary);
   cursor: pointer;
   padding: 4px;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: color 0.2s;
-}
-
-.ve-header-action-btn:not(:disabled):hover {
-  color: var(--text-primary);
+  transition: opacity 0.2s;
 }
 
 .ve-header-action-btn:disabled {
-  color: var(--gray-600);
   cursor: not-allowed;
-  opacity: 0.5;
 }
 
-.ve-header-action-btn.active {
-  color: var(--text-primary);
+.ve-header-action-icon {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  filter: invert(0.6);
+  transition: filter 0.2s;
+}
+
+/* off 상태 - #999999 */
+.ve-header-action-btn:disabled .ve-header-action-icon {
+  filter: invert(0.6) sepia(0) saturate(0) brightness(0.6);
+  opacity: 0.6;
+}
+
+/* active 상태 - 흰색 */
+.ve-header-action-btn.active .ve-header-action-icon {
+  filter: invert(1);
+}
+
+.ve-header-action-btn:not(:disabled):hover .ve-header-action-icon {
+  filter: invert(0.8);
 }
 
 .ve-header-right {

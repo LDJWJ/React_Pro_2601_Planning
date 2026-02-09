@@ -100,10 +100,10 @@
   padding: 0 8px;
 }
 
-/* Add button - 옆에 배치 */
+/* Add button - 트랙 콘텐츠 내부 왼쪽 */
 .ve-track-add-btn {
   position: absolute;
-  left: 44px;
+  left: 4px;
   top: 50%;
   transform: translateY(-50%);
   background: rgba(255, 255, 255, 0.1);

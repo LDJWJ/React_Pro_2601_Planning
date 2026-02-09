@@ -229,6 +229,7 @@ function App() {
             template={selectedTemplate}
             onBack={handleStoryEditBack}
             onComplete={handleStoryEditComplete}
+            savedMemos={savedMemos[String(selectedTemplate?.id)] || {}}
           />
         );
       case 'contentUpload':
