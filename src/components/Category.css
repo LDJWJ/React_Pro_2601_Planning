@@ -69,6 +69,8 @@
   padding: 0 24px;
   width: 100%;
   box-sizing: border-box;
+  z-index: 10;
+  background-color: var(--bg-surface);
 }
 
 /* Purpose Grid */
