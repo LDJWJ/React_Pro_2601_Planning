@@ -22,7 +22,7 @@ const recommendedTemplates = [
     users: 143,
     duration: '01:16',
     cuts: 12,
-    image: '/images/templates/2_2_01.svg',
+    image: '/images/templates/일본여행1.svg',
     tags: ['일상', '브이로그', '여행']
   },
   {
@@ -31,7 +31,7 @@ const recommendedTemplates = [
     users: 218,
     duration: '00:18',
     cuts: 6,
-    image: '/images/templates/2_2_02.svg',
+    image: '/images/templates/Seoul1.svg',
     tags: ['소품', '인테리어', '홍보']
   },
   {
@@ -40,7 +40,7 @@ const recommendedTemplates = [
     users: 326,
     duration: '00:33',
     cuts: 6,
-    image: '/images/templates/2_2_03.svg',
+    image: '/images/templates/tewaje.svg',
     tags: ['카페', '맛집', '브이로그']
   },
   {
@@ -49,7 +49,7 @@ const recommendedTemplates = [
     users: 219,
     duration: '00:47',
     cuts: 9,
-    image: '/images/templates/2_2_04.svg',
+    image: '/images/templates/travel2.svg',
     tags: ['여행', '해외', '정보']
   },
 ];
