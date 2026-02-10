@@ -347,17 +347,6 @@ function Home({ user, selections, onLogout, onTabChange, activeTab = 'template' 
                 alt={template.title}
                 className="top5-template-image"
               />
-              <div className="top5-template-overlay">
-                <div className="top5-template-text">
-                  <span className="top5-template-title">{template.title}</span>
-                  {template.subtitle && (
-                    <span className="top5-template-subtitle">{template.subtitle}</span>
-                  )}
-                </div>
-                {template.caption && (
-                  <span className="top5-template-caption">{template.caption}</span>
-                )}
-              </div>
             </div>
           ))}
         </div>
