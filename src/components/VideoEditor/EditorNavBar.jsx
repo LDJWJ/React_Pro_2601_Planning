@@ -1,11 +1,11 @@
 import './EditorNavBar.css';
 
 const TABS = [
-  { id: 'media', icon: '📁', label: '미디어' },
-  { id: 'filter', icon: '✨', label: '필터' },
-  { id: 'bgm', icon: '🎵', label: 'BGM' },
-  { id: 'tts', icon: '🎤', label: 'TTS/음성' },
-  { id: 'subtitle', icon: 'Aa', label: '자막' },
+  { id: 'media', icon: '/images/editor/01_flim.png', label: '미디어' },
+  { id: 'filter', icon: '/images/editor/02_star.png', label: '필터' },
+  { id: 'bgm', icon: '/images/editor/music.png', label: '배경음악' },
+  { id: 'voice', icon: '/images/editor/mic.png', label: '보이스' },
+  { id: 'subtitle', icon: '/images/editor/text.png', label: '자막' },
 ];
 
 function EditorNavBar({ activeTab, onTabChange }) {
@@ -17,7 +17,7 @@ function EditorNavBar({ activeTab, onTabChange }) {
           className={`ve-navbar-tab ${activeTab === tab.id ? 'active' : ''}`}
           onClick={() => onTabChange(tab.id)}
         >
-          <span className="ve-navbar-tab-icon">{tab.icon}</span>
+          <img src={tab.icon} alt="" className="ve-navbar-tab-icon" />
           <span className="ve-navbar-tab-label">{tab.label}</span>
         </button>
       ))}

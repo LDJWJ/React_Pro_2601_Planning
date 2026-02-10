@@ -8,8 +8,11 @@ import { logScreenView, logButtonClick } from '../../utils/logger';
 import './VideoEditor.css';
 
 function parseDuration(durationStr) {
-  if (!durationStr) return 3;
-  const match = durationStr.match(/(\d+(\.\d+)?)/);
+  if (!durationStr && durationStr !== 0) return 3;
+  // 숫자인 경우 그대로 반환
+  if (typeof durationStr === 'number') return durationStr;
+  // 문자열인 경우 숫자 추출
+  const match = String(durationStr).match(/(\d+(\.\d+)?)/);
   return match ? parseFloat(match[1]) : 3;
 }
 
@@ -52,7 +55,7 @@ function convertToTimeline(cuts) {
   };
 }
 
-function VideoEditor({ cuts, onBack }) {
+function VideoEditor({ cuts, onBack, projectName }) {
   const [currentTime, setCurrentTime] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [activeNavTab, setActiveNavTab] = useState('media');
@@ -233,6 +236,7 @@ function VideoEditor({ cuts, onBack }) {
         canUndo={false}
         canRedo={false}
         onExport={handleExport}
+        projectName={projectName}
       />
 
       <div className="ve-preview-area">

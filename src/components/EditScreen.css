@@ -722,3 +722,85 @@
 .cub-complete-btn:active {
   opacity: 0.8;
 }
+
+/* ===== 저장 완료 모달 ===== */
+.cub-save-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.cub-save-modal {
+  width: 280px;
+  background: #2A2A2A;
+  border-radius: 16px;
+  padding: 32px 24px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.cub-save-modal-icon {
+  margin-bottom: 16px;
+}
+
+.cub-save-modal-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin: 0 0 8px;
+}
+
+.cub-save-modal-subtitle {
+  font-size: 14px;
+  color: #999999;
+  margin: 0 0 24px;
+  line-height: 1.4;
+}
+
+.cub-save-modal-subtitle span {
+  color: #F8FF33;
+}
+
+.cub-save-modal-btn {
+  width: 100%;
+  height: 48px;
+  background: #FFFFFF;
+  border: none;
+  border-radius: 8px;
+  color: #000000;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.cub-save-modal-btn:hover {
+  opacity: 0.9;
+}

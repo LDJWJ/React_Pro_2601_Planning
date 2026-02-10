@@ -2,47 +2,31 @@ import { useState, useEffect, useRef } from 'react';
 import './Home.css';
 import { logScreenView, logButtonClick } from '../utils/logger';
 
-// 템플릿 더미 데이터
+// 템플릿 더미 데이터 (Tewaje가 중앙에 오도록 순서 배치)
 const templates = [
   {
-    id: 1,
-    title: '뷰티 체험단 후기',
-    image: 'https://images.unsplash.com/photo-1607083206869-4c7672e72a8a?w=400&h=600&fit=crop',
-    category: '일상 기록 숏폼',
-    usageCount: 200,
-    tags: ['뷰티', '브이로그', '홍보']
+    id: 2,
+    title: 'Tewaje',
+    image: '/images/home/2_1_home_template02.svg',
+    category: '카페',
+    usageCount: 150,
+    tags: ['카페', '디저트', '맛집']
   },
   {
-    id: 2,
-    title: '여행 브이로그',
-    image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&h=600&fit=crop',
-    category: '여행 영상',
-    usageCount: 150,
-    tags: ['여행', '브이로그']
+    id: 1,
+    title: '임박CC 양탈챌린지',
+    image: '/images/home/2_1_home_template01.svg',
+    category: '챌린지',
+    usageCount: 200,
+    tags: ['챌린지', '고양이', '일상']
   },
   {
     id: 3,
-    title: '먹방 리뷰',
-    image: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&h=600&fit=crop',
-    category: '음식 콘텐츠',
+    title: 'Seoul',
+    image: '/images/home/2_1_home_template03.svg',
+    category: '쇼핑',
     usageCount: 180,
-    tags: ['맛집', '먹방', '리뷰']
-  },
-  {
-    id: 4,
-    title: '일상 브이로그',
-    image: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=400&h=600&fit=crop',
-    category: '일상 기록',
-    usageCount: 220,
-    tags: ['일상', '브이로그']
-  },
-  {
-    id: 5,
-    title: '운동 루틴',
-    image: 'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=400&h=600&fit=crop',
-    category: '피트니스',
-    usageCount: 165,
-    tags: ['운동', '건강', '루틴']
+    tags: ['쇼핑', '인형', '서울']
   },
 ];
 
@@ -141,10 +125,9 @@ function Home({ user, selections, onLogout, onTabChange, activeTab = 'template' 
 
   const handleTemplateClick = (template, section) => {
     logButtonClick('home', `template_${section}`, template.title);
-  };
-
-  const handleMoreClick = () => {
-    logButtonClick('home', 'more_button');
+    if (onTabChange) {
+      onTabChange('templateDetail', { template });
+    }
   };
 
   // 터치 이벤트 핸들러
@@ -236,7 +219,7 @@ function Home({ user, selections, onLogout, onTabChange, activeTab = 'template' 
     if (diff < -totalItems / 2) adjustedDiff = diff + totalItems;
 
     const translateX = adjustedDiff * 160;
-    const scale = adjustedDiff === 0 ? 1 : 0.85;
+    const scale = adjustedDiff === 0 ? 1 : 0.75;
     const zIndex = adjustedDiff === 0 ? 3 : Math.abs(adjustedDiff) === 1 ? 2 : 1;
 
     return {
@@ -246,13 +229,7 @@ function Home({ user, selections, onLogout, onTabChange, activeTab = 'template' 
   };
 
   // 사용자 이름 가져오기
-  const userName = user?.name?.split(' ')[0] || '회원';
-
-  // 현재 템플릿의 카테고리로 추천 이유 생성
-  const getRecommendReason = () => {
-    const currentTemplate = templates[currentIndex];
-    return `${currentTemplate.category}에서 ${currentTemplate.usageCount}명이 사용했어요`;
-  };
+  const userName = user?.name?.split(' ')[0] || '민지';
 
   return (
     <div className="home-container">
@@ -321,10 +298,6 @@ function Home({ user, selections, onLogout, onTabChange, activeTab = 'template' 
                   onLoad={() => handleImageLoad(template.id)}
                   onError={() => handleImageError(template.id)}
                 />
-                {/* 텍스트 오버레이 */}
-                <div className="card-overlay">
-                  <span className="card-title">{template.title}</span>
-                </div>
               </div>
             ))}
           </div>
@@ -332,22 +305,11 @@ function Home({ user, selections, onLogout, onTabChange, activeTab = 'template' 
 
         <div className="recommend-text">
           <h2 className="recommend-title">
-            {userName}님께 지금 가장
+            안녕하세요 {userName}님!
             <br />
-            추천하는 템플릿이에요
+            이 템플릿 지금 바로 써볼까요?
           </h2>
-          <p className="recommend-reason">{getRecommendReason()}</p>
-        </div>
-
-        {/* 인디케이터 */}
-        <div className="carousel-indicators">
-          {templates.map((_, index) => (
-            <button
-              key={index}
-              className={`indicator-dot ${index === currentIndex ? 'active' : ''}`}
-              onClick={() => setCurrentIndex(index)}
-            />
-          ))}
+          <p className="recommend-reason">이번 주 유튜브 쇼츠에서 가장 인기있는 템플릿이에요!</p>
         </div>
       </div>
 
@@ -406,11 +368,8 @@ function Home({ user, selections, onLogout, onTabChange, activeTab = 'template' 
         <div className="section-header">
           <div className="section-title-group">
             <h3 className="section-title">주말 일상 올려보는 거 어때요?</h3>
-            <p className="section-subtitle">어제 쇼츠에 가장 많이 업로드된 스타일이에요</p>
+            <p className="section-subtitle">일상 기록 카테고리 중에서 가장 많이 사용된 스타일이에요!</p>
           </div>
-          <button className="more-button" onClick={handleMoreClick}>
-            더보기 &gt;
-          </button>
         </div>
 
         <div className="template-grid">
@@ -431,31 +390,6 @@ function Home({ user, selections, onLogout, onTabChange, activeTab = 'template' 
                   }}
                 />
                 <div className="thumbnail-placeholder small" style={{ display: 'none' }}></div>
-                <div className="template-users">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
-                  </svg>
-                  <span className="users-count">{template.users}</span>
-                </div>
-                <button className="template-bookmark" onClick={(e) => e.stopPropagation()}>
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
-                  </svg>
-                </button>
-                <div className="template-info-tags">
-                  <span className="template-info-tag">
-                    <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
-                    </svg>
-                    {template.duration}
-                  </span>
-                  <span className="template-info-tag">
-                    <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M18 4l2 4h-3l-2-4h-2l2 4h-3l-2-4H8l2 4H7L5 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4h-4z"/>
-                    </svg>
-                    {template.cuts}컷
-                  </span>
-                </div>
               </div>
             </div>
           ))}
@@ -467,7 +401,7 @@ function Home({ user, selections, onLogout, onTabChange, activeTab = 'template' 
             logButtonClick('home', 'weekend_more_button');
           }}
         >
-          더 많은 템플릿 보기
+          일상기록 템플릿 더 알아보기 &gt;
         </button>
       </div>
     </div>

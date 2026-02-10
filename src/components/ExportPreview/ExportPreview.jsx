@@ -1,12 +1,14 @@
 import { useState, useRef, useEffect, useCallback, useMemo } from 'react';
-import logoImg from '../../assets/logo.png';
 import { Button } from '../common';
 import { logScreenView, logButtonClick } from '../../utils/logger';
 import './ExportPreview.css';
 
 function parseDuration(durationStr) {
-  if (!durationStr) return 3;
-  const match = durationStr.match(/(\d+(\.\d+)?)/);
+  if (!durationStr && durationStr !== 0) return 3;
+  // 숫자인 경우 그대로 반환
+  if (typeof durationStr === 'number') return durationStr;
+  // 문자열인 경우 숫자 추출
+  const match = String(durationStr).match(/(\d+(\.\d+)?)/);
   return match ? parseFloat(match[1]) : 3;
 }
 
@@ -202,15 +204,18 @@ function ExportPreview({ cuts, onBack, onGoHome }) {
         <div className="ep-mobile-frame">
           <div className="ep-complete-screen">
             <div className="ep-complete-content">
-              <img src={logoImg} alt="HOOK" className="ep-complete-logo" />
-              <div className="ep-complete-bell">&#x1F514;</div>
+              <img
+                src="/images/editor/Rectangle.png"
+                alt=""
+                className="ep-complete-icon"
+              />
               <h2 className="ep-complete-title">내보내기가 완료되었어요!</h2>
-              <p className="ep-complete-subtitle">갤러리 화면을 확인해주세요!</p>
+              <p className="ep-complete-subtitle">저장된 영상은 갤러리에서 확인할 수 있어요.</p>
             </div>
             <div className="ep-bottom-bar">
-              <Button variant="tertiary" fullWidth onClick={handleGoHome}>
+              <button className="ep-complete-btn" onClick={handleGoHome}>
                 홈으로 이동하기
-              </Button>
+              </button>
             </div>
           </div>
         </div>

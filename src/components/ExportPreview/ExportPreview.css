@@ -309,25 +309,18 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 12px;
+  gap: 16px;
 }
 
-.ep-complete-logo {
-  width: 100px;
-  height: 100px;
+.ep-complete-icon {
+  width: 80px;
+  height: 80px;
   object-fit: contain;
-  margin-bottom: 20px;
-}
-
-.ep-complete-bell {
-  font-size: 64px;
-  line-height: 1;
-  margin-bottom: 12px;
-  filter: drop-shadow(0 4px 12px rgba(248, 255, 51, 0.3));
+  margin-bottom: 16px;
 }
 
 .ep-complete-title {
-  font-size: var(--font-size-24);
+  font-size: var(--font-size-20);
   font-weight: var(--font-weight-semibold);
   color: var(--text-primary);
   margin: 0;
@@ -337,6 +330,23 @@
   font-size: var(--font-size-14);
   color: var(--text-secondary);
   margin: 0;
+}
+
+.ep-complete-btn {
+  width: 100%;
+  height: 52px;
+  background: #F8FF33;
+  border: none;
+  border-radius: 8px;
+  color: #000000;
+  font-size: var(--font-size-16);
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.ep-complete-btn:hover {
+  opacity: 0.9;
 }
 
 /* === Animations === */
