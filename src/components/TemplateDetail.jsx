@@ -158,20 +158,13 @@ function TemplateDetail({ template, onBack, onTabChange, onStoryPlanning, onStor
                 className={`idea-note-btn ${hasIdeaNote ? 'completed' : ''}`}
                 onClick={handleStoryPlanningClick}
               >
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
+                <img
+                  src="/images/meta-icons/2_2_idea_icon.png"
+                  alt="idea"
+                  width="24"
+                  height="24"
                   style={{ marginRight: '6px' }}
-                >
-                  <rect x="3" y="3" width="18" height="18" rx="2" />
-                  <line x1="8" y1="8" x2="16" y2="8" />
-                  <line x1="8" y1="12" x2="16" y2="12" />
-                  <line x1="8" y1="16" x2="12" y2="16" />
-                </svg>
+                />
                 아이디어 노트
               </button>
               <Button variant="primary" onClick={handleStartEdit}>
